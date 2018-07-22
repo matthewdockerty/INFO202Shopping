@@ -24,6 +24,19 @@ public class Sale {
         this.customer = customer;
     }
 
+    public BigDecimal getTotal() {
+        BigDecimal total = BigDecimal.ZERO;
+        for (SaleItem item : items) {
+            total.add(item.getItemTotal());
+        }
+
+        return total;
+    }
+
+    public void addItem(SaleItem item) {
+        this.items.add(item);
+    }
+
     public String getSaleID() {
         return saleID;
     }
@@ -60,22 +73,9 @@ public class Sale {
         this.customer = customer;
     }
 
-    public BigDecimal getTotal() {
-        BigDecimal total = BigDecimal.ZERO;
-        for (SaleItem item : items) {
-            total.add(item.getItemTotal());
-        }
-
-        return total;
-    }
-
-    public void addItem(SaleItem item) {
-        this.items.add(item);
-    }
-
     @Override
     public String toString() {
         return "Sale{" + "saleID=" + saleID + ", date=" + date + ", status=" + status + ", items=" + items + ", customer=" + customer + '}';
     }
-
+    
 }
