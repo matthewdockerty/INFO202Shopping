@@ -11,11 +11,13 @@ public class SaleItem {
     private Integer quantityPurchased;
     private BigDecimal salePrice;
     private Product product;
+    private Sale sale;
 
-    public SaleItem(Integer quantityPurchased, BigDecimal salePrice, Product product) {
+    public SaleItem(Integer quantityPurchased, BigDecimal salePrice, Product product, Sale sale) {
         this.quantityPurchased = quantityPurchased;
         this.salePrice = salePrice;
         this.product = product;
+        this.sale = sale;
     }
 
     public BigDecimal getItemTotal() {
@@ -46,9 +48,17 @@ public class SaleItem {
         this.product = product;
     }
 
-    @Override
-    public String toString() {
-        return "SaleItem{" + "quantityPurchased=" + quantityPurchased + ", salePrice=" + salePrice + '}';
+    public Sale getSale() {
+        return sale;
     }
 
+    public void setSale(Sale sale) {
+        this.sale = sale;
+    }
+
+    @Override
+    public String toString() {
+        return "SaleItem{" + "quantityPurchased=" + quantityPurchased + ", salePrice=" + salePrice + ", product=" + product + ", sale=" + sale + '}';
+    }
+    
 }
