@@ -16,7 +16,7 @@ public class DAO {
         products.add(product);
     }
     
-    public List<Product> getProducts() {
+    public static List<Product> getProducts() {
         return products;
     }
 }

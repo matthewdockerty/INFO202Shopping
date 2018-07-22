@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
+
+import dao.DAO;
+import gui.helpers.SimpleListModel;
 
 /**
  *
@@ -11,12 +9,17 @@ package gui;
  */
 public class DialogViewProducts extends javax.swing.JDialog {
 
+    private SimpleListModel listModel;
+    
     /**
      * Creates new form DialogViewProducts
      */
     public DialogViewProducts(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        listModel = new SimpleListModel(DAO.getProducts());
+        listProducts.setModel(listModel);
     }
 
     /**
