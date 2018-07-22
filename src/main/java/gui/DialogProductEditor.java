@@ -5,6 +5,8 @@
  */
 package gui;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author docma436
@@ -17,6 +19,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
     public DialogProductEditor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        comboBoxCategory.setEditable(true);
     }
 
     /**
@@ -92,8 +95,18 @@ public class DialogProductEditor extends javax.swing.JDialog {
         });
 
         buttonSave.setText("Save");
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveActionPerformed(evt);
+            }
+        });
 
         buttonCancel.setText("Cancel");
+        buttonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -176,6 +189,21 @@ public class DialogProductEditor extends javax.swing.JDialog {
     private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIDActionPerformed
+
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        String id = txtID.getText();
+        String name = txtName.getText();
+        String description = txtAreaDescription.getText();
+        String category = (String) comboBoxCategory.getSelectedItem();
+        BigDecimal price = new BigDecimal(txtPrice.getText());
+        Integer quantityInStock = new Integer(txtQuantityInStock.getText());
+        System.out.printf("id: %s, name: %s, description: %s, category: %s, price: %s, quantityInStock: %s\n",
+                id, name, description, category, price, quantityInStock);
+    }//GEN-LAST:event_buttonSaveActionPerformed
+
+    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
+        dispose();
+    }//GEN-LAST:event_buttonCancelActionPerformed
 
     /**
      * @param args the command line arguments
