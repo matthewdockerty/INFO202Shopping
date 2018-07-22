@@ -73,4 +73,9 @@ public class Sale {
         this.items.add(item);
     }
 
+    @Override
+    public String toString() {
+        return "Sale{" + "saleID=" + saleID + ", date=" + date + ", status=" + status + ", items=" + items + ", customer=" + customer + '}';
+    }
+
 }
