@@ -96,7 +96,9 @@ public class FrameMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAddActionPerformed
 
     private void buttonViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonViewActionPerformed
-        // TODO add your handling code here:
+        DialogViewProducts dialog = new DialogViewProducts(this, true);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
     }//GEN-LAST:event_buttonViewActionPerformed
 
     /**
