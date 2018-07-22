@@ -1,6 +1,7 @@
 package domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class Sale {
         this.date = date;
         this.status = status;
         this.customer = customer;
+        this.items = new ArrayList<>();
     }
 
     public BigDecimal getTotal() {
