@@ -7,6 +7,7 @@ package gui;
 
 import domain.Product;
 import java.math.BigDecimal;
+import dao.DAO;
 
 /**
  *
@@ -201,8 +202,9 @@ public class DialogProductEditor extends javax.swing.JDialog {
         Integer quantityInStock = new Integer(txtQuantityInStock.getText());
         
         Product product = new Product(id, name, description, category, price, quantityInStock);
-        System.out.println(product);
         
+        DAO.saveProduct(product);
+        dispose();
     }//GEN-LAST:event_buttonSaveActionPerformed
 
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
