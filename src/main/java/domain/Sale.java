@@ -9,16 +9,19 @@ import java.util.List;
  * @author docma436
  */
 public class Sale {
+
     private String saleID;
     private Date date;
     private char status;
-    
-    private List<SaleItem> items;
 
-    public Sale(String saleID, Date date, char status) {
+    private List<SaleItem> items;
+    private Customer customer;
+
+    public Sale(String saleID, Date date, char status, Customer customer) {
         this.saleID = saleID;
         this.date = date;
         this.status = status;
+        this.customer = customer;
     }
 
     public String getSaleID() {
@@ -48,18 +51,26 @@ public class Sale {
     public List<SaleItem> getItems() {
         return items;
     }
-   
-    public void addItem(SaleItem item) {
-        this.items.add(item);
+
+    public Customer getCustomer() {
+        return customer;
     }
-    
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     public BigDecimal getTotal() {
         BigDecimal total = BigDecimal.ZERO;
         for (SaleItem item : items) {
             total.add(item.getItemTotal());
         }
-        
+
         return total;
+    }
+
+    public void addItem(SaleItem item) {
+        this.items.add(item);
     }
 
 }

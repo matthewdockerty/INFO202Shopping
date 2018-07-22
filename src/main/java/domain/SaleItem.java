@@ -10,6 +10,7 @@ public class SaleItem {
 
     private Integer quantityPurchased;
     private BigDecimal salePrice;
+    
     private Product product;
     private Sale sale;
 
