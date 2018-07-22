@@ -34,7 +34,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
         txtName = new javax.swing.JTextField();
         labelDescription = new javax.swing.JLabel();
         scrollPaneDescription = new javax.swing.JScrollPane();
-        txtDescription = new javax.swing.JTextField();
+        txtAreaDescription = new javax.swing.JTextArea();
         labelCategory = new javax.swing.JLabel();
         comboBoxCategory = new javax.swing.JComboBox<>();
         labelPrice = new javax.swing.JLabel();
@@ -64,12 +64,12 @@ public class DialogProductEditor extends javax.swing.JDialog {
 
         labelDescription.setText("Description:");
 
-        txtDescription.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescriptionActionPerformed(evt);
-            }
-        });
-        scrollPaneDescription.setViewportView(txtDescription);
+        scrollPaneDescription.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        txtAreaDescription.setColumns(20);
+        txtAreaDescription.setLineWrap(true);
+        txtAreaDescription.setRows(4);
+        scrollPaneDescription.setViewportView(txtAreaDescription);
 
         labelCategory.setText("Category:");
 
@@ -169,10 +169,6 @@ public class DialogProductEditor extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceActionPerformed
 
-    private void txtDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescriptionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescriptionActionPerformed
-
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
@@ -234,7 +230,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
     private javax.swing.JLabel labelPrice;
     private javax.swing.JLabel labelQuantityInStock;
     private javax.swing.JScrollPane scrollPaneDescription;
-    private javax.swing.JTextField txtDescription;
+    private javax.swing.JTextArea txtAreaDescription;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPrice;
