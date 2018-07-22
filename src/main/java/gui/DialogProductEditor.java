@@ -5,6 +5,7 @@
  */
 package gui;
 
+import domain.Product;
 import java.math.BigDecimal;
 
 /**
@@ -197,8 +198,10 @@ public class DialogProductEditor extends javax.swing.JDialog {
         String category = (String) comboBoxCategory.getSelectedItem();
         BigDecimal price = new BigDecimal(txtPrice.getText());
         Integer quantityInStock = new Integer(txtQuantityInStock.getText());
-        System.out.printf("id: %s, name: %s, description: %s, category: %s, price: %s, quantityInStock: %s\n",
-                id, name, description, category, price, quantityInStock);
+        
+        Product product = new Product(id, name, description, category, price, quantityInStock);
+        System.out.println(product);
+        
     }//GEN-LAST:event_buttonSaveActionPerformed
 
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
