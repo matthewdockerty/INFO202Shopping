@@ -19,4 +19,13 @@ public class DAO {
     public static List<Product> getProducts() {
         return products;
     }
+    
+    public static List<String> getCategories() {
+        List<String> categories = new ArrayList<>();
+        for (Product product : products) {
+            categories.add(product.getCategory());
+        }
+        
+        return categories;
+    }
 }

@@ -8,6 +8,7 @@ package gui;
 import domain.Product;
 import java.math.BigDecimal;
 import dao.DAO;
+import gui.helpers.SimpleListModel;
 
 /**
  *
@@ -15,12 +16,18 @@ import dao.DAO;
  */
 public class DialogProductEditor extends javax.swing.JDialog {
 
+    private SimpleListModel listModel;
+    
     /**
      * Creates new form DialogProductEditor
      */
     public DialogProductEditor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        listModel = new SimpleListModel(DAO.getCategories());
+        comboBoxCategory.setModel(listModel);
+        
         comboBoxCategory.setEditable(true);
     }
 
