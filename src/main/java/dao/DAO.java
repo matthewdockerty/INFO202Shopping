@@ -16,11 +16,11 @@ public class DAO {
         products.add(product);
     }
     
-    public static List<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
     
-    public static List<String> getCategories() {
+    public List<String> getCategories() {
         List<String> categories = new ArrayList<>();
         for (Product product : products) {
             categories.add(product.getCategory());

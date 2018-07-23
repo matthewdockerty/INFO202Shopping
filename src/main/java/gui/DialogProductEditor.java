@@ -17,6 +17,7 @@ import gui.helpers.SimpleListModel;
 public class DialogProductEditor extends javax.swing.JDialog {
 
     private SimpleListModel listModel;
+    private DAO dao;
     
     /**
      * Creates new form DialogProductEditor
@@ -25,7 +26,9 @@ public class DialogProductEditor extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        listModel = new SimpleListModel(DAO.getCategories());
+        dao = new DAO();
+        
+        listModel = new SimpleListModel(dao.getCategories());
         comboBoxCategory.setModel(listModel);
         
         comboBoxCategory.setEditable(true);

@@ -10,6 +10,7 @@ import gui.helpers.SimpleListModel;
 public class DialogViewProducts extends javax.swing.JDialog {
 
     private SimpleListModel listModel;
+    private DAO dao;
     
     /**
      * Creates new form DialogViewProducts
@@ -18,7 +19,9 @@ public class DialogViewProducts extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        listModel = new SimpleListModel(DAO.getProducts());
+        dao = new DAO();
+        
+        listModel = new SimpleListModel(dao.getProducts());
         listProducts.setModel(listModel);
     }
 
