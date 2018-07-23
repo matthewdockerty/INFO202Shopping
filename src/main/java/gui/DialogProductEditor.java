@@ -211,7 +211,13 @@ public class DialogProductEditor extends javax.swing.JDialog {
         BigDecimal price = new BigDecimal(txtPrice.getText());
         Integer quantityInStock = new Integer(txtQuantityInStock.getText());
         
-        Product product = new Product(id, name, description, category, price, quantityInStock);
+        Product product = new Product();
+        product.setProductID(id);
+        product.setName(name);
+        product.setDescription(description);
+        product.setCategory(category);
+        product.setListPrice(price);
+        product.setQuantityInStock(quantityInStock);
         
         DAO.saveProduct(product);
         dispose();

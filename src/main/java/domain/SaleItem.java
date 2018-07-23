@@ -14,13 +14,6 @@ public class SaleItem {
     private Product product;
     private Sale sale;
 
-    public SaleItem(Integer quantityPurchased, BigDecimal salePrice, Product product, Sale sale) {
-        this.quantityPurchased = quantityPurchased;
-        this.salePrice = salePrice;
-        this.product = product;
-        this.sale = sale;
-    }
-
     public BigDecimal getItemTotal() {
         return salePrice.multiply(new BigDecimal(quantityPurchased));
     }

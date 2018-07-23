@@ -13,15 +13,6 @@ public class Product {
     private BigDecimal listPrice;
     private Integer quantityInStock;
 
-    public Product(String productID, String name, String description, String category, BigDecimal listPrice, Integer quantityInStock) {
-        this.productID = productID;
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.listPrice = listPrice;
-        this.quantityInStock = quantityInStock;
-    }
-
     public String getProductID() {
         return productID;
     }

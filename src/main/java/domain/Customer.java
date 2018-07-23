@@ -15,17 +15,6 @@ public class Customer {
     private String shippingAddress;
     private String creditCardDetails;
 
-    public Customer(String personID, String username, String firstName, String surname, String password, String emailAddress, String shippingAddress, String creditCardDetails) {
-        this.personID = personID;
-        this.username = username;
-        this.firstName = firstName;
-        this.surname = surname;
-        this.password = password;
-        this.emailAddress = emailAddress;
-        this.shippingAddress = shippingAddress;
-        this.creditCardDetails = creditCardDetails;
-    }
-
     public String getPersonID() {
         return personID;
     }

@@ -18,14 +18,6 @@ public class Sale {
     private List<SaleItem> items;
     private Customer customer;
 
-    public Sale(String saleID, Date date, char status, Customer customer) {
-        this.saleID = saleID;
-        this.date = date;
-        this.status = status;
-        this.customer = customer;
-        this.items = new ArrayList<>();
-    }
-
     public BigDecimal getTotal() {
         BigDecimal total = BigDecimal.ZERO;
         for (SaleItem item : items) {
