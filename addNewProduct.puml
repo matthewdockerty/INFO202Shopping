@@ -1,3 +1,60 @@
 @startuml
-    A -> B : do stuff
+    ' REFERENCE: https://isgb.otago.ac.nz/infosci/INFO202/reference/raw/master/reference.html#Sequence%20Diagrams:Contents%20%5B%5BSequence%20Diagrams%5D%5D
+
+    ' use strict UML mode
+    skinparam style strictuml
+
+    actor "User" as user
+    participant "MainClass" as main <<main>>
+    main++
+
+    create "MainMenu" as menu <<frame>>
+
+    main -> menu : construct
+    main -> menu++ : setVisible(true)
+    
+    user -> menu++ : click 'add new book'
+    
+    create "BookEditor" as editor <<dialog>>
+    menu -> editor : construct
+
+    ' activate editor constructor
+    editor++
+        ' create a DAO
+        create "DAO" as dao <<dao>>
+        editor -> dao : construct
+        editor--
+
+    ' user enters book details and clicks the save button
+    user -> editor++ : enters book details
+        editor--
+    user ->  editor++ : clicks save button
+        ' construct the book object
+        create "Book : book" as book <<domain>>
+        editor -> book : construct
+
+        ' get the author from the relevant text component
+        editor -> editor : getText() : author
+
+        ' set the author field in the book
+        editor -> book++ : setAuthor(author)
+            book--
+
+        ' save book
+        editor -> dao++ : save(book)
+            dao--
+
+        ' dispose dialog
+        editor -> editor : dispose()
+        destroy editor
+        menu--
+
+        editor--
+        
+    ' user closes the dialog
+    user -> editor++ : closes dialog
+        ' dispose dialog
+        editor -> editor : dispose()
+        destroy editor
+        
 @enduml
