@@ -12,7 +12,7 @@ public class DAO {
 
     private static List<Product> products = new ArrayList<>();
     
-    public static void saveProduct(Product product) {
+    public void saveProduct(Product product) {
         products.add(product);
     }
     
