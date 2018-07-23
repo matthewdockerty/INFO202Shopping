@@ -219,7 +219,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
         product.setListPrice(price);
         product.setQuantityInStock(quantityInStock);
         
-        DAO.saveProduct(product);
+        dao.saveProduct(product);
         dispose();
     }//GEN-LAST:event_buttonSaveActionPerformed
 
