@@ -2,7 +2,10 @@ package dao;
 
 import domain.Product;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -20,8 +23,8 @@ public class DAO {
         return products;
     }
     
-    public List<String> getCategories() {
-        List<String> categories = new ArrayList<>();
+    public Collection<String> getCategories() {
+        Set<String> categories = new HashSet<>();
         for (Product product : products) {
             categories.add(product.getCategory());
         }
