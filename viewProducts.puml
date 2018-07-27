@@ -1,0 +1,51 @@
+@startuml
+    ' REFERENCE: https://isgb.otago.ac.nz/infosci/INFO202/reference/raw/master/reference.html#Sequence%20Diagrams:Contents%20%5B%5BSequence%20Diagrams%5D%5D
+
+    ' use strict UML mode
+    skinparam style strictuml
+
+    actor "User" as user
+    participant "Administration" as main <<main>>
+    main++
+
+    create "FrameMainMenu" as menu <<frame>>
+
+    main -> menu : construct
+    
+    user -> menu++ : click 'view products'
+    
+    create "DialogViewProducts" as view <<dialog>>
+    menu -> view : construct
+
+    view++
+        ' create a DAO
+        create "DAO" as dao <<dao>>
+        view -> dao : construct
+        
+        view -> dao++ : getProducts() : products
+        dao--
+
+        create "SimpleListModel : listModel" as listModel <<model>>
+        view -> listModel : construct(products)
+        view -> view : set products list model (listModel)
+
+        view--
+
+    ' user views products
+    user -> view++ : view displayed products
+        view--
+    
+    ' user closes the dialog
+    user -> view++ : click 'close' button / closes dialog
+        ' dispose dialog
+        view -> view : dispose()
+        destroy view
+        menu--
+        
+    user -> menu++ : click 'exit' button / closes frame
+    menu -> menu : System.exit(0)
+    destroy menu
+    main--
+
+    
+@enduml

@@ -64,7 +64,7 @@
         destroy editor
         menu--
         
-    user -> menu++ : click 'exit' button
+    user -> menu++ : click 'exit' button / closes frame
     menu -> menu : System.exit(0)
     destroy menu
     main--
