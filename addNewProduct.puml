@@ -5,56 +5,69 @@
     skinparam style strictuml
 
     actor "User" as user
-    participant "MainClass" as main <<main>>
+    participant "Administration" as main <<main>>
     main++
 
-    create "MainMenu" as menu <<frame>>
+    create "FrameMainMenu" as menu <<frame>>
 
     main -> menu : construct
-    main -> menu++ : setVisible(true)
     
-    user -> menu++ : click 'add new book'
+    user -> menu++ : click 'add a new product'
     
-    create "BookEditor" as editor <<dialog>>
+    create "DialogProductEditor" as editor <<dialog>>
     menu -> editor : construct
 
     ' activate editor constructor
     editor++
         ' create a DAO
         create "DAO" as dao <<dao>>
-        editor -> dao : construct
+        editor -> dao++ : construct
+
+        editor -> dao : getCategories() : categories
+        dao--
+
+        create "SimpleListModel : listModel" as listModel <<model>>
+        editor -> listModel : construct(categories)
+        editor -> editor : set combo box model (listModel)
+
         editor--
 
-    ' user enters book details and clicks the save button
-    user -> editor++ : enters book details
+    ' user enters product details and clicks the save button
+    user -> editor++ : enters product details
         editor--
-    user ->  editor++ : clicks save button
-        ' construct the book object
-        create "Book : book" as book <<domain>>
-        editor -> book : construct
+    user ->  editor++ : click 'save' button
+        editor -> editor : get product details from GUI components
 
-        ' get the author from the relevant text component
-        editor -> editor : getText() : author
+        editor -> editor : convert numeric fields to BigDecimal and Integer types
 
-        ' set the author field in the book
-        editor -> book++ : setAuthor(author)
-            book--
+        ' construct the product object
+        create "Product : product" as product <<domain>>
+        editor -> product : construct
 
-        ' save book
-        editor -> dao++ : save(book)
+        ' set the fields in the product
+        editor -> product++ : set product details
+            product--
+
+        ' save product
+        editor -> dao++ : saveProduct(product)
             dao--
 
         ' dispose dialog
         editor -> editor : dispose()
         destroy editor
-        menu--
-
         editor--
         
     ' user closes the dialog
-    user -> editor++ : closes dialog
+    user -> editor++ : click 'cancel' button / closes dialog
         ' dispose dialog
         editor -> editor : dispose()
         destroy editor
+        menu--
         
+    user -> menu++ : click 'exit' button
+    menu -> menu : System.exit(0)
+    destroy menu
+    main--
+
+    
 @enduml
