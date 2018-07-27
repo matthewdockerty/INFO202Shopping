@@ -19,7 +19,7 @@ public class DAO {
         products.add(product);
     }
     
-    public List<Product> getProducts() {
+    public Collection<Product> getProducts() {
         return products;
     }
     
