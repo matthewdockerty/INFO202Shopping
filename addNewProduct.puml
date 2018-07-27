@@ -21,9 +21,9 @@
     editor++
         ' create a DAO
         create "DAO" as dao <<dao>>
-        editor -> dao++ : construct
-
-        editor -> dao : getCategories() : categories
+        editor -> dao : construct
+        
+        editor -> dao++ : getCategories() : categories
         dao--
 
         create "SimpleListModel : listModel" as listModel <<model>>
