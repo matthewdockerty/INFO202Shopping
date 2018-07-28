@@ -3,6 +3,7 @@ package gui;
 import dao.DAO;
 import domain.Product;
 import gui.helpers.SimpleListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -136,9 +137,19 @@ public class DialogViewProducts extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonCloseActionPerformed
 
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+        // Ensure we only proceed if there is a selection from the list.
+        if (listProducts.isSelectionEmpty())
+            return;
+        
         Product product = (Product) listProducts.getSelectedValue();
-        dao.deleteProduct(product);
-        listModel.updateItems(dao.getProducts());
+        
+        // Show confirmation dialog
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the product: "
+                + product + " ?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            dao.deleteProduct(product);
+            listModel.updateItems(dao.getProducts());
+        }
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
     /**
