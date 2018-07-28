@@ -1,6 +1,7 @@
 package gui;
 
 import dao.DAO;
+import domain.Product;
 import gui.helpers.SimpleListModel;
 
 /**
@@ -48,11 +49,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("View Products");
 
-        listProducts.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        listProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         scrollPaneProducts.setViewportView(listProducts);
 
         buttonClose.setText("Close");
@@ -73,6 +70,11 @@ public class DialogViewProducts extends javax.swing.JDialog {
         buttonEdit.setText("Edit");
 
         buttonDelete.setText("Delete");
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,6 +135,12 @@ public class DialogViewProducts extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_buttonCloseActionPerformed
 
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+        Product product = (Product) listProducts.getSelectedValue();
+        dao.deleteProduct(product);
+        listModel.updateItems(dao.getProducts());
+    }//GEN-LAST:event_buttonDeleteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -183,7 +191,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> comboBoxFilter;
     private javax.swing.JLabel labelFilter;
     private javax.swing.JLabel labelSearch;
-    private javax.swing.JList<String> listProducts;
+    private javax.swing.JList<Product> listProducts;
     private javax.swing.JScrollPane scrollPaneProducts;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

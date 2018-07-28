@@ -31,4 +31,8 @@ public class DAO {
         
         return categories;
     }
+    
+    public void deleteProduct(Product product) {
+        products.remove(product);
+    }
 }
