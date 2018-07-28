@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class DAO {
 
-    private static List<Product> products = new ArrayList<>();
+    private static Collection<Product> products = new HashSet<>();
     
     public void saveProduct(Product product) {
         products.add(product);
@@ -24,7 +24,7 @@ public class DAO {
     }
     
     public Collection<String> getCategories() {
-        Set<String> categories = new HashSet<>();
+        Collection<String> categories = new HashSet<>();
         for (Product product : products) {
             categories.add(product.getCategory());
         }
