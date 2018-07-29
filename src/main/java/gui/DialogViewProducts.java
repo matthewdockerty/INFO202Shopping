@@ -11,9 +11,10 @@ import javax.swing.JOptionPane;
  */
 public class DialogViewProducts extends javax.swing.JDialog {
 
-    private SimpleListModel listModel;
+    private SimpleListModel listModel; // List model for list view.
+    private SimpleListModel listModelCategories; // List model for filter combo box.
     private DAO dao;
-    
+        
     /**
      * Creates new form DialogViewProducts
      */
@@ -25,6 +26,9 @@ public class DialogViewProducts extends javax.swing.JDialog {
         
         listModel = new SimpleListModel(dao.getProducts());
         listProducts.setModel(listModel);
+        
+        listModelCategories = new SimpleListModel(dao.getCategories());
+        comboBoxFilter.setModel(listModelCategories);
     }
 
     /**
@@ -64,7 +68,11 @@ public class DialogViewProducts extends javax.swing.JDialog {
 
         labelFilter.setText("Category Filter:");
 
-        comboBoxFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxFilterActionPerformed(evt);
+            }
+        });
 
         buttonSearch.setText("Search");
         buttonSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -185,6 +193,10 @@ public class DialogViewProducts extends javax.swing.JDialog {
         
         listModel.updateItems(searchResult);
     }//GEN-LAST:event_buttonSearchActionPerformed
+
+    private void comboBoxFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxFilterActionPerformed
+        listModel.updateItems(dao.getProductsByCategory((String) comboBoxFilter.getSelectedItem()));
+    }//GEN-LAST:event_comboBoxFilterActionPerformed
 
     /**
      * @param args the command line arguments

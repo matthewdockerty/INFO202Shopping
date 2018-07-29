@@ -1,0 +1,78 @@
+[1mdiff --git a/.gradle/buildOutputCleanup/buildOutputCleanup.lock b/.gradle/buildOutputCleanup/buildOutputCleanup.lock[m
+[1mindex 6d8aae2..5995d94 100644[m
+Binary files a/.gradle/buildOutputCleanup/buildOutputCleanup.lock and b/.gradle/buildOutputCleanup/buildOutputCleanup.lock differ
+[1mdiff --git a/src/main/java/gui/DialogViewProducts.form b/src/main/java/gui/DialogViewProducts.form[m
+[1mindex 0a08eb5..9efed4c 100644[m
+[1m--- a/src/main/java/gui/DialogViewProducts.form[m
+[1m+++ b/src/main/java/gui/DialogViewProducts.form[m
+[36m@@ -120,16 +120,9 @@[m
+       </Properties>[m
+     </Component>[m
+     <Component class="javax.swing.JComboBox" name="comboBoxFilter">[m
+[31m-      <Properties>[m
+[31m-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">[m
+[31m-          <StringArray count="4">[m
+[31m-            <StringItem index="0" value="Item 1"/>[m
+[31m-            <StringItem index="1" value="Item 2"/>[m
+[31m-            <StringItem index="2" value="Item 3"/>[m
+[31m-            <StringItem index="3" value="Item 4"/>[m
+[31m-          </StringArray>[m
+[31m-        </Property>[m
+[31m-      </Properties>[m
+[32m+[m[32m      <Events>[m
+[32m+[m[32m        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboBoxFilterActionPerformed"/>[m
+[32m+[m[32m      </Events>[m
+       <AuxValues>[m
+         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>[m
+       </AuxValues>[m
+[1mdiff --git a/src/main/java/gui/DialogViewProducts.java b/src/main/java/gui/DialogViewProducts.java[m
+[1mindex 46d80d3..4de4e1c 100644[m
+[1m--- a/src/main/java/gui/DialogViewProducts.java[m
+[1m+++ b/src/main/java/gui/DialogViewProducts.java[m
+[36m@@ -11,9 +11,10 @@[m [mimport javax.swing.JOptionPane;[m
+  */[m
+ public class DialogViewProducts extends javax.swing.JDialog {[m
+ [m
+[31m-    private SimpleListModel listModel;[m
+[32m+[m[32m    private SimpleListModel listModel; // List model for list view.[m
+[32m+[m[32m    private SimpleListModel listModelCategories; // List model for filter combo box.[m
+     private DAO dao;[m
+[31m-    [m
+[32m+[m[41m        [m
+     /**[m
+      * Creates new form DialogViewProducts[m
+      */[m
+[36m@@ -25,6 +26,9 @@[m [mpublic class DialogViewProducts extends javax.swing.JDialog {[m
+         [m
+         listModel = new SimpleListModel(dao.getProducts());[m
+         listProducts.setModel(listModel);[m
+[32m+[m[41m        [m
+[32m+[m[32m        listModelCategories = new SimpleListModel(dao.getCategories());[m
+[32m+[m[32m        comboBoxFilter.setModel(listModelCategories);[m
+     }[m
+ [m
+     /**[m
+[36m@@ -64,7 +68,11 @@[m [mpublic class DialogViewProducts extends javax.swing.JDialog {[m
+ [m
+         labelFilter.setText("Category Filter:");[m
+ [m
+[31m-        comboBoxFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));[m
+[32m+[m[32m        comboBoxFilter.addActionListener(new java.awt.event.ActionListener() {[m
+[32m+[m[32m            public void actionPerformed(java.awt.event.ActionEvent evt) {[m
+[32m+[m[32m                comboBoxFilterActionPerformed(evt);[m
+[32m+[m[32m            }[m
+[32m+[m[32m        });[m
+ [m
+         buttonSearch.setText("Search");[m
+         buttonSearch.addActionListener(new java.awt.event.ActionListener() {[m
+[36m@@ -186,6 +194,10 @@[m [mpublic class DialogViewProducts extends javax.swing.JDialog {[m
+         listModel.updateItems(searchResult);[m
+     }//GEN-LAST:event_buttonSearchActionPerformed[m
+ [m
+[32m+[m[32m    private void comboBoxFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxFilterActionPerformed[m
+[32m+[m[32m        listModel.updateItems(dao.getProductsByCategory((String) comboBoxFilter.getSelectedItem()));[m
+[32m+[m[32m    }//GEN-LAST:event_comboBoxFilterActionPerformed[m
+[32m+[m
+     /**[m
+      * @param args the command line arguments[m
+      */[m
