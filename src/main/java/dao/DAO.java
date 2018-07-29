@@ -1,11 +1,10 @@
 package dao;
 
 import domain.Product;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  *
@@ -13,19 +12,19 @@ import java.util.Set;
  */
 public class DAO {
 
-    private static Collection<Product> products = new HashSet<>();
+    private static Map<String, Product> products = new HashMap<>();
     
     public void saveProduct(Product product) {
-        products.add(product);
+        products.put(product.getProductID(), product);
     }
     
     public Collection<Product> getProducts() {
-        return products;
+        return products.values();
     }
     
     public Collection<String> getCategories() {
         Collection<String> categories = new HashSet<>();
-        for (Product product : products) {
+        for (Product product : products.values()) {
             categories.add(product.getCategory());
         }
         
