@@ -67,6 +67,11 @@ public class DialogViewProducts extends javax.swing.JDialog {
         comboBoxFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         buttonSearch.setText("Search");
+        buttonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSearchActionPerformed(evt);
+            }
+        });
 
         buttonEdit.setText("Edit");
         buttonEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -174,6 +179,12 @@ public class DialogViewProducts extends javax.swing.JDialog {
         
         listModel.updateItems(dao.getProducts());
     }//GEN-LAST:event_buttonEditActionPerformed
+
+    private void buttonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchActionPerformed
+        Product searchResult = dao.getProductByID(txtSearch.getText());
+        
+        listModel.updateItems(searchResult);
+    }//GEN-LAST:event_buttonSearchActionPerformed
 
     /**
      * @param args the command line arguments
