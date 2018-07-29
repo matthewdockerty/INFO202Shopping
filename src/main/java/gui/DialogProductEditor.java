@@ -18,20 +18,38 @@ public class DialogProductEditor extends javax.swing.JDialog {
 
     private SimpleListModel listModel;
     private DAO dao;
+    private Product product;
     
     /**
      * Creates new form DialogProductEditor
      */
-    public DialogProductEditor(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public DialogProductEditor(java.awt.Window parent, boolean modal) {
+        super(parent);
+        super.setModal(modal);
         initComponents();
         
         dao = new DAO();
         
         listModel = new SimpleListModel(dao.getCategories());
         comboBoxCategory.setModel(listModel);
-        
         comboBoxCategory.setEditable(true);
+        
+        product = new Product();
+    }
+    
+    // For when we want to edit an existing product.
+    public DialogProductEditor(java.awt.Window parent, boolean modal, Product product) {
+        this(parent, modal);
+        
+        this.product = product;
+        this.txtID.setText(product.getProductID());
+        this.txtName.setText(product.getName());
+        this.txtAreaDescription.setText(product.getDescription());
+        this.comboBoxCategory.setSelectedItem(product.getCategory());
+        this.txtPrice.setText(String.valueOf(product.getListPrice()));
+        this.txtQuantityInStock.setText(String.valueOf(product.getQuantityInStock()));
+        
+        this.txtID.setEditable(false);
     }
 
     /**
@@ -211,7 +229,6 @@ public class DialogProductEditor extends javax.swing.JDialog {
         BigDecimal price = new BigDecimal(txtPrice.getText());
         Integer quantityInStock = new Integer(txtQuantityInStock.getText());
         
-        Product product = new Product();
         product.setProductID(id);
         product.setName(name);
         product.setDescription(description);

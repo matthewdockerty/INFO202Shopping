@@ -69,6 +69,11 @@ public class DialogViewProducts extends javax.swing.JDialog {
         buttonSearch.setText("Search");
 
         buttonEdit.setText("Edit");
+        buttonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEditActionPerformed(evt);
+            }
+        });
 
         buttonDelete.setText("Delete");
         buttonDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -136,12 +141,18 @@ public class DialogViewProducts extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_buttonCloseActionPerformed
 
-    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
-        // Ensure we only proceed if there is a selection from the list.
+    private Product getSelectedProduct() {
+         // Ensure we only proceed if there is a selection from the list.
         if (listProducts.isSelectionEmpty())
-            return;
+            return null;
         
-        Product product = (Product) listProducts.getSelectedValue();
+        return (Product) listProducts.getSelectedValue();
+    }
+    
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+        Product product;
+        if ((product = getSelectedProduct()) == null)
+            return;
         
         // Show confirmation dialog
         int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the product: "
@@ -151,6 +162,18 @@ public class DialogViewProducts extends javax.swing.JDialog {
             listModel.updateItems(dao.getProducts());
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
+
+    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
+        Product product;
+        if ((product = getSelectedProduct()) == null)
+            return;
+        
+        DialogProductEditor dialog = new DialogProductEditor(this, true, product);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        
+        listModel.updateItems(dao.getProducts());
+    }//GEN-LAST:event_buttonEditActionPerformed
 
     /**
      * @param args the command line arguments
