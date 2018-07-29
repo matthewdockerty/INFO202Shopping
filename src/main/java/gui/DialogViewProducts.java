@@ -168,12 +168,15 @@ public class DialogViewProducts extends javax.swing.JDialog {
             return;
         
         // Show confirmation dialog
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the product: "
-                + product + " ?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete product "
+                + product + "?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
             dao.deleteProduct(product);
-            listModel.updateItems(dao.getProducts());
+            listModelCategories.updateItems(dao.getCategories());
+            listModel.updateItems(dao.getProducts());            
         }
+        
+        
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed

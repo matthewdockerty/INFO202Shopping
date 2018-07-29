@@ -36,7 +36,8 @@ public class DAO {
     }
     
     public void deleteProduct(Product product) {
-        products.remove(product);
+        products.remove(product.getProductID());
+        productCategories.remove(product.getCategory(), product);
     }
     
     public Product getProductByID(String productID) {
