@@ -222,6 +222,9 @@ public class DialogProductEditor extends javax.swing.JDialog {
     }//GEN-LAST:event_txtIDActionPerformed
 
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        // Remove initial product from category to stop the modified product showing up in multiple categories.
+        dao.removeProductFromCategory(product.getCategory(), product);
+        
         String id = txtID.getText();
         String name = txtName.getText();
         String description = txtAreaDescription.getText();

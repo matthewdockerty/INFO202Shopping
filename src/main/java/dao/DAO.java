@@ -19,7 +19,15 @@ public class DAO {
     
     public void saveProduct(Product product) {
         products.put(product.getProductID(), product);
+        addProductToCategory(product.getCategory(), product);
+    }
+    
+    public void addProductToCategory(String category, Product product) {
         productCategories.put(product.getCategory(), product);
+    }
+    
+    public void removeProductFromCategory(String category, Product product) {
+        productCategories.remove(category, product);
     }
     
     public Collection<Product> getProducts() {
