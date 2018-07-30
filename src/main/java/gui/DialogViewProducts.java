@@ -200,6 +200,9 @@ public class DialogViewProducts extends javax.swing.JDialog {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
         
+        listModelCategories.updateItems(dao.getCategories());
+        comboBoxFilter.setSelectedItem(null);
+        txtSearch.setText("");
         listModel.updateItems(dao.getProducts());
     }//GEN-LAST:event_buttonEditActionPerformed
 
