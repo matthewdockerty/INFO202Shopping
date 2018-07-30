@@ -56,32 +56,39 @@
               <Component id="buttonClose" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="txtFilterDetails" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="labelSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="buttonSearch" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="labelFilter" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="comboBoxFilter" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="buttonReset" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="scrollPaneProducts" pref="177" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="txtFilterDetails" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="scrollPaneProducts" pref="162" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="buttonClose" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="buttonEdit" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="buttonDelete" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -155,11 +162,22 @@
     </Component>
     <Component class="javax.swing.JButton" name="buttonReset">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Reset"/>
+        <Property name="text" type="java.lang.String" value="View All"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonResetActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="txtFilterDetails">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Noto Sans" size="10" style="0"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="80" green="80" id="gray" palette="1" red="80" type="palette"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Showing all products"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

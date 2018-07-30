@@ -31,6 +31,11 @@ public class DialogViewProducts extends javax.swing.JDialog {
         comboBoxFilter.setModel(listModelCategories);
         
         buttonReset.setEnabled(false);
+        
+        // Pressing enter in search text field to search.
+        txtSearch.addActionListener(al -> {
+                buttonSearch.doClick();
+        });
     }
 
     /**
@@ -53,6 +58,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         buttonEdit = new javax.swing.JButton();
         buttonDelete = new javax.swing.JButton();
         buttonReset = new javax.swing.JButton();
+        txtFilterDetails = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("View Products");
@@ -98,12 +104,16 @@ public class DialogViewProducts extends javax.swing.JDialog {
             }
         });
 
-        buttonReset.setText("Reset");
+        buttonReset.setText("View All");
         buttonReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonResetActionPerformed(evt);
             }
         });
+
+        txtFilterDetails.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
+        txtFilterDetails.setForeground(java.awt.Color.gray);
+        txtFilterDetails.setText("Showing all products");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,6 +145,10 @@ public class DialogViewProducts extends javax.swing.JDialog {
                 .addGap(21, 21, 21)
                 .addComponent(buttonClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtFilterDetails)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +164,9 @@ public class DialogViewProducts extends javax.swing.JDialog {
                     .addComponent(comboBoxFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonReset))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPaneProducts, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                .addComponent(txtFilterDetails)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollPaneProducts, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonClose)
@@ -204,22 +220,34 @@ public class DialogViewProducts extends javax.swing.JDialog {
         comboBoxFilter.setSelectedItem(null);
         txtSearch.setText("");
         listModel.updateItems(dao.getProducts());
+        buttonReset.setEnabled(false);
+        txtFilterDetails.setText("Showing all products");
     }//GEN-LAST:event_buttonEditActionPerformed
 
     private void buttonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchActionPerformed
         String search = txtSearch.getText();
+        
+        if (search.equals("")) {
+            buttonReset.doClick();
+            return;
+        }
+
         Product searchResult = dao.getProductByID(search);
         
         comboBoxFilter.setSelectedItem(null);
         listModel.updateItems(searchResult);
         txtSearch.setText(search); // Restore search text which was deleted by combo box event handler.
         buttonReset.setEnabled(true);
+        
+        txtFilterDetails.setText("Showing products with id '" + search + "'");
     }//GEN-LAST:event_buttonSearchActionPerformed
 
     private void comboBoxFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxFilterActionPerformed
-        listModel.updateItems(dao.getProductsByCategory((String) comboBoxFilter.getSelectedItem()));
+        listModel.updateItems(dao.getProductsByCategory(String.valueOf(comboBoxFilter.getSelectedItem())));
         buttonReset.setEnabled(true);
         txtSearch.setText("");
+        txtFilterDetails.setText("Showing products in category '" 
+                + String.valueOf(comboBoxFilter.getSelectedItem()) + "'");
     }//GEN-LAST:event_comboBoxFilterActionPerformed
 
     private void buttonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResetActionPerformed
@@ -227,6 +255,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         txtSearch.setText("");
         listModel.updateItems(dao.getProducts());
         buttonReset.setEnabled(false);
+        txtFilterDetails.setText("Showing all products");
     }//GEN-LAST:event_buttonResetActionPerformed
 
     /**
@@ -282,6 +311,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
     private javax.swing.JLabel labelSearch;
     private javax.swing.JList<Product> listProducts;
     private javax.swing.JScrollPane scrollPaneProducts;
+    private javax.swing.JLabel txtFilterDetails;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
