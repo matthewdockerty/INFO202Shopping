@@ -4,12 +4,12 @@
  */
 
 CREATE TABLE Product (
-    ProductID VARCHAR(6) NOT NULL,
+    Product_ID VARCHAR(6) NOT NULL,
     Name VARCHAR(32) NOT NULL,
     Description VARCHAR(255) NOT NULL,
     Category VARCHAR(32) NOT NULL,
-    ListPrice Decimal(19, 2) NOT NULL,
-    QuantityInStock Integer NOT NULL,
+    List_Price Decimal(19, 2) NOT NULL,
+    Quantity_In_Stock Integer NOT NULL,
     
-    CONSTRAINT Product_PK PRIMARY KEY (ProductID)
+    CONSTRAINT Product_PK PRIMARY KEY (Product_ID)
 );
