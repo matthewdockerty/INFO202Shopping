@@ -5,9 +5,10 @@
  */
 package gui;
 
+import dao.DAO;
 import domain.Product;
 import java.math.BigDecimal;
-import dao.DAO;
+import dao.DAOCollections;
 import gui.helpers.SimpleListModel;
 
 /**
@@ -28,7 +29,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
         super.setModal(modal);
         initComponents();
         
-        dao = new DAO();
+        dao = new DAOCollections();
         
         listModel = new SimpleListModel(dao.getCategories());
         comboBoxCategory.setModel(listModel);

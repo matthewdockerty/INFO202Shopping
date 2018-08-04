@@ -1,58 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package dao;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import domain.Product;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
-/**
- *
- * @author docma436
- */
-public class DAO {
+public interface DAO {
 
-    private static Map<String, Product> products = new HashMap<>();
-    private static Multimap<String, Product> productCategories = HashMultimap.create();
+    void addProductToCategory(String category, Product product);
+
+    void deleteProduct(Product product);
+
+    Collection<String> getCategories();
+
+    Product getProductByID(String productID);
+
+    Collection<Product> getProducts();
+
+    Collection<Product> getProductsByCategory(String category);
+
+    void removeProductFromCategory(String category, Product product);
+
+    void saveProduct(Product product);
     
-    public void saveProduct(Product product) {
-        products.put(product.getProductID(), product);
-        addProductToCategory(product.getCategory(), product);
-    }
-    
-    public void addProductToCategory(String category, Product product) {
-        productCategories.put(product.getCategory(), product);
-    }
-    
-    public void removeProductFromCategory(String category, Product product) {
-        productCategories.remove(category, product);
-    }
-    
-    public Collection<Product> getProducts() {
-        return products.values();
-    }
-    
-    public Collection<String> getCategories() {
-        Collection<String> categories = new HashSet<>();
-        for (Product product : products.values()) {
-            categories.add(product.getCategory());
-        }
-        
-        return categories;
-    }
-    
-    public void deleteProduct(Product product) {
-        products.remove(product.getProductID());
-        productCategories.remove(product.getCategory(), product);
-    }
-    
-    public Product getProductByID(String productID) {
-        return products.get(productID);
-    }
-    
-    public Collection<Product> getProductsByCategory(String category) {
-        return productCategories.get(category);
-    }
 }

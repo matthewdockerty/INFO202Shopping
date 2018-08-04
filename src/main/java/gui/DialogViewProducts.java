@@ -1,6 +1,7 @@
 package gui;
 
 import dao.DAO;
+import dao.DAOCollections;
 import domain.Product;
 import gui.helpers.SimpleListModel;
 import javax.swing.JOptionPane;
@@ -22,7 +23,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        dao = new DAO();
+        dao = new DAOCollections();
         
         listModel = new SimpleListModel(dao.getProducts());
         listProducts.setModel(listModel);
@@ -201,9 +202,12 @@ public class DialogViewProducts extends javax.swing.JDialog {
         if (result == JOptionPane.YES_OPTION) {
             dao.deleteProduct(product);
             listModelCategories.updateItems(dao.getCategories());
-            listModel.updateItems(dao.getProducts());            
+            comboBoxFilter.setSelectedItem(null);
+            txtSearch.setText("");
+            listModel.updateItems(dao.getProducts());
+            buttonReset.setEnabled(false);
+            txtFilterDetails.setText("Showing all products");
         }
-        
         
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
