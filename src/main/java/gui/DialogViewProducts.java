@@ -2,6 +2,7 @@ package gui;
 
 import dao.DAO;
 import dao.DAOCollections;
+import dao.DAOPersistent;
 import domain.Product;
 import gui.helpers.SimpleListModel;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        dao = new DAOCollections();
+        dao = new DAOPersistent();
         
         listModel = new SimpleListModel(dao.getProducts());
         listProducts.setModel(listModel);

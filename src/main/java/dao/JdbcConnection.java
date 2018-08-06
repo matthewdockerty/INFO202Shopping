@@ -1,3 +1,5 @@
+package dao;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import org.h2.jdbcx.JdbcConnectionPool;
