@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import dao.DAOCollections;
 import dao.DAOPersistent;
 import gui.helpers.SimpleListModel;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -233,6 +235,15 @@ public class DialogProductEditor extends javax.swing.JDialog {
         String category = (String) comboBoxCategory.getSelectedItem();
         BigDecimal price = new BigDecimal(txtPrice.getText());
         Integer quantityInStock = new Integer(txtQuantityInStock.getText());
+        
+        // If we're adding a new product, check the product id isn't already in use.
+        if (txtID.isEditable()) {
+            Product productWithID = dao.getProductByID(id);
+            if (productWithID != null) {
+                JOptionPane.showMessageDialog(this, "Product with ID " + id + " already exists!", "Cannot Add Product", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        }
         
         product.setProductID(id);
         product.setName(name);
