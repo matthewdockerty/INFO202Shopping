@@ -11,8 +11,13 @@ import java.math.BigDecimal;
 import dao.DAOPersistent;
 import gui.helpers.SimpleListModel;
 import gui.helpers.ValidationHelper;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseEvent;
 import java.util.regex.Pattern;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.ToolTipManager;
 
 /**
  *
@@ -24,7 +29,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
     private DAO dao;
     private Product product;
     private ValidationHelper validHelp;
-    
+
     /**
      * Creates new form DialogProductEditor
      */
@@ -32,25 +37,26 @@ public class DialogProductEditor extends javax.swing.JDialog {
         super(parent);
         super.setModal(modal);
         initComponents();
-        
+
         dao = new DAOPersistent();
-        
+
         listModel = new SimpleListModel(dao.getCategories());
         comboBoxCategory.setModel(listModel);
         comboBoxCategory.setEditable(true);
-        
+
         product = new Product();
-        
+
         validHelp = new ValidationHelper();
-        validHelp.addPatternFormatter(txtID, Pattern.compile("((^[A-Za-z]{0,2})|(^[A-Za-z]{2}[0-9]{0,4}))"));
         validHelp.addTypeFormatter(txtPrice, "#0.00", BigDecimal.class);
         validHelp.addTypeFormatter(txtQuantityInStock, "#0", Integer.class);
+
+        validHelp.addPatternFormatter(txtID, Pattern.compile("((^[A-Za-z]{0,2})|(^[A-Za-z]{2}[0-9]{0,4}))"), "ID must have a 2 letter prefix and a 4 digit suffix. E.g. AB1234");
     }
-    
+
     // For when we want to edit an existing product.
     public DialogProductEditor(java.awt.Window parent, boolean modal, Product product) {
         this(parent, modal);
-        
+
         this.product = product;
         this.txtID.setText(product.getProductID());
         this.txtName.setText(product.getName());
@@ -58,7 +64,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
         this.comboBoxCategory.setSelectedItem(product.getCategory());
         this.txtPrice.setValue(product.getListPrice());
         this.txtQuantityInStock.setValue(product.getQuantityInStock());
-        
+
         this.txtID.setEditable(false);
     }
 
@@ -204,14 +210,14 @@ public class DialogProductEditor extends javax.swing.JDialog {
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         // Remove initial product from category to stop the modified product showing up in multiple categories.
         dao.removeProductFromCategory(product.getCategory(), product);
-        
+
         String id = txtID.getText();
         String name = txtName.getText();
         String description = txtAreaDescription.getText();
         String category = (String) comboBoxCategory.getSelectedItem();
         BigDecimal price = (BigDecimal) txtPrice.getValue();
         Integer quantityInStock = (Integer) txtQuantityInStock.getValue();
-        
+
         // If we're adding a new product, check the product id isn't already in use.
         if (txtID.isEditable()) {
             Product productWithID = dao.getProductByID(id);
@@ -220,14 +226,14 @@ public class DialogProductEditor extends javax.swing.JDialog {
                 return;
             }
         }
-        
+
         product.setProductID(id);
         product.setName(name);
         product.setDescription(description);
         product.setCategory(category);
         product.setListPrice(price);
         product.setQuantityInStock(quantityInStock);
-        
+
         if (validHelp.isObjectValid(product)) {
             dao.saveProduct(product);
             dispose();
