@@ -8,10 +8,9 @@ package gui;
 import dao.DAO;
 import domain.Product;
 import java.math.BigDecimal;
-import dao.DAOCollections;
 import dao.DAOPersistent;
 import gui.helpers.SimpleListModel;
-import javax.swing.JDialog;
+import gui.helpers.ValidationHelper;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,6 +22,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
     private SimpleListModel listModel;
     private DAO dao;
     private Product product;
+    private ValidationHelper validHelp;
     
     /**
      * Creates new form DialogProductEditor
@@ -39,6 +39,10 @@ public class DialogProductEditor extends javax.swing.JDialog {
         comboBoxCategory.setEditable(true);
         
         product = new Product();
+        
+        validHelp = new ValidationHelper();
+        validHelp.addTypeFormatter(txtPrice, "#0.00", BigDecimal.class);
+        validHelp.addTypeFormatter(txtQuantityInStock, "#0", Integer.class);
     }
     
     // For when we want to edit an existing product.
@@ -50,8 +54,8 @@ public class DialogProductEditor extends javax.swing.JDialog {
         this.txtName.setText(product.getName());
         this.txtAreaDescription.setText(product.getDescription());
         this.comboBoxCategory.setSelectedItem(product.getCategory());
-        this.txtPrice.setText(String.valueOf(product.getListPrice()));
-        this.txtQuantityInStock.setText(String.valueOf(product.getQuantityInStock()));
+        this.txtPrice.setValue(product.getListPrice());
+        this.txtQuantityInStock.setValue(product.getQuantityInStock());
         
         this.txtID.setEditable(false);
     }
@@ -75,11 +79,11 @@ public class DialogProductEditor extends javax.swing.JDialog {
         labelCategory = new javax.swing.JLabel();
         comboBoxCategory = new javax.swing.JComboBox<>();
         labelPrice = new javax.swing.JLabel();
-        txtPrice = new javax.swing.JTextField();
         labelQuantityInStock = new javax.swing.JLabel();
-        txtQuantityInStock = new javax.swing.JTextField();
         buttonSave = new javax.swing.JButton();
         buttonCancel = new javax.swing.JButton();
+        txtPrice = new javax.swing.JFormattedTextField();
+        txtQuantityInStock = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Product Editor");
@@ -115,19 +119,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
 
         labelPrice.setText("Price:");
 
-        txtPrice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPriceActionPerformed(evt);
-            }
-        });
-
         labelQuantityInStock.setText("Quantity in Stock:");
-
-        txtQuantityInStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtQuantityInStockActionPerformed(evt);
-            }
-        });
 
         buttonSave.setText("Save");
         buttonSave.addActionListener(new java.awt.event.ActionListener() {
@@ -160,12 +152,12 @@ public class DialogProductEditor extends javax.swing.JDialog {
                             .addComponent(labelID, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtID, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtName, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(scrollPaneDescription, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboBoxCategory, 0, 268, Short.MAX_VALUE)
-                            .addComponent(txtQuantityInStock)))
+                            .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtQuantityInStock, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(buttonSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(16, 16, 16)
@@ -193,12 +185,12 @@ public class DialogProductEditor extends javax.swing.JDialog {
                     .addComponent(labelCategory))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelPrice))
+                    .addComponent(labelPrice)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtQuantityInStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelQuantityInStock))
+                    .addComponent(labelQuantityInStock)
+                    .addComponent(txtQuantityInStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonCancel)
@@ -208,14 +200,6 @@ public class DialogProductEditor extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtQuantityInStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQuantityInStockActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtQuantityInStockActionPerformed
-
-    private void txtPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPriceActionPerformed
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
@@ -233,8 +217,8 @@ public class DialogProductEditor extends javax.swing.JDialog {
         String name = txtName.getText();
         String description = txtAreaDescription.getText();
         String category = (String) comboBoxCategory.getSelectedItem();
-        BigDecimal price = new BigDecimal(txtPrice.getText());
-        Integer quantityInStock = new Integer(txtQuantityInStock.getText());
+        BigDecimal price = (BigDecimal) txtPrice.getValue();
+        Integer quantityInStock = (Integer) txtQuantityInStock.getValue();
         
         // If we're adding a new product, check the product id isn't already in use.
         if (txtID.isEditable()) {
@@ -316,7 +300,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
     private javax.swing.JTextArea txtAreaDescription;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtPrice;
-    private javax.swing.JTextField txtQuantityInStock;
+    private javax.swing.JFormattedTextField txtPrice;
+    private javax.swing.JFormattedTextField txtQuantityInStock;
     // End of variables declaration//GEN-END:variables
 }
