@@ -38,12 +38,12 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="txtID" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtName" alignment="0" max="32767" attributes="0"/>
                           <Component id="scrollPaneDescription" alignment="0" max="32767" attributes="0"/>
                           <Component id="comboBoxCategory" pref="268" max="32767" attributes="0"/>
                           <Component id="txtPrice" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtQuantityInStock" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtID" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -104,11 +104,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="ID:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtID">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIDActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="labelName">
       <Properties>
@@ -190,6 +185,8 @@
     <Component class="javax.swing.JFormattedTextField" name="txtPrice">
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtQuantityInStock">
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="txtID">
     </Component>
   </SubComponents>
 </Form>

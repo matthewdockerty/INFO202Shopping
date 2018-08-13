@@ -1,9 +1,14 @@
 package gui.helpers;
 
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.regex.Pattern;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.Validator;
 
 /**
  *
@@ -11,8 +16,15 @@ import javax.swing.text.NumberFormatter;
  */
 public class ValidationHelper {
 
+    public void addPatternFormatter(JFormattedTextField textField, Pattern regex) {
+        PatternFormatter formatter = new PatternFormatter(regex);
+        formatter.setAllowsInvalid(false);
+        textField.setFormatterFactory(new DefaultFormatterFactory(formatter));
+    }
+    
+    
     public void addTypeFormatter(JFormattedTextField textField,
-        String format, Class<? extends Number> type) {
+            String format, Class<? extends Number> type) {
 
         // create a format object using our desired format
         DecimalFormat df = new DecimalFormat(format);
@@ -32,6 +44,35 @@ public class ValidationHelper {
 
         // install the factory in the text field
         textField.setFormatterFactory(factory);
+    }
+
+    public boolean isObjectValid(Object domain) {
+
+        // create Oval validator
+        Validator validator = new Validator();
+
+        // validate the object
+        List<ConstraintViolation> violations = validator.validate(domain);
+
+        // were there any violations?
+        if (violations.isEmpty()) {
+            // nope
+            return true;
+        } else {
+            // yes, so show constraint messages to user
+            StringBuilder message = new StringBuilder();
+
+            //	loop through the violations extracting the message for each
+            for (ConstraintViolation violation : violations) {
+                message.append(violation.getMessage()).append("\n");
+            }
+
+            // show a message box to the user with all the violation messages
+            JOptionPane.showMessageDialog(null, message.toString(),
+                    "Input Problem", JOptionPane.WARNING_MESSAGE);
+
+            return false;
+        }
     }
 
 }

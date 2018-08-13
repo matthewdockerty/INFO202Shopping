@@ -1,6 +1,11 @@
 package domain;
 
 import java.math.BigDecimal;
+import net.sf.oval.constraint.Length;
+import net.sf.oval.constraint.MatchPattern;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotNegative;
+import net.sf.oval.constraint.NotNull;
 
 /**
  *
@@ -8,9 +13,31 @@ import java.math.BigDecimal;
  */
 public class Product {
 
+    @NotNull(message = "ID must be provided.")
+    @NotBlank(message = "ID must be provided.")
+    @MatchPattern(pattern = {"[A-Z]{2}[0-9]{4}"}, message = "ID must have a 2 letter prefix and a 4 digit suffix. E.g. AB1234")
     private String productID;
-    private String name, description, category;
+    
+    @NotNull(message = "Name must be provided.")
+    @NotBlank(message = "Name must be provided.")
+    @Length(min = 2, message = "Name must contain at least two characters.")
+    private String name;
+    
+    @NotNull(message = "Description must be provided.")
+    @NotBlank(message = "Description must be provided.")
+    @Length(min = 4, message = "Description must contain at least four characters.")
+    private String description;
+    
+    @NotNull(message = "Category must be provided.")
+    @NotBlank(message = "Category must be provided.")
+    private String category;
+    
+    @NotNull(message = "Price must be provided.")
+    @NotNegative(message = "Price must be zero or greater.")
     private BigDecimal listPrice;
+    
+    @NotNull(message = "Quantity must be provided.")
+    @NotNegative(message = "Quantity must be zero or greater.")
     private Integer quantityInStock;
 
     public String getProductID() {
@@ -18,7 +45,7 @@ public class Product {
     }
 
     public void setProductID(String productID) {
-        this.productID = productID;
+        this.productID = productID.toUpperCase();
     }
 
     public String getName() {

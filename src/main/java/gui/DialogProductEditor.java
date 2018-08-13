@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import dao.DAOPersistent;
 import gui.helpers.SimpleListModel;
 import gui.helpers.ValidationHelper;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -41,6 +42,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
         product = new Product();
         
         validHelp = new ValidationHelper();
+        validHelp.addPatternFormatter(txtID, Pattern.compile("((^[A-Za-z]{0,2})|(^[A-Za-z]{2}[0-9]{0,4}))"));
         validHelp.addTypeFormatter(txtPrice, "#0.00", BigDecimal.class);
         validHelp.addTypeFormatter(txtQuantityInStock, "#0", Integer.class);
     }
@@ -70,7 +72,6 @@ public class DialogProductEditor extends javax.swing.JDialog {
     private void initComponents() {
 
         labelID = new javax.swing.JLabel();
-        txtID = new javax.swing.JTextField();
         labelName = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         labelDescription = new javax.swing.JLabel();
@@ -84,17 +85,12 @@ public class DialogProductEditor extends javax.swing.JDialog {
         buttonCancel = new javax.swing.JButton();
         txtPrice = new javax.swing.JFormattedTextField();
         txtQuantityInStock = new javax.swing.JFormattedTextField();
+        txtID = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Product Editor");
 
         labelID.setText("ID:");
-
-        txtID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIDActionPerformed(evt);
-            }
-        });
 
         labelName.setText("Name:");
 
@@ -152,12 +148,12 @@ public class DialogProductEditor extends javax.swing.JDialog {
                             .addComponent(labelID, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtID, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtName, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(scrollPaneDescription, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboBoxCategory, 0, 268, Short.MAX_VALUE)
                             .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtQuantityInStock, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addComponent(txtQuantityInStock, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtID, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(buttonSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(16, 16, 16)
@@ -205,10 +201,6 @@ public class DialogProductEditor extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
 
-    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIDActionPerformed
-
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         // Remove initial product from category to stop the modified product showing up in multiple categories.
         dao.removeProductFromCategory(product.getCategory(), product);
@@ -236,8 +228,10 @@ public class DialogProductEditor extends javax.swing.JDialog {
         product.setListPrice(price);
         product.setQuantityInStock(quantityInStock);
         
-        dao.saveProduct(product);
-        dispose();
+        if (validHelp.isObjectValid(product)) {
+            dao.saveProduct(product);
+            dispose();
+        }
     }//GEN-LAST:event_buttonSaveActionPerformed
 
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
@@ -298,7 +292,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
     private javax.swing.JLabel labelQuantityInStock;
     private javax.swing.JScrollPane scrollPaneDescription;
     private javax.swing.JTextArea txtAreaDescription;
-    private javax.swing.JTextField txtID;
+    private javax.swing.JFormattedTextField txtID;
     private javax.swing.JTextField txtName;
     private javax.swing.JFormattedTextField txtPrice;
     private javax.swing.JFormattedTextField txtQuantityInStock;
