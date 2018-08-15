@@ -48,7 +48,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
             validHelp.addTypeFormatter(txtQuantityInStock, "#0", Integer.class);
 
             validHelp.addPatternFormatter(txtID, Pattern.compile("((^[A-Za-z]{0,2})|(^[A-Za-z]{2}[0-9]{0,4}))"),
-                    "ID must have a 2 letter prefix and a 4 digit suffix. E.g. AB1234");
+                    "ID must consist of a 2 letter prefix and a 4 digit suffix. E.g. AB1234");
         } catch (DAOException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
         }

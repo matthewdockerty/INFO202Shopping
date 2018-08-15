@@ -32,8 +32,8 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="txtSearch" max="32767" attributes="0"/>
                   <Component id="comboBoxFilter" max="32767" attributes="0"/>
+                  <Component id="txtSearch" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -69,8 +69,8 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="labelSearch" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="buttonSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtSearch" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -120,8 +120,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Search by ID:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtSearch">
     </Component>
     <Component class="javax.swing.JLabel" name="labelFilter">
       <Properties>
@@ -178,6 +176,8 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Showing all products"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="txtSearch">
     </Component>
   </SubComponents>
 </Form>

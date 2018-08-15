@@ -5,6 +5,8 @@ import dao.DAOException;
 import dao.DAOPersistent;
 import domain.Product;
 import gui.helpers.SimpleListModel;
+import gui.helpers.ValidationHelper;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,6 +18,8 @@ public class DialogViewProducts extends javax.swing.JDialog {
     private SimpleListModel listModel; // List model for list view.
     private SimpleListModel listModelCategories; // List model for filter combo box.
     private DAO dao;
+    
+    private ValidationHelper validHelp;
 
     /**
      * Creates new form DialogViewProducts
@@ -39,6 +43,10 @@ public class DialogViewProducts extends javax.swing.JDialog {
             txtSearch.addActionListener(al -> {
                 buttonSearch.doClick();
             });
+            
+            validHelp = new ValidationHelper();
+            validHelp.addPatternFormatter(txtSearch, Pattern.compile("((^[A-Za-z]{0,2})|(^[A-Za-z]{2}[0-9]{0,4}))"),
+                    "Product IDs consist of a 2 letter prefix and a 4 digit suffix. E.g. AB1234");
 
         } catch (DAOException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
@@ -58,7 +66,6 @@ public class DialogViewProducts extends javax.swing.JDialog {
         listProducts = new javax.swing.JList<>();
         buttonClose = new javax.swing.JButton();
         labelSearch = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
         labelFilter = new javax.swing.JLabel();
         comboBoxFilter = new javax.swing.JComboBox<>();
         buttonSearch = new javax.swing.JButton();
@@ -66,6 +73,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         buttonDelete = new javax.swing.JButton();
         buttonReset = new javax.swing.JButton();
         txtFilterDetails = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("View Products");
@@ -133,8 +141,8 @@ public class DialogViewProducts extends javax.swing.JDialog {
                     .addComponent(labelSearch, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtSearch)
-                    .addComponent(comboBoxFilter, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(comboBoxFilter, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(buttonReset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -163,8 +171,8 @@ public class DialogViewProducts extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelSearch)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonSearch))
+                    .addComponent(buttonSearch)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelFilter)
@@ -345,6 +353,6 @@ public class DialogViewProducts extends javax.swing.JDialog {
     private javax.swing.JList<Product> listProducts;
     private javax.swing.JScrollPane scrollPaneProducts;
     private javax.swing.JLabel txtFilterDetails;
-    private javax.swing.JTextField txtSearch;
+    private javax.swing.JFormattedTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
