@@ -3,6 +3,7 @@ package domain;
 import java.math.BigDecimal;
 import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.MatchPattern;
+import net.sf.oval.constraint.Max;
 import net.sf.oval.constraint.NotBlank;
 import net.sf.oval.constraint.NotNegative;
 import net.sf.oval.constraint.NotNull;
@@ -15,29 +16,32 @@ public class Product {
 
     @NotNull(message = "ID must be provided.")
     @NotBlank(message = "ID must be provided.")
-    @MatchPattern(pattern = {"[A-Z]{2}[0-9]{4}"}, message = "ID must have a 2 letter prefix and a 4 digit suffix. E.g. AB1234")
+    @MatchPattern(pattern = {"[A-Z]{2}[0-9]{4}"}, message = "ID must have a 2 letter prefix and a 4 digit suffix. E.g. AB1234.")
     private String productID;
     
     @NotNull(message = "Name must be provided.")
     @NotBlank(message = "Name must be provided.")
-    @Length(min = 2, message = "Name must contain at least two characters.")
+    @Length(min = 2, max = 32, message = "Name must contain between 2 and 32 characters.")
     private String name;
     
     @NotNull(message = "Description must be provided.")
     @NotBlank(message = "Description must be provided.")
-    @Length(min = 4, message = "Description must contain at least four characters.")
+    @Length(min = 4, max = 255, message = "Description must contain between 4 and 255 characters.")
     private String description;
     
     @NotNull(message = "Category must be provided.")
     @NotBlank(message = "Category must be provided.")
+    @Length(min = 1, max = 32, message = "Category must contain between 1 and 32 characters.")
     private String category;
     
     @NotNull(message = "Price must be provided.")
     @NotNegative(message = "Price must be zero or greater.")
+    @Max(value = 999999.99, message = "Price must be less than $999,999.99")
     private BigDecimal listPrice;
     
     @NotNull(message = "Quantity must be provided.")
     @NotNegative(message = "Quantity must be zero or greater.")
+    @Max(value = 999999, message = "Quantity must be less than 999,999")
     private Integer quantityInStock;
 
     public String getProductID() {
