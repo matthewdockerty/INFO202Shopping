@@ -12,7 +12,6 @@ public class JdbcConnection {
     private static JdbcConnectionPool pool;
 
     public static Connection getConnection(String url) {
-
         if (pool == null) {
             pool = JdbcConnectionPool.create(url, USERNAME, PASSWORD);
         }
@@ -20,7 +19,7 @@ public class JdbcConnection {
         try {
             return pool.getConnection();
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new DAOException(ex.getMessage(), ex);
         }
     }
 }

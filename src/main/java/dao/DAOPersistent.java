@@ -41,7 +41,7 @@ public class DAOPersistent implements DAO {
             
             statement.executeUpdate();
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new DAOException(ex.getMessage(), ex);
         }
     }
 
@@ -57,7 +57,7 @@ public class DAOPersistent implements DAO {
             
             statement.executeUpdate();
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new DAOException(ex.getMessage(), ex);
         }
     }
 
@@ -80,7 +80,7 @@ public class DAOPersistent implements DAO {
             
             return categories;
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new DAOException(ex.getMessage(), ex);
         }
     }
 
@@ -109,7 +109,7 @@ public class DAOPersistent implements DAO {
             }
             return null;
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new DAOException(ex.getMessage(), ex);
         }
     }
 
@@ -139,7 +139,7 @@ public class DAOPersistent implements DAO {
             
             return products;
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new DAOException(ex.getMessage(), ex);
         }
     }
 
@@ -171,7 +171,7 @@ public class DAOPersistent implements DAO {
             
             return products;
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new DAOException(ex.getMessage(), ex);
         }
     }
     

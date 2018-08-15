@@ -6,18 +6,14 @@
 package gui;
 
 import dao.DAO;
+import dao.DAOException;
 import domain.Product;
 import java.math.BigDecimal;
 import dao.DAOPersistent;
 import gui.helpers.SimpleListModel;
 import gui.helpers.ValidationHelper;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseEvent;
 import java.util.regex.Pattern;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.ToolTipManager;
 
 /**
  *
@@ -37,20 +33,25 @@ public class DialogProductEditor extends javax.swing.JDialog {
         super(parent);
         super.setModal(modal);
         initComponents();
+        
+        try {
+            dao = new DAOPersistent();
 
-        dao = new DAOPersistent();
+            listModel = new SimpleListModel(dao.getCategories());
+            comboBoxCategory.setModel(listModel);
+            comboBoxCategory.setEditable(true);
+        
+            product = new Product();
 
-        listModel = new SimpleListModel(dao.getCategories());
-        comboBoxCategory.setModel(listModel);
-        comboBoxCategory.setEditable(true);
+            validHelp = new ValidationHelper();
+            validHelp.addTypeFormatter(txtPrice, "#0.00", BigDecimal.class);
+            validHelp.addTypeFormatter(txtQuantityInStock, "#0", Integer.class);
 
-        product = new Product();
-
-        validHelp = new ValidationHelper();
-        validHelp.addTypeFormatter(txtPrice, "#0.00", BigDecimal.class);
-        validHelp.addTypeFormatter(txtQuantityInStock, "#0", Integer.class);
-
-        validHelp.addPatternFormatter(txtID, Pattern.compile("((^[A-Za-z]{0,2})|(^[A-Za-z]{2}[0-9]{0,4}))"), "ID must have a 2 letter prefix and a 4 digit suffix. E.g. AB1234");
+            validHelp.addPatternFormatter(txtID, Pattern.compile("((^[A-Za-z]{0,2})|(^[A-Za-z]{2}[0-9]{0,4}))"),
+                    "ID must have a 2 letter prefix and a 4 digit suffix. E.g. AB1234");
+        } catch (DAOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // For when we want to edit an existing product.
@@ -117,8 +118,6 @@ public class DialogProductEditor extends javax.swing.JDialog {
 
         labelCategory.setText("Category:");
 
-        comboBoxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         labelPrice.setText("Price:");
 
         labelQuantityInStock.setText("Quantity in Stock:");
@@ -156,7 +155,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtName, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(scrollPaneDescription, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboBoxCategory, 0, 268, Short.MAX_VALUE)
+                            .addComponent(comboBoxCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtQuantityInStock, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtID, javax.swing.GroupLayout.Alignment.LEADING)))
@@ -208,35 +207,39 @@ public class DialogProductEditor extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
-        // Remove initial product from category to stop the modified product showing up in multiple categories.
-        dao.removeProductFromCategory(product.getCategory(), product);
+        try {
+            // Remove initial product from category to stop the modified product showing up in multiple categories.
+            dao.removeProductFromCategory(product.getCategory(), product);
 
-        String id = txtID.getText();
-        String name = txtName.getText();
-        String description = txtAreaDescription.getText();
-        String category = (String) comboBoxCategory.getSelectedItem();
-        BigDecimal price = (BigDecimal) txtPrice.getValue();
-        Integer quantityInStock = (Integer) txtQuantityInStock.getValue();
+            String id = txtID.getText();
+            String name = txtName.getText();
+            String description = txtAreaDescription.getText();
+            String category = (String) comboBoxCategory.getSelectedItem();
+            BigDecimal price = (BigDecimal) txtPrice.getValue();
+            Integer quantityInStock = (Integer) txtQuantityInStock.getValue();
 
-        // If we're adding a new product, check the product id isn't already in use.
-        if (txtID.isEditable()) {
-            Product productWithID = dao.getProductByID(id);
-            if (productWithID != null) {
-                JOptionPane.showMessageDialog(this, "Product with ID " + id + " already exists!", "Cannot Add Product", JOptionPane.WARNING_MESSAGE);
-                return;
+            // If we're adding a new product, check the product id isn't already in use.
+            if (txtID.isEditable()) {
+                Product productWithID = dao.getProductByID(id);
+                if (productWithID != null) {
+                    JOptionPane.showMessageDialog(this, "Product with ID " + id + " already exists!", "Cannot Add Product", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
             }
-        }
 
-        product.setProductID(id);
-        product.setName(name);
-        product.setDescription(description);
-        product.setCategory(category);
-        product.setListPrice(price);
-        product.setQuantityInStock(quantityInStock);
+            product.setProductID(id);
+            product.setName(name);
+            product.setDescription(description);
+            product.setCategory(category);
+            product.setListPrice(price);
+            product.setQuantityInStock(quantityInStock);
 
-        if (validHelp.isObjectValid(product)) {
-            dao.saveProduct(product);
-            dispose();
+            if (validHelp.isObjectValid(product)) {
+                dao.saveProduct(product);
+                dispose();
+            }
+        } catch (DAOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_buttonSaveActionPerformed
 

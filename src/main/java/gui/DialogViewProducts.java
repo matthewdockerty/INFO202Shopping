@@ -1,7 +1,7 @@
 package gui;
 
 import dao.DAO;
-import dao.DAOCollections;
+import dao.DAOException;
 import dao.DAOPersistent;
 import domain.Product;
 import gui.helpers.SimpleListModel;
@@ -16,28 +16,33 @@ public class DialogViewProducts extends javax.swing.JDialog {
     private SimpleListModel listModel; // List model for list view.
     private SimpleListModel listModelCategories; // List model for filter combo box.
     private DAO dao;
-        
+
     /**
      * Creates new form DialogViewProducts
      */
     public DialogViewProducts(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-        dao = new DAOPersistent();
-        
-        listModel = new SimpleListModel(dao.getProducts());
-        listProducts.setModel(listModel);
-        
-        listModelCategories = new SimpleListModel(dao.getCategories());
-        comboBoxFilter.setModel(listModelCategories);
-        
-        buttonReset.setEnabled(false);
-        
-        // Pressing enter in search text field to search.
-        txtSearch.addActionListener(al -> {
+
+        try {
+            dao = new DAOPersistent();
+
+            listModel = new SimpleListModel(dao.getProducts());
+            listProducts.setModel(listModel);
+
+            listModelCategories = new SimpleListModel(dao.getCategories());
+            comboBoxFilter.setModel(listModelCategories);
+
+            buttonReset.setEnabled(false);
+
+            // Pressing enter in search text field to search.
+            txtSearch.addActionListener(al -> {
                 buttonSearch.doClick();
-        });
+            });
+
+        } catch (DAOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -185,82 +190,105 @@ public class DialogViewProducts extends javax.swing.JDialog {
     }//GEN-LAST:event_buttonCloseActionPerformed
 
     private Product getSelectedProduct() {
-         // Ensure we only proceed if there is a selection from the list.
-        if (listProducts.isSelectionEmpty())
+        // Ensure we only proceed if there is a selection from the list.
+        if (listProducts.isSelectionEmpty()) {
             return null;
-        
+        }
+
         return (Product) listProducts.getSelectedValue();
     }
-    
+
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
         Product product;
-        if ((product = getSelectedProduct()) == null)
+        if ((product = getSelectedProduct()) == null) {
             return;
-        
+        }
+
         // Show confirmation dialog
         int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete product "
                 + product + "?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
-            dao.deleteProduct(product);
+            try {
+                dao.deleteProduct(product);
+                listModelCategories.updateItems(dao.getCategories());
+                comboBoxFilter.setSelectedItem(null);
+                txtSearch.setText("");
+                listModel.updateItems(dao.getProducts());
+                buttonReset.setEnabled(false);
+                txtFilterDetails.setText("Showing all products");
+            } catch (DAOException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_buttonDeleteActionPerformed
+
+    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
+        Product product;
+        if ((product = getSelectedProduct()) == null) {
+            return;
+        }
+
+        DialogProductEditor dialog = new DialogProductEditor(this, true, product);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        try {
             listModelCategories.updateItems(dao.getCategories());
             comboBoxFilter.setSelectedItem(null);
             txtSearch.setText("");
             listModel.updateItems(dao.getProducts());
             buttonReset.setEnabled(false);
             txtFilterDetails.setText("Showing all products");
+        } catch (DAOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
         }
-        
-    }//GEN-LAST:event_buttonDeleteActionPerformed
-
-    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
-        Product product;
-        if ((product = getSelectedProduct()) == null)
-            return;
-        
-        DialogProductEditor dialog = new DialogProductEditor(this, true, product);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-        
-        listModelCategories.updateItems(dao.getCategories());
-        comboBoxFilter.setSelectedItem(null);
-        txtSearch.setText("");
-        listModel.updateItems(dao.getProducts());
-        buttonReset.setEnabled(false);
-        txtFilterDetails.setText("Showing all products");
     }//GEN-LAST:event_buttonEditActionPerformed
 
     private void buttonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchActionPerformed
         String search = txtSearch.getText();
-        
+
         if (search.equals("")) {
             buttonReset.doClick();
             return;
         }
 
-        Product searchResult = dao.getProductByID(search);
-        
-        comboBoxFilter.setSelectedItem(null);
-        listModel.updateItems(searchResult);
-        txtSearch.setText(search); // Restore search text which was deleted by combo box event handler.
-        buttonReset.setEnabled(true);
-        
-        txtFilterDetails.setText("Showing products with id '" + search + "'");
+        try {
+            Product searchResult = dao.getProductByID(search);
+
+            comboBoxFilter.setSelectedItem(null);
+            listModel.updateItems(searchResult);
+            txtSearch.setText(search); // Restore search text which was deleted by combo box event handler.
+            buttonReset.setEnabled(true);
+
+            txtFilterDetails.setText("Showing products with id '" + search + "'");
+        } catch (DAOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_buttonSearchActionPerformed
 
     private void comboBoxFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxFilterActionPerformed
-        listModel.updateItems(dao.getProductsByCategory(String.valueOf(comboBoxFilter.getSelectedItem())));
-        buttonReset.setEnabled(true);
-        txtSearch.setText("");
-        txtFilterDetails.setText("Showing products in category '" 
-                + String.valueOf(comboBoxFilter.getSelectedItem()) + "'");
+        try {
+            listModel.updateItems(dao.getProductsByCategory(String.valueOf(comboBoxFilter.getSelectedItem())));
+            buttonReset.setEnabled(true);
+            txtSearch.setText("");
+            txtFilterDetails.setText("Showing products in category '"
+                    + String.valueOf(comboBoxFilter.getSelectedItem()) + "'");
+        } catch (DAOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_comboBoxFilterActionPerformed
 
     private void buttonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResetActionPerformed
-        comboBoxFilter.setSelectedItem(null);
-        txtSearch.setText("");
-        listModel.updateItems(dao.getProducts());
-        buttonReset.setEnabled(false);
-        txtFilterDetails.setText("Showing all products");
+        try {
+            comboBoxFilter.setSelectedItem(null);
+            txtSearch.setText("");
+            listModel.updateItems(dao.getProducts());
+            buttonReset.setEnabled(false);
+            txtFilterDetails.setText("Showing all products");
+        } catch (DAOException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_buttonResetActionPerformed
 
     /**
