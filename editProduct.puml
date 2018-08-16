@@ -1,0 +1,112 @@
+@startuml
+
+' style tweaks to make the diagram a little more readable
+skinparam style strictuml
+
+title Edit Product
+
+actor User as user
+participant "Administration" as main <<main>>
+participant "FrameMainMenu" as menu <<frame>>
+participant "DialogViewProducts" as view <<dialog>>
+participant "ProductDAO" as dao <<DAO>>
+participant "DialogProductEditor" as editor <<dialog>>
+participant "ValidationHelper" as validator
+
+create menu
+main -> menu : <<create>>
+
+user -> menu : click 'view products'
+menu++
+
+create view
+menu -> view : <<create>>
+
+view++
+create dao
+view -> dao : <<create>>
+
+view -> dao++ : getProducts()
+view <-- dao-- : products
+view -> view : <<create(products)>> listModelProducts
+
+view -> dao++ : getCategories()
+view <-- dao-- : categories
+view -> view : <<create(categories)>> listModelCategories
+view -> view : buttonReset.setEnabled(false)
+
+create validator
+view -> validator++ : <<create>>
+view -> validator-- : addPatternFormatter(txtSearch, ...)
+validator--
+
+user <-- view : list of products displayed
+
+
+
+user -> view++ : selects a product in the list
+view--
+
+
+
+user -> view : click 'edit' button
+activate view
+
+view -> view : getSelectedProduct() : product
+
+create editor
+view -> editor++ : <<create(product)>>
+
+
+editor -> dao++ : <<create>
+editor -> dao : getCategories()
+return categories
+
+editor -> validator++ : <<create>>
+editor -> validator : add type and pattern formatters to components
+validator--
+
+editor -> editor : this.product = product
+editor -> editor : set component text / values
+editor -> editor : txtID.setEditable(false)
+note right : indicates we are\nediting an existing\nproduct
+
+user <-- editor : product details displayed, ready for editing
+editor--
+
+user -> editor++ : edits product details
+editor--
+
+
+user -> editor : click 'save' button
+editor++
+
+editor -> editor : get details from components
+editor -> editor : set product details
+
+opt if txtID.isEditable())
+    editor -> editor : check product ID doesn't already exist
+end
+
+editor -> validator++ : isValid(product)
+return valid
+opt if valid
+    editor -> dao++ : saveProduct(product)
+    dao--
+end
+editor -> editor : dispose()
+editor --> view
+destroy editor
+
+
+view -> dao++ : getCategories()
+return categories
+view -> dao++ : getProducts()
+return products
+
+view -> view : listModelCategories.updateItems(categories)
+view -> view : listModelProducts.updateItems(products)
+
+note left: updated product\ndisplayed in product\nview
+
+@enduml
