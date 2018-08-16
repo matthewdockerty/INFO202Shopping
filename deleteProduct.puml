@@ -1,0 +1,78 @@
+@startuml
+
+' style tweaks to make the diagram a little more readable
+skinparam style strictuml
+
+title Delete Product
+
+actor User as user
+participant "Administration" as main <<main>>
+participant "FrameMainMenu" as menu <<frame>>
+participant "DialogViewProducts" as view <<dialog>>
+participant "ProductDAO" as dao <<DAO>>
+participant "ValidationHelper" as validator
+
+create menu
+main -> menu : <<create>>
+
+user -> menu : click 'view products'
+menu++
+
+create view
+menu -> view : <<create>>
+
+view++
+create dao
+view -> dao : <<create>>
+
+view -> dao++ : getProducts()
+view <-- dao-- : products
+view -> view : <<create(products)>> listModelProducts
+
+view -> dao++ : getCategories()
+view <-- dao-- : categories
+view -> view : <<create(categories)>> listModelCategories
+view -> view : buttonReset.setEnabled(false)
+
+create validator
+view -> validator++ : <<create>>
+view -> validator-- : addPatternFormatter(txtSearch, ...)
+validator--
+
+user <-- view : list of products displayed
+
+
+
+user -> view++ : selects a product in the list
+view--
+
+
+
+user -> view : click 'delete' button
+activate view
+
+view -> view : getSelectedProduct : product
+view --> user : confirmation dialog displayed
+view--
+
+user -> view : responds to confirmation dialog : option
+
+opt if option == YES_OPTION
+    view -> dao++ : deleteProduct(product)
+    dao--
+    
+    view -> dao++ : getCategories()
+    return categories
+    view -> dao++ : getProducts()
+    return products
+
+    view -> view : listModelCategories.updateItems(categories)
+    view -> view : listModelProducts.updateItems(products)
+    
+note right : updated product list\nand category combo\nbox shown in product view
+end
+
+
+
+
+@enduml
