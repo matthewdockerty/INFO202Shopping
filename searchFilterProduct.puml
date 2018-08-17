@@ -27,11 +27,11 @@ view -> dao : «create»
 
 view -> dao++ : getProducts()
 view <-- dao-- : products
-view -> view : <<create(products)>> listModelProducts
+view -> view : «create(products)» listModelProducts
 
 view -> dao++ : getCategories()
 view <-- dao-- : categories
-view -> view : <<create(categories)>> listModelCategories
+view -> view : «create(categories)» listModelCategories
 view -> view : buttonReset.setEnabled(false)
 
 create validator

@@ -27,11 +27,11 @@ view -> dao : «create»
 
 view -> dao++ : getProducts()
 view <-- dao-- : products
-view -> view : <<create(products)>> listModelProducts
+view -> view : «create(products)» listModelProducts
 
 view -> dao++ : getCategories()
 view <-- dao-- : categories
-view -> view : <<create(categories)>> listModelCategories
+view -> view : «create(categories)» listModelCategories
 view -> view : buttonReset.setEnabled(false)
 
 create validator
@@ -40,7 +40,7 @@ view -> validator-- : addPatternFormatter(txtSearch, ...)
 validator--
 
 user <-- view : list of products displayed
-
+view--
 
 
 user -> view++ : selects a product in the list
@@ -56,7 +56,7 @@ view --> user : confirmation dialog displayed
 view--
 
 user -> view : responds to confirmation dialog : option
-
+view++
 opt if option == YES_OPTION
     view -> dao++ : deleteProduct(product)
     dao--
@@ -71,8 +71,8 @@ opt if option == YES_OPTION
     
 note right : updated product list\nand category combo\nbox shown in product view
 end
-
-
+view --> user : updated list of products displayed
+view--
 
 
 @enduml
