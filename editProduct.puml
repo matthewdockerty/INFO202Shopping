@@ -14,29 +14,29 @@ participant "DialogProductEditor" as editor <<dialog>>
 participant "ValidationHelper" as validator
 
 create menu
-main -> menu : <<create>>
+main -> menu : «create»
 
 user -> menu : click 'view products'
 menu++
 
 create view
-menu -> view : <<create>>
+menu -> view : «create»
 
 view++
 create dao
-view -> dao : <<create>>
+view -> dao : «create»
 
 view -> dao++ : getProducts()
 view <-- dao-- : products
-view -> view : <<create(products)>> listModelProducts
+view -> view : «create(products)» listModelProducts
 
 view -> dao++ : getCategories()
 view <-- dao-- : categories
-view -> view : <<create(categories)>> listModelCategories
+view -> view : «create(categories)» listModelCategories
 view -> view : buttonReset.setEnabled(false)
 
 create validator
-view -> validator++ : <<create>>
+view -> validator++ : «create»
 view -> validator-- : addPatternFormatter(txtSearch, ...)
 validator--
 
@@ -55,14 +55,14 @@ activate view
 view -> view : getSelectedProduct() : product
 
 create editor
-view -> editor++ : <<create(product)>>
+view -> editor++ : «create(product)»
 
 
-editor -> dao++ : <<create>
+editor -> dao++ : «create»
 editor -> dao : getCategories()
 return categories
 
-editor -> validator++ : <<create>>
+editor -> validator++ : «create»
 editor -> validator : add type and pattern formatters to components
 validator--
 

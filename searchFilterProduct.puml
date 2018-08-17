@@ -13,17 +13,17 @@ participant "ProductDAO" as dao <<DAO>>
 participant "ValidationHelper" as validator
 
 create menu
-main -> menu : <<create>>
+main -> menu : «create»
 
 user -> menu : click 'view products'
 menu++
 
 create view
-menu -> view : <<create>>
+menu -> view : «create»
 
 view++
 create dao
-view -> dao : <<create>>
+view -> dao : «create»
 
 view -> dao++ : getProducts()
 view <-- dao-- : products
@@ -35,7 +35,7 @@ view -> view : <<create(categories)>> listModelCategories
 view -> view : buttonReset.setEnabled(false)
 
 create validator
-view -> validator++ : <<create>>
+view -> validator++ : «create»
 view -> validator-- : addPatternFormatter(txtSearch, ...)
 validator--
 
