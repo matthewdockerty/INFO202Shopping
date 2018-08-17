@@ -1,0 +1,93 @@
+@startuml
+
+' style tweaks to make the diagram a little more readable
+skinparam style strictuml
+
+title Search Product
+
+actor User as user
+participant "Administration" as main <<main>>
+participant "FrameMainMenu" as menu <<frame>>
+participant "DialogViewProducts" as view <<dialog>>
+participant "ProductDAO" as dao <<DAO>>
+participant "ValidationHelper" as validator
+
+create menu
+main -> menu : <<create>>
+
+user -> menu : click 'view products'
+menu++
+
+create view
+menu -> view : <<create>>
+
+view++
+create dao
+view -> dao : <<create>>
+
+view -> dao++ : getProducts()
+view <-- dao-- : products
+view -> view : <<create(products)>> listModelProducts
+
+view -> dao++ : getCategories()
+view <-- dao-- : categories
+view -> view : <<create(categories)>> listModelCategories
+view -> view : buttonReset.setEnabled(false)
+
+create validator
+view -> validator++ : <<create>>
+view -> validator-- : addPatternFormatter(txtSearch, ...)
+validator--
+
+user <-- view : list of products displayed
+
+|||
+
+user -> view++ : enters a product ID into search field
+view--
+
+|||
+
+user -> view++ : click 'search' button
+view -> view : txtSearch.getText() : searchID
+
+view -> dao++ : getProductByID(searchID)
+return product
+
+view -> view : clear selected category
+view -> view : listModelProducts.updateItems(product)
+note right : update product list and\nenable search reset button
+view -> view : buttonReset.setEnabled(true)
+view --> user : search result displayed
+view--
+
+|||
+
+user -> view++ : selects category from combo box
+
+view -> view : comboBoxCategories.getSelectedItem() : category
+view -> dao++ : getProductsByCategory(category)
+return products
+
+view -> view : listModelProducts.updateItems(products)
+view -> view : clear search text field
+view -> view : buttonReset.setEnabled(true)
+
+view --> user : filtered list of products in selected category displayed
+view--
+
+|||
+
+user -> view++ : click 'reset' button
+note left : resets any searches\nor category filters
+view -> view : clear search text field and category combo box selected item 
+
+view -> dao++ : getProducts()
+return products
+view -> view : listModelProducts.updateItems(products)
+view -> view : buttonReset.setEnabled(false)
+view --> user : list of products displayed with no filters
+
+
+
+@enduml
