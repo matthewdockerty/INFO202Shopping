@@ -62,6 +62,8 @@ editor -> dao++ : «create»
 editor -> dao : getCategories()
 return categories
 
+editor -> editor : «create(categories)» listModelCategories
+
 editor -> validator++ : «create»
 editor -> validator : add type and pattern formatters to components
 validator--
@@ -88,6 +90,8 @@ opt if txtID.isEditable())
     editor -> editor : check product ID doesn't already exist
 end
 
+note right : a new product is being\nadded (not in edit mode)
+
 editor -> validator++ : isValid(product)
 return valid
 opt if valid
@@ -107,6 +111,6 @@ return products
 view -> view : listModelCategories.updateItems(categories)
 view -> view : listModelProducts.updateItems(products)
 
-note left: updated product\ndisplayed in product\nview
+view --> user : list of updated products displayed
 
 @enduml
