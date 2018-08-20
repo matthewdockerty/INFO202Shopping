@@ -45,6 +45,18 @@ public class Product {
     @Max(value = 999999, message = "Quantity must be less than 999,999")
     private Integer quantityInStock;
 
+    public Product() {
+    }
+
+    public Product(String productID, String name, String description, String category, BigDecimal listPrice, Integer quantityInStock) {
+        this.productID = productID;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.listPrice = listPrice;
+        this.quantityInStock = quantityInStock;
+    }
+
     public String getProductID() {
         return productID;
     }

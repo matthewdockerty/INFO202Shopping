@@ -19,5 +19,6 @@ dependencies {
     // https://mvnrepository.com/artifact/net.sf.oval/oval
     compile group: 'net.sf.oval', name: 'oval', version: '1.90'
 
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
