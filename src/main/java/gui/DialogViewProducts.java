@@ -1,13 +1,13 @@
 package gui;
 
-import dao.DAO;
 import dao.DAOException;
-import dao.DAOPersistent;
+import dao.ProductDAOJdbc;
 import domain.Product;
 import gui.helpers.SimpleListModel;
 import gui.helpers.ValidationHelper;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import dao.ProductDAO;
 
 /**
  *
@@ -17,7 +17,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
 
     private SimpleListModel listModel; // List model for list view.
     private SimpleListModel listModelCategories; // List model for filter combo box.
-    private DAO dao;
+    private ProductDAO dao;
     
     private ValidationHelper validHelp;
 
@@ -29,7 +29,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         initComponents();
 
         try {
-            dao = new DAOPersistent();
+            dao = new ProductDAOJdbc();
 
             listModel = new SimpleListModel(dao.getProducts());
             listProducts.setModel(listModel);

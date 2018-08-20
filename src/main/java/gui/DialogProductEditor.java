@@ -5,15 +5,15 @@
  */
 package gui;
 
-import dao.DAO;
 import dao.DAOException;
 import domain.Product;
 import java.math.BigDecimal;
-import dao.DAOPersistent;
+import dao.ProductDAOJdbc;
 import gui.helpers.SimpleListModel;
 import gui.helpers.ValidationHelper;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import dao.ProductDAO;
 
 /**
  *
@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 public class DialogProductEditor extends javax.swing.JDialog {
 
     private SimpleListModel listModel;
-    private DAO dao;
+    private ProductDAO dao;
     private Product product;
     private ValidationHelper validHelp;
 
@@ -35,7 +35,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
         initComponents();
         
         try {
-            dao = new DAOPersistent();
+            dao = new ProductDAOJdbc();
 
             listModel = new SimpleListModel(dao.getCategories());
             comboBoxCategory.setModel(listModel);

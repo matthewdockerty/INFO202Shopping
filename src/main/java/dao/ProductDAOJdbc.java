@@ -13,14 +13,14 @@ import java.util.List;
  *
  * @author docma436
  */
-public class DAOPersistent implements DAO {
+public class ProductDAOJdbc implements ProductDAO {
 
     
     private String dbUrl = "jdbc:h2:tcp://localhost:9017/project;IFEXISTS=TRUE";
     
-    public DAOPersistent() {}
+    public ProductDAOJdbc() {}
     
-    public DAOPersistent(String url) {
+    public ProductDAOJdbc(String url) {
         dbUrl = url;
     }
     

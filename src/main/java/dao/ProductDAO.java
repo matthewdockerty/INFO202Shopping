@@ -8,7 +8,7 @@ package dao;
 import domain.Product;
 import java.util.Collection;
 
-public interface DAO {
+public interface ProductDAO {
 
     void addProductToCategory(String category, Product product);
 

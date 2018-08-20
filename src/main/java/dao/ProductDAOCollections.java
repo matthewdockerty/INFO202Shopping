@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author docma436
  */
-public class DAOCollections implements DAO {
+public class ProductDAOCollections implements ProductDAO {
 
     private static final Map<String, Product> products = new HashMap<>();
     private static final Multimap<String, Product> productCategories = HashMultimap.create();
