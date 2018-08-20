@@ -1,7 +1,6 @@
 package gui;
 
 import dao.DAOException;
-import dao.ProductDAOJdbc;
 import domain.Product;
 import gui.helpers.SimpleListModel;
 import gui.helpers.ValidationHelper;
@@ -17,20 +16,21 @@ public class DialogViewProducts extends javax.swing.JDialog {
 
     private SimpleListModel listModel; // List model for list view.
     private SimpleListModel listModelCategories; // List model for filter combo box.
-    private ProductDAO dao;
+    
+    private final ProductDAO dao;
     
     private ValidationHelper validHelp;
 
     /**
      * Creates new form DialogViewProducts
      */
-    public DialogViewProducts(java.awt.Frame parent, boolean modal) {
+    public DialogViewProducts(java.awt.Frame parent, boolean modal, ProductDAO dao) {
         super(parent, modal);
         initComponents();
 
+        this.dao = dao;
+        
         try {
-            dao = new ProductDAOJdbc();
-
             listModel = new SimpleListModel(dao.getProducts());
             listProducts.setModel(listModel);
 
@@ -237,7 +237,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
             return;
         }
 
-        DialogProductEditor dialog = new DialogProductEditor(this, true, product);
+        DialogProductEditor dialog = new DialogProductEditor(this, true, product, dao);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
@@ -298,48 +298,6 @@ public class DialogViewProducts extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_buttonResetActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DialogViewProducts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DialogViewProducts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DialogViewProducts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DialogViewProducts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DialogViewProducts dialog = new DialogViewProducts(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonClose;

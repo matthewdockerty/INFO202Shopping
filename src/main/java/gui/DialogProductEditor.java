@@ -8,7 +8,6 @@ package gui;
 import dao.DAOException;
 import domain.Product;
 import java.math.BigDecimal;
-import dao.ProductDAOJdbc;
 import gui.helpers.SimpleListModel;
 import gui.helpers.ValidationHelper;
 import java.util.regex.Pattern;
@@ -22,21 +21,21 @@ import dao.ProductDAO;
 public class DialogProductEditor extends javax.swing.JDialog {
 
     private SimpleListModel listModel;
-    private ProductDAO dao;
+    private final ProductDAO dao;
     private Product product;
     private ValidationHelper validHelp;
 
     /**
      * Creates new form DialogProductEditor
      */
-    public DialogProductEditor(java.awt.Window parent, boolean modal) {
+    public DialogProductEditor(java.awt.Window parent, boolean modal, ProductDAO dao) {
         super(parent);
         super.setModal(modal);
         initComponents();
         
+        this.dao = dao;
+        
         try {
-            dao = new ProductDAOJdbc();
-
             listModel = new SimpleListModel(dao.getCategories());
             comboBoxCategory.setModel(listModel);
             comboBoxCategory.setEditable(true);
@@ -55,8 +54,8 @@ public class DialogProductEditor extends javax.swing.JDialog {
     }
 
     // For when we want to edit an existing product.
-    public DialogProductEditor(java.awt.Window parent, boolean modal, Product product) {
-        this(parent, modal);
+    public DialogProductEditor(java.awt.Window parent, boolean modal, Product product, ProductDAO dao) {
+        this(parent, modal, dao);
 
         this.product = product;
         this.txtID.setText(product.getProductID());
@@ -246,48 +245,6 @@ public class DialogProductEditor extends javax.swing.JDialog {
     private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelActionPerformed
         dispose();
     }//GEN-LAST:event_buttonCancelActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DialogProductEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DialogProductEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DialogProductEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DialogProductEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DialogProductEditor dialog = new DialogProductEditor(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;
