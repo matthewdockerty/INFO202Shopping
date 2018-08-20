@@ -43,6 +43,14 @@ public class JUnitTestDAO {
         assertEquals("Retrieved product should be the same", productThree, retrieved);
     }
     
+    @Test
+    public void testDAODelete() {
+        dao.deleteProduct(productOne);
+        Product retrieved = dao.getProductByID("AA1111");
+        
+        assertNull("Product should no longer exist", retrieved);
+    }
+    
     @After
     public void tearDown() {
         dao.deleteProduct(productOne);
