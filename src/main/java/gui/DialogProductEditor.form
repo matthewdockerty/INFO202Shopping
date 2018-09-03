@@ -135,6 +135,7 @@
             <Property name="columns" type="int" value="20"/>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="4"/>
+            <Property name="name" type="java.lang.String" value="txtAreaDescription" noResource="true"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -180,8 +181,14 @@
       </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtPrice">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txtPrice" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtQuantityInStock">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txtQuantityInStock" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtID">
       <Properties>

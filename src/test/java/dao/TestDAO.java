@@ -14,14 +14,14 @@ import static org.junit.Assert.*;
  *
  * @author docma436
  */
-public class JUnitTestDAO {
+public class TestDAO {
 
     private static final String dbUrl = "jdbc:h2:tcp://localhost:9017/project_test;IFEXISTS=TRUE";
     
     private ProductDAO dao;
     private Product productOne, productTwo, productThree;
     
-    public JUnitTestDAO() {
+    public TestDAO() {
         dao = new ProductDAOJdbc(dbUrl);
 //        dao = new ProductDAOCollections();
     }

@@ -114,6 +114,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
         txtAreaDescription.setColumns(20);
         txtAreaDescription.setLineWrap(true);
         txtAreaDescription.setRows(4);
+        txtAreaDescription.setName("txtAreaDescription"); // NOI18N
         scrollPaneDescription.setViewportView(txtAreaDescription);
 
         labelCategory.setText("Category:");
@@ -138,6 +139,10 @@ public class DialogProductEditor extends javax.swing.JDialog {
                 buttonCancelActionPerformed(evt);
             }
         });
+
+        txtPrice.setName("txtPrice"); // NOI18N
+
+        txtQuantityInStock.setName("txtQuantityInStock"); // NOI18N
 
         txtID.setName("txtID"); // NOI18N
 

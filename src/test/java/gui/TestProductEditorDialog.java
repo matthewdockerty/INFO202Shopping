@@ -1,3 +1,5 @@
+package gui;
+
 
 import dao.ProductDAO;
 import domain.Product;
@@ -80,7 +82,45 @@ public class TestProductEditorDialog {
 
         // check that the changes were saved
         assertEquals("Ensure the name was changed", "New Name!", editedProduct.getName());
-        assertEquals("Ensure the major was changed", "Category 2", editedProduct.getCategory());
+        assertEquals("Ensure the category was changed", "Category 2", editedProduct.getCategory());
+    }
+
+    @Test
+    public void testSave() {
+        // create the dialog passing in the mocked DAO
+        DialogProductEditor dialog = new DialogProductEditor(null, true, dao);
+
+        // use AssertJ to control the dialog
+        fixture = new DialogFixture(robot, dialog);
+        fixture.show().requireVisible();
+
+        // enter some details into the UI components
+        fixture.textBox("txtID").enterText("AA1111");
+        fixture.textBox("txtName").enterText("Product Name");
+        fixture.textBox("txtAreaDescription").enterText("Description");
+        fixture.comboBox("comboBoxCategory").selectItem("Category 1");
+        fixture.textBox("txtPrice").enterText("10.01");
+        fixture.textBox("txtQuantityInStock").enterText("100");
+
+        // click the save button
+        fixture.button("buttonSave").click();
+
+        // create a Mockito argument captor to use to retrieve the passed product from the mocked DAO
+        ArgumentCaptor<Product> argument = ArgumentCaptor.forClass(Product.class);
+
+        // verify that the DAO.save method was called, and capture the passed product
+        verify(dao).saveProduct(argument.capture());
+
+        // retrieve the passed product from the captor
+        Product savedProduct = argument.getValue();
+
+        // test that the product's details were properly saved
+        assertEquals("Ensure the ID was saved", "AA1111", savedProduct.getProductID());
+        assertEquals("Ensure the name was saved", "Product Name", savedProduct.getName());
+        assertEquals("Ensure the description was saved", "Description", savedProduct.getDescription());
+        assertEquals("Ensure the category was saved", "Category 1", savedProduct.getCategory());
+        assertEquals("Ensure the price was saved", new BigDecimal("10.01"), savedProduct.getListPrice());
+        assertEquals("Ensure the quantity was saved", new Integer(100), savedProduct.getQuantityInStock());
     }
 
     @After
