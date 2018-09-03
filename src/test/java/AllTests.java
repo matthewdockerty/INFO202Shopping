@@ -15,7 +15,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    dao.JUnitTestDAO.class,
+    dao.TestDAO.class,
     gui.TestProductEditorDialog.class
 })
 public class AllTests {
