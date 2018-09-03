@@ -100,6 +100,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
 
         labelName.setText("Name:");
 
+        txtName.setName("txtName"); // NOI18N
         txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNameActionPerformed(evt);
@@ -117,11 +118,14 @@ public class DialogProductEditor extends javax.swing.JDialog {
 
         labelCategory.setText("Category:");
 
+        comboBoxCategory.setName("comboBoxCategory"); // NOI18N
+
         labelPrice.setText("Price:");
 
         labelQuantityInStock.setText("Quantity in Stock:");
 
         buttonSave.setText("Save");
+        buttonSave.setName("buttonSave"); // NOI18N
         buttonSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonSaveActionPerformed(evt);
@@ -134,6 +138,8 @@ public class DialogProductEditor extends javax.swing.JDialog {
                 buttonCancelActionPerformed(evt);
             }
         });
+
+        txtID.setName("txtID"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

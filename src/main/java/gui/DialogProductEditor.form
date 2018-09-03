@@ -111,6 +111,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtName">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txtName" noResource="true"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNameActionPerformed"/>
       </Events>
@@ -142,6 +145,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="comboBoxCategory">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="comboBoxCategory" noResource="true"/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -159,6 +165,7 @@
     <Component class="javax.swing.JButton" name="buttonSave">
       <Properties>
         <Property name="text" type="java.lang.String" value="Save"/>
+        <Property name="name" type="java.lang.String" value="buttonSave" noResource="true"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonSaveActionPerformed"/>
@@ -177,6 +184,9 @@
     <Component class="javax.swing.JFormattedTextField" name="txtQuantityInStock">
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtID">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txtID" noResource="true"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

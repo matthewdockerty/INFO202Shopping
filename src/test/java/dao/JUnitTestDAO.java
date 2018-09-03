@@ -28,11 +28,11 @@ public class JUnitTestDAO {
     
     @Before
     public void setUp() {
-        this.productOne = new Product("AA1111", "name1", "cat1", "desc1", 
+        this.productOne = new Product("AA1111", "name1", "desc1", "cat1", 
                 new BigDecimal("11.00"), new Integer("22"));
-        this.productTwo = new Product("AA2222", "name2", "cat2", "desc2", 
+        this.productTwo = new Product("AA2222", "name2", "desc2", "cat2", 
                 new BigDecimal("33.00"), new Integer("44"));
-        this.productThree = new Product("AA3333", "name3", "cat3", "desc3", 
+        this.productThree = new Product("AA3333", "name3", "desc3", "cat3", 
                 new BigDecimal("55.00"), new Integer("66"));
         
         dao.saveProduct(productOne);
