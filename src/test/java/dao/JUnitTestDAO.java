@@ -23,6 +23,7 @@ public class JUnitTestDAO {
     
     public JUnitTestDAO() {
         dao = new ProductDAOJdbc(dbUrl);
+//        dao = new ProductDAOCollections();
     }
     
     @Before
