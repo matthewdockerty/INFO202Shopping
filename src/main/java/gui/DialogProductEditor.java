@@ -95,6 +95,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Product Editor");
+        setName("dialogProductEditor"); // NOI18N
 
         labelID.setText("ID:");
 

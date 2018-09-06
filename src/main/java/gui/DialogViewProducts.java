@@ -79,6 +79,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         setTitle("View Products");
 
         listProducts.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listProducts.setName("listProducts"); // NOI18N
         scrollPaneProducts.setViewportView(listProducts);
 
         buttonClose.setText("Close");
@@ -106,6 +107,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         });
 
         buttonEdit.setText("Edit");
+        buttonEdit.setName("buttonEdit"); // NOI18N
         buttonEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonEditActionPerformed(evt);
