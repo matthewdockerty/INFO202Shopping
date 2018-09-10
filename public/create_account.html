@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="ShoppingApp">
     <head>
         <title>Create an Account</title>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script src="js/angular.min.js"></script>
+        <script src="js/angular-resource.min.js"></script>
+        <script src="js/ngStorage.min.js"></script>
+        <script src="js/shopping.js"></script>
     </head>
     <body>
         <a href="/index.html">Home</a>
@@ -11,36 +17,36 @@
 
         <h1>Create an Account</h1>
 
-        <form action="todo">
+        <form ng-controller="CustomerController as custCtrl" ng-submit="custCtrl.registerCustomer(customer)">
             <fieldset>
                 <legend>Account Details</legend>
 
                 <label for="username"><b>User Name</b></label>
-                <input type="text" placeholder="Enter User Name" name="username" required>
+                <input name="username" type="text" ng-model="customer.username" required>
                 <br>
 
                 <label for="firstname"><b>First Name</b></label>
-                <input type="text" placeholder="Enter First Name" name="firstname" required>
+                <input name="firstname" type="text" ng-model="customer.firstName" required>
                 <br>
 
                 <label for="lastname"><b>Last Name</b></label>
-                <input type="text" placeholder="Enter Last Name" name="lastname" required>
+                <input name="lastname" type="text" ng-model="customer.surname" required>
                 <br>
 
                 <label for="email"><b>Email</b></label>
-                <input type="email" placeholder="Enter Email" name="email" required>
+                <input name="email" type="email" ng-model="customer.emailAddress" required>
                 <br>
 
                 <label for="address"><b>Address</b></label>
-                <textarea placeholder="Enter Address" name="address"></textarea>
+                <textarea name="address" ng-model="customer.shippingAddress" required></textarea>
                 <br>
-                
+
                 <label for="creditcard"><b>Credit Card</b></label>
-                <input type="text" placeholder="Enter Credit Card Details" name="creditcard" required>
+                <input name="creditcard" type="text" ng-model="customer.creditCardDetails" required>
                 <br>
-                
+
                 <label for="password"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" required>
+                <input name="password" type="password" ng-model="customer.password" required>
                 <br>
                 <button type="submit">Create Account</button>
             </fieldset>

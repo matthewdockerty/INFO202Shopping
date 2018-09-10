@@ -10,6 +10,10 @@ module.factory('categoryDAO', function ($resource) {
     return $resource('/api/categories/:category');
 });
 
+module.factory('registerDAO', function ($resource) {
+    return $resource('/api/register/');
+});
+
 module.controller('ProductController', function (productDAO, categoryDAO) {
     // load the products
     this.products = productDAO.query();
@@ -20,9 +24,15 @@ module.controller('ProductController', function (productDAO, categoryDAO) {
     this.selectCategory = function (selectedCat) {
         this.products = categoryDAO.query({"category": selectedCat});
     };
-    
+
     this.selectAll = function () {
         this.products = productDAO.query();
     }
+});
+
+module.controller('CustomerController', function (registerDAO) {
+    this.registerCustomer = function (customer) {
+        registerDAO.save(null, customer);
+    };
 });
 
