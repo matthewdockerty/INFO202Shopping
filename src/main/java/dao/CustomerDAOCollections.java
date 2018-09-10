@@ -7,6 +7,7 @@ import java.util.Map;
 public final class CustomerDAOCollections implements CustomerDAO {
 
     private static final Map<String, Customer> customers = new HashMap<>();
+    private static int customerIdCount = 0;
 
     public CustomerDAOCollections() {
         // some dummy data for testing
@@ -34,6 +35,8 @@ public final class CustomerDAOCollections implements CustomerDAO {
 
     @Override
     public void save(Customer customer) {
+        customer.setPersonID(customerIdCount++ + "");
+
         System.out.println("Saving customer: " + customer);
         customers.put(customer.getUsername(), customer);
     }
