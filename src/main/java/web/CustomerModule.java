@@ -14,7 +14,9 @@ public class CustomerModule extends Jooby {
     public CustomerModule(CustomerDAO customerDAO) {
         get("/api/customers/:username", (req) -> {
             String username = req.param("username").value();
-            return customerDAO.getCustomer(username);
+            Customer customer = customerDAO.getCustomer(username);
+            customer.setPassword(null); // don't send password!
+            return customer;
         });
         
         post("/api/register", (req, rsp) -> {
