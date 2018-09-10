@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="ShoppingApp">
+    <head>
+        <title>View Products</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script src="js/angular.min.js"></script>
+        <script src="js/angular-resource.min.js"></script>
+        <script src="js/ngStorage.min.js"></script>
+        <script src="js/shopping.js"></script>
+    </head>
+    <body ng-controller="ProductController as prodCtrl"> 
+        <a href="/index.html">Home</a>
+        <a href="/sign_in.html">Sign In</a>
+
+        <h1>Products</h1>
+
+        <p>TODO: Category search buttons...</p>
+        
+        <table>
+            <tr>
+                <td><b>Name</b></td>
+                <td><b>Description</b></td>
+                <td><b>Price</b></td>
+                <td><b>Available</b></td>
+            </tr>
+            <tr ng-repeat="product in prodCtrl.products">
+                <td>{{product.name}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.listPrice}}</td>
+                <td>{{product.quantityInStock}} <a href="buy_quantity.html">Buy</a></td>
+            </tr>
+        </table>
+
+    </body>
+</html>
