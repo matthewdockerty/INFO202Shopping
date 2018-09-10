@@ -24,8 +24,11 @@ public class Server extends Jooby {
         port(8080);
 
         use(new Gzon());
+        
         use(new ProductModule(productDAO));
         use(new CustomerModule(customerDAO));
+        
+        use(new AssetModule());
     }
 
     public static void main(String[] args) throws Exception {

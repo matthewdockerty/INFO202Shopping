@@ -31,3 +31,10 @@ run {
     standardInput = System.in
 }
 
+sourceSets {
+    web {
+        resources {
+            srcDir 'public'
+        }
+    }
+}
