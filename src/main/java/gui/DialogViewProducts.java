@@ -93,6 +93,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
 
         labelFilter.setText("Category Filter:");
 
+        comboBoxFilter.setName("comboBoxFilter"); // NOI18N
         comboBoxFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxFilterActionPerformed(evt);
@@ -100,6 +101,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         });
 
         buttonSearch.setText("Search");
+        buttonSearch.setName("buttonSearch"); // NOI18N
         buttonSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonSearchActionPerformed(evt);
@@ -115,6 +117,7 @@ public class DialogViewProducts extends javax.swing.JDialog {
         });
 
         buttonDelete.setText("Delete");
+        buttonDelete.setName("buttonDelete"); // NOI18N
         buttonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonDeleteActionPerformed(evt);
@@ -131,6 +134,8 @@ public class DialogViewProducts extends javax.swing.JDialog {
         txtFilterDetails.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
         txtFilterDetails.setForeground(java.awt.Color.gray);
         txtFilterDetails.setText("Showing all products");
+
+        txtSearch.setName("txtSearch"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

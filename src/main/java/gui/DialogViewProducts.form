@@ -128,6 +128,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="comboBoxFilter">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="comboBoxFilter" noResource="true"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboBoxFilterActionPerformed"/>
       </Events>
@@ -138,6 +141,7 @@
     <Component class="javax.swing.JButton" name="buttonSearch">
       <Properties>
         <Property name="text" type="java.lang.String" value="Search"/>
+        <Property name="name" type="java.lang.String" value="buttonSearch" noResource="true"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonSearchActionPerformed"/>
@@ -155,6 +159,7 @@
     <Component class="javax.swing.JButton" name="buttonDelete">
       <Properties>
         <Property name="text" type="java.lang.String" value="Delete"/>
+        <Property name="name" type="java.lang.String" value="buttonDelete" noResource="true"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDeleteActionPerformed"/>
@@ -180,6 +185,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtSearch">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txtSearch" noResource="true"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
