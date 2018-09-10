@@ -38,28 +38,44 @@ module.controller('ProductController', function (productDAO, categoryDAO) {
 
 module.controller('CustomerController', function (registerDAO, signInDAO, $sessionStorage, $window) {
     this.signInMessage = "Please sign in to continue.";
-
+    this.signedIn = false;
+    
     this.registerCustomer = function (customer) {
         registerDAO.save(null, customer);
     };
 
     // alias 'this' so that we can access it inside callback functions
     let ctrl = this;
+    
     this.signIn = function (username, password) {
         // get customer from web service
         signInDAO.get({'username': username},
-                // success
-                        function (customer) {
-                            // also store the retrieved customer
-                            $sessionStorage.customer = customer;
-                            // redirect to home
-                            $window.location.href = '.';
-                        },
-                        // fail
-                                function () {
-                                    ctrl.signInMessage = 'Sign in failed. Please try again.';
-                                }
-                        );
-                    };
-        });
+            // success
+            function (customer) {
+                
+                // also store the retrieved customer
+                $sessionStorage.customer = customer;
+                // redirect to home
+                $window.location.href = '.';
+            },
+            // fail
+            function () {
+                ctrl.signInMessage = 'Sign in failed. Please try again.';
+            }
+        );
+    };
+    
+    this.checkSignIn = function () {
+        if ($sessionStorage.customer) {
+            ctrl.signedIn = true;
+            ctrl.welcome = "Welcome " + $sessionStorage.customer.firstName + " " + $sessionStorage.customer.surname;
+        }
+    }
+    
+    this.signOut = function () {
+        $sessionStorage.$reset();
+        ctrl.signedIn = false;
+        $window.location.href = '.';
+    }
+});
 

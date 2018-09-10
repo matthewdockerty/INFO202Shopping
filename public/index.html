@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="ShoppingApp">
     <head>
         <title>Welcome to the doohickies and widgets shop</title>
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="js/angular.min.js"></script>
+        <script src="js/angular-resource.min.js"></script>
+        <script src="js/ngStorage.min.js"></script>
+        <script src="js/shopping.js"></script>
     </head>
     <body>
-        <a href="/index.html">Home</a>
-        <a href="/sign_in.html">Sign In</a>
-        
+        <div ng-include="'menu.html'"></div>
+
         <h1>Welcome to the Doohickies and Widgets Shop</h1>
         
         <img src="images/todo1.png" alt="Product image"/>
