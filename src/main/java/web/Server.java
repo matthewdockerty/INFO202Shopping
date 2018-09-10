@@ -1,5 +1,7 @@
 package web;
 
+import dao.CustomerDAO;
+import dao.CustomerDAOCollections;
 import dao.ProductDAO;
 import dao.ProductDAOJdbc;
 import java.util.concurrent.CompletableFuture;
@@ -12,15 +14,18 @@ import org.jooby.json.Gzon;
  */
 public class Server extends Jooby {
 
-    private ProductDAO productDao;
+    private ProductDAO productDAO;
+    private CustomerDAO customerDAO;
 
     public Server() {
-        productDao = new ProductDAOJdbc();
-
+        productDAO = new ProductDAOJdbc();
+        customerDAO = new CustomerDAOCollections();
+        
         port(8080);
 
         use(new Gzon());
-        use(new ProductModule(productDao));
+        use(new ProductModule(productDAO));
+        use(new CustomerModule(customerDAO));
     }
 
     public static void main(String[] args) throws Exception {
