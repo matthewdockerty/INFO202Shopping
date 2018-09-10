@@ -14,3 +14,14 @@ CREATE TABLE Product (
     CONSTRAINT Product_PK PRIMARY KEY (Product_ID),
     CONSTRAINT Product_ID CHECK(REGEXP_LIKE(Product_ID, '[A-Z]{2}[0-9]{4}'))
 );
+
+
+CREATE TABLE Customer (
+    Person_ID Integer NOT NULL AUTO_INCREMENT,
+    Username VARCHAR(32) NOT NULL,
+    First_Name VARCHAR(32) NOT NULL,
+    Surname VARCHAR(32) NOT NULL,
+    
+    # WIP
+
+);

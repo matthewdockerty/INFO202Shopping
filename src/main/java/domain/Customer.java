@@ -6,7 +6,7 @@ package domain;
  */
 public class Customer {
     
-    private String personID;
+    private Integer personID;
     private String username;
     private String firstName;
     private String surname;
@@ -15,11 +15,11 @@ public class Customer {
     private String shippingAddress;
     private String creditCardDetails;
 
-    public String getPersonID() {
+    public Integer getPersonID() {
         return personID;
     }
 
-    public void setPersonID(String personID) {
+    public void setPersonID(Integer personID) {
         this.personID = personID;
     }
 
