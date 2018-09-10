@@ -17,8 +17,11 @@
 
         <h1>Products</h1>
 
-        <p>TODO: Category search buttons...</p>
-        
+        <button ng-click="prodCtrl.selectAll()">All</button>
+        <button ng-repeat="cat in prodCtrl.categories" 
+                ng-click="prodCtrl.selectCategory(cat)">{{cat}}</button>
+        <br><br><br>
+
         <table>
             <tr>
                 <td><b>Name</b></td>
