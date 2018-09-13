@@ -28,5 +28,5 @@ CREATE TABLE Customer (
     Credit_Card_Details VARCHAR(128) NOT NULL CHECK (LENGTH(Credit_Card_Details) >= 16),
 
     CONSTRAINT Customer_PK PRIMARY KEY (Person_ID),
-    CONSTRAINT Email_Address CHECK (REGEXP_LIKE(Email_Address, '[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]+'))
+    CONSTRAINT Email_Address CHECK (REGEXP_LIKE(Email_Address, '[A-Za-z0-9._%+-]+@([A-Za-z0-9]+\.)*[A-Za-z0-9]+'))
 );

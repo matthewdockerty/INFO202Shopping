@@ -2,6 +2,7 @@ package web;
 
 import dao.CustomerDAO;
 import dao.CustomerDAOCollections;
+import dao.CustomerDAOJdbc;
 import dao.ProductDAO;
 import dao.ProductDAOJdbc;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +20,7 @@ public class Server extends Jooby {
 
     public Server() {
         productDAO = new ProductDAOJdbc();
-        customerDAO = new CustomerDAOCollections();
+        customerDAO = new CustomerDAOJdbc();
         
         port(8080);
 

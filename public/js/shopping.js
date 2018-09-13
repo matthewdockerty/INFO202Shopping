@@ -15,6 +15,7 @@ module.factory('registerDAO', function ($resource) {
     return $resource('/api/register/');
 });
 
+// TODO: Implement proper credential validation!
 module.factory('signInDAO', function ($resource) {
     return $resource('/api/customers/:username');
 });
@@ -41,7 +42,8 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
     this.signedIn = false;
     
     this.registerCustomer = function (customer) {
-        registerDAO.save(null, customer);
+        registerDAO.save(null, customer)
+        // TODO: Show status of account creation and appropriately redirect!
     };
 
     // alias 'this' so that we can access it inside callback functions
