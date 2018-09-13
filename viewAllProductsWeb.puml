@@ -1,0 +1,55 @@
+@startuml
+    ' REFERENCE: https://isgb.otago.ac.nz/infosci/INFO202/reference/raw/master/reference.html#Sequence%20Diagrams:Contents%20%5B%5BSequence%20Diagrams%5D%5D
+
+    ' use strict UML mode
+    skinparam style strictuml
+
+    actor "Customer" as customer
+    participant "Products Page" as webpage <<webpage>>
+ 
+    customer -> webpage++ : opens products webpage
+
+    create "ShoppingApp Module" as module <<module>> 
+    webpage -> module : create
+
+    webpage -> module++ : factory()
+    create "Product DAO" as productdao <<dao>>
+    module -> productdao : create
+    module--
+
+    webpage -> module++ : factory()
+    create "Category DAO" as categorydao <<dao>>
+    module -> categorydao : create
+    module--
+
+
+    create "Product Controller" as controller <<controller>>
+    webpage -> controller++ : create
+    
+    controller -> productdao++ : query()
+    return products
+
+    controller -> categorydao++ : query()
+    return categories
+
+    controller--
+
+    webpage -> controller++ : get categories
+    return categories
+    loop categories 
+        webpage -> webpage : add button element for each category
+    end   
+
+    webpage -> controller++ : get products
+    return products
+    loop products
+        webpage -> webpage : add table row for each product
+    end
+    
+    customer -> webpage : click all category button
+
+    customer -> webpage : click category button
+
+' TODO IMPLEMENT JOOBY MODULE!!
+
+@enduml
