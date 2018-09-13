@@ -18,10 +18,10 @@ CREATE TABLE Product (
 
 CREATE TABLE Customer (
     Person_ID Integer NOT NULL AUTO_INCREMENT,
-    Username VARCHAR(32) NOT NULL CHECK (LENGTH(Username) >= 2),
+    Username VARCHAR(32) NOT NULL UNIQUE CHECK (LENGTH(Username) >= 2),
     First_Name VARCHAR(64) NOT NULL,
     Surname VARCHAR(64) NOT NULL,
-    Pass VARCHAR(64) NOT NULL CHECK (LENGTH(Pass) >= 6),
+    Password VARCHAR(64) NOT NULL CHECK (LENGTH(Password) >= 6),
     -- TODO: Store password hash & salt!
     Email_Address VARCHAR(254) NOT NULL,
     Shipping_Address VARCHAR(256) NOT NULL CHECK (LENGTH(Shipping_Address) > 16),
