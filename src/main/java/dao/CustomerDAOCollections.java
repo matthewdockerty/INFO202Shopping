@@ -35,7 +35,7 @@ public final class CustomerDAOCollections implements CustomerDAO {
 
     @Override
     public void save(Customer customer) {
-        customer.setPersonID(customerIdCount++ + "");
+        customer.setPersonID(customerIdCount++);
 
         System.out.println("Saving customer: " + customer);
         customers.put(customer.getUsername(), customer);
