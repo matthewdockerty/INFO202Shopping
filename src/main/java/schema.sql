@@ -17,7 +17,7 @@ CREATE TABLE Product (
 
 
 CREATE TABLE Customer (
-    Person_ID Integer NOT NULL AUTO_INCREMENT,
+    Person_ID INT NOT NULL AUTO_INCREMENT,
     Username VARCHAR(32) NOT NULL UNIQUE CHECK (LENGTH(Username) >= 2),
     First_Name VARCHAR(64) NOT NULL,
     Surname VARCHAR(64) NOT NULL,

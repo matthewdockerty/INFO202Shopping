@@ -34,7 +34,7 @@ module.controller('ProductController', function (productDAO, categoryDAO) {
 
     this.selectAll = function () {
         this.products = productDAO.query();
-    }
+    };
 });
 
 module.controller('CustomerController', function (registerDAO, signInDAO, $sessionStorage, $window) {
@@ -42,7 +42,7 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
     this.signedIn = false;
     
     this.registerCustomer = function (customer) {
-        registerDAO.save(null, customer)
+        registerDAO.save(null, customer);
         // TODO: Show status of account creation and appropriately redirect!
     };
 
@@ -54,7 +54,6 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
         signInDAO.get({'username': username},
             // success
             function (customer) {
-                
                 // also store the retrieved customer
                 $sessionStorage.customer = customer;
                 // redirect to home
@@ -72,12 +71,12 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
             ctrl.signedIn = true;
             ctrl.welcome = "Welcome " + $sessionStorage.customer.firstName + " " + $sessionStorage.customer.surname;
         }
-    }
+    };
     
     this.signOut = function () {
         $sessionStorage.$reset();
         ctrl.signedIn = false;
         $window.location.href = '.';
-    }
+    };
 });
 
