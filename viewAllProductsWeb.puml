@@ -3,35 +3,53 @@
 
     ' use strict UML mode
     skinparam style strictuml
-
+    skinparam roundcorner 20
+    skinparam BoxPadding 30
+    
     actor "Customer" as customer
+
+    box "Web Browser"
     participant "Products Page" as webpage <<webpage>>
- 
+    participant "ShoppingApp\nModule" as angular <<angular>> 
+
     customer -> webpage++ : opens products webpage
 
-    create "ShoppingApp Module" as module <<module>> 
-    webpage -> module : create
+    create angular
+    webpage -> angular : create
 
-    webpage -> module++ : factory()
-    create "Product DAO" as productdao <<dao>>
-    module -> productdao : create
-    module--
+    webpage -> angular++ : factory()
+    create "Product Factory" as productFactory <<angular>>
+    angular -> productFactory : create
+    angular--
 
-    webpage -> module++ : factory()
-    create "Category DAO" as categorydao <<dao>>
-    module -> categorydao : create
-    module--
+    webpage -> angular++ : factory()
+    create "Category Factory" as categoryFactory <<angular>>
+    angular -> categoryFactory : create
+    angular--
 
 
-    create "Product Controller" as controller <<controller>>
+    create "Product Controller" as controller <<angular>>
     webpage -> controller++ : create
+    end box
     
-    controller -> productdao++ : query()
+    box "Web Server"
+    participant "Product DAO" as dao <<dao>> 
+    participant "ProductModule" as jooby <<jooby>>
+    end box
+
+    controller -> productFactory++ : query()
+    productFactory -> jooby++ : GET /api/products/
+    jooby -> dao++ : getProducts()
+    return products
+    return products
     return products
 
-    controller -> categorydao++ : query()
+    controller -> categoryFactory++ : query()
+    categoryFactory -> jooby++ : GET /api/categories/
+    jooby -> dao++ : getgetCategories()
     return categories
-
+    return categories
+    return categories
     controller--
 
     webpage -> controller++ : get categories
@@ -47,9 +65,24 @@
     end
     
     customer -> webpage : click all category button
-
+    webpage -> controller++ : selectAll()
+    controller -> productFactory++ : query()
+    productFactory -> jooby++ : GET /api/products/
+    jooby -> dao++ : getProducts()
+    return products
+    return products
+    return products
+    return update webpage content
+    |||
+    |||
     customer -> webpage : click category button
-
-' TODO IMPLEMENT JOOBY MODULE!!
-
+    webpage -> webpage : get selected category : category
+    webpage -> controller++ : selectCategory(category)
+    controller -> categoryFactory++ : query()
+    categoryFactory -> jooby++ : GET /api/categories/:category
+    jooby -> dao++ : getProductsByCategory(category)
+    return products
+    return products
+    return products
+    return update webpage content
 @enduml
