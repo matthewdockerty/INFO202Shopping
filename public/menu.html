@@ -2,7 +2,7 @@
     <div id="welcome">{{custCtrl.welcome}}</div>
     <a href=".">Home</a>
     <a href="products.html" ng-if="custCtrl.signedIn">Browse Products</a>
-    <a href="cart.html" ng-if="custCtrl.signedIn">View Cart</a>
+    <a ng-controller="CartController as cartCtrl" href="cart.html" ng-if="custCtrl.signedIn">View Cart ({{cartCtrl.items.length}})</a>
     <a href="#" ng-if="custCtrl.signedIn" ng-click="custCtrl.signOut()">Sign Out</a>
     <a href="sign_in.html" ng-if="!custCtrl.signedIn">Sign In</a>
 </div>

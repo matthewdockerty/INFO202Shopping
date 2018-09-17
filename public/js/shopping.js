@@ -145,14 +145,26 @@ module.controller('CartController', function (cart, $sessionStorage, $window) {
     this.items = cart.getItems();
     this.total = cart.getTotal();
     this.selectedProduct = $sessionStorage.selectedProduct;
-
+    
     this.buyProduct = function (product) {
         $sessionStorage.selectedProduct = product;
         $window.location.href = '/buy.html';
     };
     
     this.addToCart = function (quantity) {
-        saleItem = new SaleItem(this.selectedProduct, quantity);
+        if (quantity <= 0 || !Number.isInteger(quantity)) {
+            this.addMessage = "Quantity to buy must be a postitive integer.";
+            return;
+        }
+        
+        if (quantity > this.selectedProduct.quantityInStock) {
+            this.addMessage = "Only " + this.selectedProduct.quantityInStock + " products in stock.";
+            return;
+        }
+        
+        // TODO: Only allow buying available. Check this server-side!
+        
+        let saleItem = new SaleItem(this.selectedProduct, quantity);
         cart.addItem(saleItem);
         $sessionStorage.cart = cart;
         $window.location.href = '/products.html';
