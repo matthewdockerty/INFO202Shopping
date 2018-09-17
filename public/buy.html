@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="ShoppingApp">
+    <head>
+        <title>Buy Product</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script src="js/angular.min.js"></script>
+        <script src="js/angular-resource.min.js"></script>
+        <script src="js/ngStorage.min.js"></script>
+        <script src="js/shopping.js"></script>
+    </head>
+    <body ng-controller="CartController as cartCtrl"> 
+        <div ng-include="'menu.html'"></div>
+
+        <h1>How many do you want to buy?</h1>
+
+        <p><b>ID: </b><span>{{cartCtrl.selectedProduct.productID}}</span></p>
+        <p><b>Name </b><span>{{cartCtrl.selectedProduct.name}}</span></p>
+        <p><b>Description: </b><span>{{cartCtrl.selectedProduct.description}}</span></p>
+        <p><b>Price: </b><span>${{cartCtrl.selectedProduct.listPrice}}</span></p>
+        <p><b>Quantity Available: </b><span>{{cartCtrl.selectedProduct.quantityInStock}}</span></p>
+        
+        <form ng-submit="cartCtrl.addToCart(quantity)">
+            <fieldset>
+                <legend>Quantity to Buy</legend>
+
+                <label for="quantity"><b>How many?</b></label>
+                <input name="quantity" type="number" ng-model="quantity" required>
+
+                <button type="submit">Add to Cart</button>
+            </fieldset>
+
+        </form>
+    </body>
+</html>

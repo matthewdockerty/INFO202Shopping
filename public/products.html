@@ -21,7 +21,7 @@
                 ng-click="prodCtrl.selectCategory(cat)">{{cat}}</button>
         <br><br><br>
 
-        <table>
+        <table ng-controller="CartController as cartCtrl">
             <tr>
                 <td><b>Name</b></td>
                 <td><b>Description</b></td>
@@ -32,7 +32,7 @@
                 <td>{{product.name}}</td>
                 <td>{{product.description}}</td>
                 <td>{{product.listPrice}}</td>
-                <td>{{product.quantityInStock}} <a href="buy_quantity.html">Buy</a></td>
+                <td>{{product.quantityInStock}} <a href="#" ng-click="cartCtrl.buyProduct(product)">Buy</a></td>
             </tr>
         </table>
 

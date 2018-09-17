@@ -1,5 +1,4 @@
 "use strict";
-
 class SaleItem {
 
     constructor(product, quantity) {
@@ -102,7 +101,7 @@ module.controller('ProductController', function (productDAO, categoryDAO) {
 module.controller('CustomerController', function (registerDAO, signInDAO, $sessionStorage, $window) {
     this.signInMessage = "Please sign in to continue.";
     this.signedIn = false;
-    
+
     this.registerCustomer = function (customer) {
         registerDAO.save(null, customer);
         // TODO: Show status of account creation and appropriately redirect!
@@ -110,40 +109,54 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
 
     // alias 'this' so that we can access it inside callback functions
     let ctrl = this;
-    
+
     this.signIn = function (username, password) {
         // get customer from web service
         signInDAO.get({'username': username},
-            // success
-            function (customer) {
-                // also store the retrieved customer
-                $sessionStorage.customer = customer;
-                // redirect to home
-                $window.location.href = '.';
-            },
-            // fail
-            function () {
-                ctrl.signInMessage = 'Sign in failed. Please try again.';
-            }
-        );
-    };
-    
-    this.checkSignIn = function () {
-        if ($sessionStorage.customer) {
-            ctrl.signedIn = true;
-            ctrl.welcome = "Welcome " + $sessionStorage.customer.firstName + " " + $sessionStorage.customer.surname;
-        }
-    };
-    
-    this.signOut = function () {
-        $sessionStorage.$reset();
-        ctrl.signedIn = false;
-        $window.location.href = '.';
-    };
-});
+                // success
+                        function (customer) {
+                            // also store the retrieved customer
+                            $sessionStorage.customer = customer;
+                            // redirect to home
+                            $window.location.href = '.';
+                        },
+                        // fail
+                                function () {
+                                    ctrl.signInMessage = 'Sign in failed. Please try again.';
+                                }
+                        );
+                    };
 
-module.controller('CartController', function (cart) {
-   this.items = cart.getItems();
-   this.total = cart.getTotal();
+            this.checkSignIn = function () {
+                if ($sessionStorage.customer) {
+                    ctrl.signedIn = true;
+                    ctrl.welcome = "Welcome " + $sessionStorage.customer.firstName + " " + $sessionStorage.customer.surname;
+                }
+            };
+
+            this.signOut = function () {
+                $sessionStorage.$reset();
+                ctrl.signedIn = false;
+                $window.location.href = '.';
+            };
+        });
+
+module.controller('CartController', function (cart, $sessionStorage, $window) {
+    this.items = cart.getItems();
+    this.total = cart.getTotal();
+    this.selectedProduct = $sessionStorage.selectedProduct;
+
+    this.buyProduct = function (product) {
+        $sessionStorage.selectedProduct = product;
+        $window.location.href = '/buy.html';
+    };
+    
+    this.addToCart = function (quantity) {
+        saleItem = new SaleItem(this.selectedProduct, quantity);
+        cart.addItem(saleItem);
+        $sessionStorage.cart = cart;
+        $window.location.href = '/products.html';
+    };
+
 });
 
