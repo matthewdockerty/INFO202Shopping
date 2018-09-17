@@ -31,7 +31,7 @@
             <tr ng-repeat="product in prodCtrl.products">
                 <td>{{product.name}}</td>
                 <td>{{product.description}}</td>
-                <td>{{product.listPrice}}</td>
+                <td>{{product.listPrice.toFixed(2)}}</td>
                 <td>{{product.quantityInStock}} <a href="#" ng-click="cartCtrl.buyProduct(product)">Buy</a></td>
             </tr>
         </table>

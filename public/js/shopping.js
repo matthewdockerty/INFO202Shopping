@@ -145,29 +145,80 @@ module.controller('CartController', function (cart, $sessionStorage, $window) {
     this.items = cart.getItems();
     this.total = cart.getTotal();
     this.selectedProduct = $sessionStorage.selectedProduct;
-    
+
     this.buyProduct = function (product) {
         $sessionStorage.selectedProduct = product;
         $window.location.href = '/buy.html';
     };
-    
+
     this.addToCart = function (quantity) {
         if (quantity <= 0 || !Number.isInteger(quantity)) {
             this.addMessage = "Quantity to buy must be a postitive integer.";
             return;
         }
-        
+
         if (quantity > this.selectedProduct.quantityInStock) {
             this.addMessage = "Only " + this.selectedProduct.quantityInStock + " products in stock.";
             return;
         }
-        
+
         // TODO: Only allow buying available. Check this server-side!
-        
+
+        for (let item of this.items) {
+            if (item.product.productID === this.selectedProduct.productID) {
+                if ($window.confirm("Your cart already contains " + item.quantityPurchased + " " + item.product.name + ".\nWould you like to add " + quantity + " more to your cart?")) {
+                    item.quantityPurchased += quantity;
+                    $sessionStorage.cart = cart;
+                    $window.location.href = '/products.html';
+                    return;
+                }
+                return;
+            }
+        }
+
+
         let saleItem = new SaleItem(this.selectedProduct, quantity);
         cart.addItem(saleItem);
         $sessionStorage.cart = cart;
         $window.location.href = '/products.html';
+    };
+
+    this.removeAllFromCart = function (saleItem) {
+        if ($window.confirm("Are you sure you want to remove all " + saleItem.product.name + " from your cart?")) {
+            this.items.splice(this.items.indexOf(saleItem), 1);
+            $sessionStorage.cart = cart;
+        }
+        this.total = cart.getTotal();
+    };
+
+    this.clearCart = function () {
+        if ($window.confirm("Are you sure you want to clear your cart?")) {
+            delete $sessionStorage.cart;
+            $window.location.href = '/cart.html';
+        }
+    };
+
+    this.addOne = function (saleItem) {
+        if (saleItem.product.quantityInStock < saleItem.quantityPurchased + 1) {
+            alert("No " + saleItem.product.name + " stock remaining.");
+            return;
+        }
+        saleItem.quantityPurchased++;
+        $sessionStorage.cart = cart;
+        this.total = cart.getTotal();
+    };
+
+    this.removeOne = function (saleItem) {
+        if (saleItem.quantityPurchased - 1 <= 0) {
+            if ($window.confirm("Are you sure you want to remove the last " + saleItem.product.name + " from your cart?")) {
+                this.items.splice(this.items.indexOf(saleItem), 1);
+                $sessionStorage.cart = cart;
+            }
+            return;
+        }
+        saleItem.quantityPurchased--;
+        $sessionStorage.cart = cart;
+        this.total = cart.getTotal();
     };
 
 });

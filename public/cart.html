@@ -11,12 +11,12 @@
         <script src="js/ngStorage.min.js"></script>
         <script src="js/shopping.js"></script>
     </head>
-    <body> 
+    <body ng-controller="CartController as cartCtrl"> 
         <div ng-include="'menu.html'"></div>
 
         <h1>Shopping Cart</h1>
 
-        <table ng-controller="CartController as cartCtrl">
+        <table>
             <tr>
                 <td><b>Product</b></td>
                 <td><b>Price</b></td>
@@ -25,17 +25,20 @@
             </tr>
             <tr ng-repeat="saleItem in cartCtrl.items">
                 <td>{{saleItem.product.name}}</td>
-                <td>${{saleItem.salePrice}}</td>
-                <td>{{saleItem.quantityPurchased}}</td>
-                <td>${{saleItem.getItemTotal()}}</td>
+                <td>${{saleItem.salePrice.toFixed(2)}}</td>
+                <td>{{saleItem.quantityPurchased}}&nbsp;&nbsp;<a href="#" ng-click="cartCtrl.addOne(saleItem)">+</a>&nbsp;&nbsp;<a href="#" ng-click="cartCtrl.removeOne(saleItem)">-</a></td>
+                <td>${{saleItem.getItemTotal().toFixed(2)}}</td>
+                <td><a href="#" ng-click="cartCtrl.removeAllFromCart(saleItem)">remove all</a></td>
             </tr>
             <tr>
                 <td><b>Total</b></td>
                 <td></td>
                 <td></td>
-                <td>${{cartCtrl.total}}  </td>
+                <td>${{cartCtrl.total.toFixed(2)}}  </td>
             </tr>
         </table>
 
+        <a href="#">Check Out Cart</a>         <a href="#" ng-click="cartCtrl.clearCart()">Clear Cart</a>
+        
     </body>
 </html>
