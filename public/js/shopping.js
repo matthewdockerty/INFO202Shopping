@@ -69,6 +69,10 @@ module.factory('signInDAO', function ($resource) {
     return $resource('/api/customers/:username');
 });
 
+module.factory('salesDAO', function ($resource) {
+    return $resource('/api/sales/:sale');
+});
+
 module.factory('cart', function ($sessionStorage) {
     let cart = new ShoppingCart();
 
@@ -141,7 +145,7 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
             };
         });
 
-module.controller('CartController', function (cart, $sessionStorage, $window) {
+module.controller('CartController', function (cart, $sessionStorage, $window, salesDAO) {
     this.items = cart.getItems();
     this.total = cart.getTotal();
     this.selectedProduct = $sessionStorage.selectedProduct;
@@ -167,6 +171,10 @@ module.controller('CartController', function (cart, $sessionStorage, $window) {
         for (let item of this.items) {
             if (item.product.productID === this.selectedProduct.productID) {
                 if ($window.confirm("Your cart already contains " + item.quantityPurchased + " " + item.product.name + ".\nWould you like to add " + quantity + " more to your cart?")) {
+                    if (item.quantityPurchased + quantity > item.product.quantityInStock) {
+                        alert("Not enough stock available. " + item.product.name + " has not been added to your cart.");
+                        return;
+                    }
                     item.quantityPurchased += quantity;
                     $sessionStorage.cart = cart;
                     $window.location.href = '/products.html';
@@ -219,6 +227,21 @@ module.controller('CartController', function (cart, $sessionStorage, $window) {
         saleItem.quantityPurchased--;
         $sessionStorage.cart = cart;
         this.total = cart.getTotal();
+    };
+    
+    this.checkOut = function() {
+        if (cart.getItems().length <= 0) {
+            alert("Your cart is empty. Please add some products to your cart to continue.");
+            return;
+        }
+        
+        // TODO: Check response from server!!
+        
+        cart.setCustomer($sessionStorage.customer);
+        salesDAO.save(null, cart);
+        
+        delete $sessionStorage.cart;
+        $window.location.href = '/order.html';
     };
 
 });
