@@ -32,14 +32,13 @@ CREATE TABLE Customer (
 );
 
 CREATE TABLE Sale (
-    Sale_ID INT NOT NULL,
+    Sale_ID INT NOT NULL AUTO_INCREMENT,
     Date TIMESTAMP NOT NULL,
     Status CHAR(1) NOT NULL CHECK (Status = 'P' OR STATUS = 'S'),
     Person_ID INT NOT NULL,
 
     CONSTRAINT Sale_PK PRIMARY KEY (Sale_ID),
     CONSTRAINT Sale_Customer FOREIGN KEY (Person_ID) REFERENCES Customer,
-    CONSTRAINT Sale_Date CHECK (Date >= CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE Sale_Item (
