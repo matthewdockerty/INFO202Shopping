@@ -1,7 +1,6 @@
 package domain;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  */
 public class Sale {
 
-    private String saleID;
+    private Integer saleID;
     private Date date;
     private char status;
 
@@ -31,11 +30,11 @@ public class Sale {
         this.items.add(item);
     }
 
-    public String getSaleID() {
+    public Integer getSaleID() {
         return saleID;
     }
 
-    public void setSaleID(String saleID) {
+    public void setSaleID(Integer saleID) {
         this.saleID = saleID;
     }
 

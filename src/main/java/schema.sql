@@ -30,3 +30,25 @@ CREATE TABLE Customer (
     CONSTRAINT Customer_PK PRIMARY KEY (Person_ID),
     CONSTRAINT Email_Address CHECK (REGEXP_LIKE(Email_Address, '[A-Za-z0-9._%+-]+@([A-Za-z0-9]+\.)*[A-Za-z0-9]+'))
 );
+
+CREATE TABLE Sale (
+    Sale_ID INT NOT NULL,
+    Date TIMESTAMP NOT NULL,
+    Status CHAR(1) NOT NULL CHECK (Status = 'P' OR STATUS = 'S'),
+    Person_ID INT NOT NULL,
+
+    CONSTRAINT Sale_PK PRIMARY KEY (Sale_ID),
+    CONSTRAINT Sale_Customer FOREIGN KEY (Person_ID) REFERENCES Customer,
+    CONSTRAINT Sale_Date CHECK (Date >= CURRENT_TIMESTAMP)
+);
+
+CREATE TABLE Sale_Item (
+    Quantity_Purchased INT NOT NULL CHECK (Quantity_Purchased > 0),
+    Sale_Price Decimal(19, 2) NOT NULL CHECK (Sale_Price >= 0),
+    Product_ID VARCHAR(6) NOT NULL,
+    Sale_ID INT NOT NULL,
+    
+    CONSTRAINT Sale_Item_PK PRIMARY KEY (Sale_ID, Product_ID, Sale_Price),
+    CONSTRAINT Sale_Item_Sale_ID FOREIGN KEY (Sale_ID) REFERENCES Sale,
+    CONSTRAINT Sale_Item_Product_ID FOREIGN KEY (Product_ID) REFERENCES Product
+);
