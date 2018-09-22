@@ -1,7 +1,10 @@
 package web;
 
 import dao.CustomerDAO;
+import dao.DAOException;
 import domain.Customer;
+import java.sql.SQLException;
+import org.h2.api.ErrorCode;
 import org.jooby.Err;
 import org.jooby.Jooby;
 import org.jooby.Status;
@@ -25,9 +28,15 @@ public class CustomerModule extends Jooby {
         });
         
         post("/api/register", (req, rsp) -> {
-            Customer customer = req.body().to(Customer.class);
-            customerDAO.save(customer);
-            rsp.status(Status.CREATED);
+            try {
+                Customer customer = req.body().to(Customer.class);
+                customerDAO.save(customer);
+                rsp.status(Status.CREATED);
+            } catch (DAOException e) {
+                SQLException ex = (SQLException) e.getCause();
+                rsp.status(Status.FORBIDDEN);
+                rsp.send(ex.getErrorCode() == ErrorCode.DUPLICATE_KEY_1 ? "Username or email address already in use." : e.getMessage());
+            }
         });
         
         

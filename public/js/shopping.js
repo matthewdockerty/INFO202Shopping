@@ -103,16 +103,24 @@ module.controller('ProductController', function (productDAO, categoryDAO) {
 });
 
 module.controller('CustomerController', function (registerDAO, signInDAO, $sessionStorage, $window) {
-    this.signInMessage = "Please sign in to continue.";
+    this.signInMessage = $sessionStorage.newCust ? "Account successfully created! Please sign in to continue." : "Please sign in to continue.";
+    delete $sessionStorage.newCust;
     this.signedIn = false;
 
-    this.registerCustomer = function (customer) {
-        registerDAO.save(null, customer);
-        // TODO: Show status of account creation and appropriately redirect!
-    };
+    this.registerMessage = "";
 
     // alias 'this' so that we can access it inside callback functions
     let ctrl = this;
+
+    this.registerCustomer = function (customer) {
+        registerDAO.save(null, customer).$promise.then(function (result) {
+            $sessionStorage.newCust = true;
+            $window.location = "/sign_in.html";
+        },
+        function (error) {
+            ctrl.registerMessage = error.data;
+        });
+    };
 
     this.signIn = function (username, password) {
         // get customer from web service
@@ -238,7 +246,7 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
         }
 
         cart.setCustomer($sessionStorage.customer);
-        salesDAO.save(null, cart).$promise.then(function (result) {
+        salesDAO.save(null, cart).$promise.then(function () {
             delete $sessionStorage.cart;
             $window.location.href = '/order.html';
         },

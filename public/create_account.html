@@ -11,46 +11,47 @@
         <script src="js/ngStorage.min.js"></script>
         <script src="js/shopping.js"></script>
     </head>
-    <body>
+    <body ng-controller="CustomerController as custCtrl">
         <a href="/index.html">Home</a>
         <a href="/sign_in.html">Sign In</a>
 
         <h1>Create an Account</h1>
 
-        <form ng-controller="CustomerController as custCtrl" ng-submit="custCtrl.registerCustomer(customer)">
+        <form ng-submit="custCtrl.registerCustomer(customer)">
             <fieldset>
                 <legend>Account Details</legend>
 
                 <label for="username"><b>User Name</b></label>
-                <input name="username" type="text" ng-model="customer.username" required>
+                <input name="username" type="text" ng-model="customer.username" required pattern=".{3,32}" title="User name must be between 2 and 32 characters.">
                 <br>
 
                 <label for="firstname"><b>First Name</b></label>
-                <input name="firstname" type="text" ng-model="customer.firstName" required>
+                <input name="firstname" type="text" ng-model="customer.firstName" required pattern=".{1,64}" title="First name must be between 1 and 64 characters.">
                 <br>
 
                 <label for="lastname"><b>Last Name</b></label>
-                <input name="lastname" type="text" ng-model="customer.surname" required>
+                <input name="lastname" type="text" ng-model="customer.surname" required pattern=".{1,64}" title="Last name must be between 1 and 64 characters.">
                 <br>
 
                 <label for="email"><b>Email</b></label>
-                <input name="email" type="email" ng-model="customer.emailAddress" required>
+                <input name="email" type="email" ng-model="customer.emailAddress" required pattern=".{1,254}" title="Email may contain a maximum of 254 characters.">
                 <br>
 
                 <label for="address"><b>Address</b></label>
-                <textarea name="address" ng-model="customer.shippingAddress" required></textarea>
+                <textarea name="address" ng-model="customer.shippingAddress" required minlength="16" maxlength="256"></textarea>
                 <br>
 
                 <label for="creditcard"><b>Credit Card</b></label>
-                <input name="creditcard" type="text" ng-model="customer.creditCardDetails" required>
+                <input name="creditcard" type="text" ng-model="customer.creditCardDetails" required pattern=".{16,128}" title="Credit card details must be between 16 and 128 characters.">
                 <br>
 
                 <label for="password"><b>Password</b></label>
-                <input name="password" type="password" ng-model="customer.password" required>
+                <input name="password" type="password" ng-model="customer.password" required pattern=".{6,64}" title="Password length must be between 6 and 64 characters.">
                 <br>
                 <button type="submit">Create Account</button>
             </fieldset>
         </form>
+        <p>{{custCtrl.registerMessage}}</p>
 
     </body>
 </html>
