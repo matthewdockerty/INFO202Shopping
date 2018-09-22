@@ -70,7 +70,6 @@ module.factory('signInDAO', function ($resource) {
 });
 
 module.factory('salesDAO', function ($resource) {
-    // TODO: Use http and handle error...
     return $resource('/api/sales/:sale');
 });
 
@@ -150,6 +149,10 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
     this.items = cart.getItems();
     this.total = cart.getTotal();
     this.selectedProduct = $sessionStorage.selectedProduct;
+    
+    this.checkOutMessage = "";
+
+    let ctrl = this;
 
     this.buyProduct = function (product) {
         $sessionStorage.selectedProduct = product;
@@ -234,14 +237,14 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
             return;
         }
 
-        // TODO: Check response from server!!
-
         cart.setCustomer($sessionStorage.customer);
-        salesDAO.save(null, cart);
-
-        delete $sessionStorage.cart;
-        $window.location.href = '/order.html';
-        
+        salesDAO.save(null, cart).$promise.then(function (result) {
+            delete $sessionStorage.cart;
+            $window.location.href = '/order.html';
+        },
+        function (error) {
+            ctrl.checkOutMessage = error.data;
+        });        
     };
     
     this.getQuantityInCartString = function (product) {

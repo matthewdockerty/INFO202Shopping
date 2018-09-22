@@ -95,7 +95,7 @@ public class SaleDAOJdbc implements SaleDAO {
                     }
 
                     if (quantityInStock < item.getQuantityPurchased()) {
-                        throw new DAOException("Insufficient " + product.getName() + " in stock to fulfil order. Only " + quantityInStock + " remaining.");
+                        throw new DAOException("Insufficient " + product.getName() + " in stock to fulfil order. " + quantityInStock + " remaining.");
                     }
 
                     insertSaleItemStmt.setInt(1, item.getQuantityPurchased());
