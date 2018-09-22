@@ -32,7 +32,7 @@
                 <td>{{product.name}}</td>
                 <td>{{product.description}}</td>
                 <td>{{product.listPrice.toFixed(2)}}</td>
-                <td>{{product.quantityInStock}} <a href="#" ng-click="cartCtrl.buyProduct(product)">Buy</a></td>
+                <td>{{product.quantityInStock}} <span>{{cartCtrl.getQuantityInCartString(product)}}</span><a href="#" ng-click="cartCtrl.buyProduct(product)">Buy</a></td>
             </tr>
         </table>
 

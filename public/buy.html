@@ -20,7 +20,7 @@
         <p><b>Name </b><span>{{cartCtrl.selectedProduct.name}}</span></p>
         <p><b>Description: </b><span>{{cartCtrl.selectedProduct.description}}</span></p>
         <p><b>Price: </b><span>${{cartCtrl.selectedProduct.listPrice.toFixed(2)}}</span></p>
-        <p><b>Quantity Available: </b><span>{{cartCtrl.selectedProduct.quantityInStock}}</span></p>
+        <p><b>Quantity Available: </b><span>{{cartCtrl.selectedProduct.quantityInStock}} <span>{{cartCtrl.getQuantityInCartString(cartCtrl.selectedProduct)}}</span></span></p>
         
         <p>{{cartCtrl.addMessage}}</p>
         

@@ -243,6 +243,15 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
         $window.location.href = '/order.html';
         
     };
+    
+    this.getQuantityInCartString = function (product) {
+        for (let item of this.items) {
+            if (item.product.productID === product.productID) {
+                return "(" + item.quantityPurchased + " already in cart)";
+            }
+        }
+        return "";
+    };
 
 });
 
