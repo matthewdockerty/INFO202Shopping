@@ -24,6 +24,8 @@ public interface ProductDAO {
 
     void removeProductFromCategory(String category, Product product);
 
-    void saveProduct(Product product);
+    void saveProduct(Product product, byte[] productImage);
+
+    public byte[] getProductImage(String productID);
     
 }

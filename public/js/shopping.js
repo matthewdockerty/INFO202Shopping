@@ -86,7 +86,11 @@ module.factory('cart', function ($sessionStorage) {
     return cart;
 });
 
-module.controller('ProductController', function (productDAO, categoryDAO) {
+module.factory('imageDAO', function ($resource) {
+    return $resource('/api/images/:id');
+});
+
+module.controller('ProductController', function (productDAO, categoryDAO, imageDAO) {
     // load the products
     this.products = productDAO.query();
     // load the categories
@@ -99,6 +103,10 @@ module.controller('ProductController', function (productDAO, categoryDAO) {
 
     this.selectAll = function () {
         this.products = productDAO.query();
+    };
+
+    this.getImage = function (id) {
+        return imageDAO.query({"id": id});
     };
 });
 
@@ -117,9 +125,9 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
             $sessionStorage.newCust = true;
             $window.location = "/sign_in.html";
         },
-        function (error) {
-            ctrl.registerMessage = error.data;
-        });
+                function (error) {
+                    ctrl.registerMessage = error.data;
+                });
     };
 
     this.signIn = function (username, password) {
@@ -157,7 +165,7 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
     this.items = cart.getItems();
     this.total = cart.getTotal();
     this.selectedProduct = $sessionStorage.selectedProduct;
-    
+
     this.checkOutMessage = "";
 
     let ctrl = this;
@@ -174,7 +182,7 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
         }
 
         if (quantity > this.selectedProduct.quantityInStock) {
-            this.addMessage = (this.selectedProduct.quantityInStock == 0 ? "" : "Only " ) + this.selectedProduct.quantityInStock + " products in stock.";
+            this.addMessage = (this.selectedProduct.quantityInStock === 0 ? "" : "Only ") + this.selectedProduct.quantityInStock + " products in stock.";
             return;
         }
 
@@ -250,11 +258,11 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
             delete $sessionStorage.cart;
             $window.location.href = '/order.html';
         },
-        function (error) {
-            ctrl.checkOutMessage = error.data;
-        });        
+                function (error) {
+                    ctrl.checkOutMessage = error.data;
+                });
     };
-    
+
     this.getQuantityInCartString = function (product) {
         for (let item of this.items) {
             if (item.product.productID === product.productID) {

@@ -28,29 +28,37 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="buttonSave" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="buttonCancel" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelQuantityInStock" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelPrice" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelCategory" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelDescription" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelName" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelID" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="labelQuantityInStock" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelPrice" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelCategory" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelDescription" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelName" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelID" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="labelImage" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelImageSelect" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="txtName" alignment="0" max="32767" attributes="0"/>
-                          <Component id="scrollPaneDescription" alignment="0" max="32767" attributes="0"/>
-                          <Component id="comboBoxCategory" max="32767" attributes="0"/>
+                          <Component id="scrollPaneDescription" alignment="0" pref="216" max="32767" attributes="0"/>
+                          <Component id="comboBoxCategory" alignment="1" max="32767" attributes="0"/>
                           <Component id="txtPrice" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtQuantityInStock" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtID" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="componentImage" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="buttonSave" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                      <Component id="buttonCancel" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -73,7 +81,7 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="labelDescription" min="-2" max="-2" attributes="0"/>
-                  <Component id="scrollPaneDescription" pref="81" max="32767" attributes="0"/>
+                  <Component id="scrollPaneDescription" pref="84" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -90,12 +98,21 @@
                   <Component id="labelQuantityInStock" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtQuantityInStock" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="buttonCancel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="buttonSave" alignment="3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="labelImage" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelImageSelect" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="componentImage" min="-2" pref="100" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="buttonSave" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -195,6 +212,30 @@
       <Properties>
         <Property name="name" type="java.lang.String" value="txtID" noResource="true"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelImage">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Product Image:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="componentImage">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="IMAGE"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelImageSelect">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="a0" red="0" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Select..."/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelImageSelectMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

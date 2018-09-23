@@ -13,6 +13,19 @@ import gui.helpers.ValidationHelper;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import dao.ProductDAO;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
 
 /**
  *
@@ -25,6 +38,8 @@ public class DialogProductEditor extends javax.swing.JDialog {
     private Product product;
     private ValidationHelper validHelp;
 
+    private byte[] selectedImage;
+
     /**
      * Creates new form DialogProductEditor
      */
@@ -32,14 +47,14 @@ public class DialogProductEditor extends javax.swing.JDialog {
         super(parent);
         super.setModal(modal);
         initComponents();
-        
+
         this.dao = dao;
-        
+
         try {
             listModel = new SimpleListModel(dao.getCategories());
             comboBoxCategory.setModel(listModel);
             comboBoxCategory.setEditable(true);
-        
+
             product = new Product();
 
             validHelp = new ValidationHelper();
@@ -51,6 +66,17 @@ public class DialogProductEditor extends javax.swing.JDialog {
         } catch (DAOException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "DAO Exception", JOptionPane.ERROR_MESSAGE);
         }
+
+        try {
+            File file = new File("default.png");
+            byte[] array = Files.readAllBytes(file.toPath());
+            displayProductImage(array);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Unable to open default image.", "Error", JOptionPane.ERROR_MESSAGE);
+            dispose();
+        }
+        
     }
 
     // For when we want to edit an existing product.
@@ -66,6 +92,26 @@ public class DialogProductEditor extends javax.swing.JDialog {
         this.txtQuantityInStock.setValue(product.getQuantityInStock());
 
         this.txtID.setEditable(false);
+
+        displayProductImage(dao.getProductImage(product.getProductID()));
+    }
+
+    private void displayProductImage(byte[] imageToDisplay) {
+        selectedImage = imageToDisplay.clone();
+
+        try {
+            ByteArrayInputStream is = new ByteArrayInputStream(selectedImage);
+            BufferedImage image = ImageIO.read(is);
+
+            BufferedImage resizedImage = new BufferedImage(this.componentImage.getWidth(), this.componentImage.getHeight(), image.getType());
+            Graphics2D g = resizedImage.createGraphics();
+            g.drawImage(image, 0, 0, this.componentImage.getWidth(), this.componentImage.getHeight(), null);
+            g.dispose();
+
+            this.componentImage.setIcon(new ImageIcon(resizedImage));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Unable to display product image.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -92,6 +138,9 @@ public class DialogProductEditor extends javax.swing.JDialog {
         txtPrice = new javax.swing.JFormattedTextField();
         txtQuantityInStock = new javax.swing.JFormattedTextField();
         txtID = new javax.swing.JFormattedTextField();
+        labelImage = new javax.swing.JLabel();
+        componentImage = new javax.swing.JLabel();
+        labelImageSelect = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Product Editor");
@@ -147,6 +196,19 @@ public class DialogProductEditor extends javax.swing.JDialog {
 
         txtID.setName("txtID"); // NOI18N
 
+        labelImage.setText("Product Image:");
+
+        componentImage.setText("IMAGE");
+
+        labelImageSelect.setForeground(new java.awt.Color(0, 160, 255));
+        labelImageSelect.setText("Select...");
+        labelImageSelect.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelImageSelect.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelImageSelectMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -154,26 +216,32 @@ public class DialogProductEditor extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelQuantityInStock, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelPrice, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelCategory, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelDescription, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelName, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelID, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtName, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(scrollPaneDescription, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboBoxCategory, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtQuantityInStock, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtID, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(buttonSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(16, 16, 16)
-                        .addComponent(buttonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(labelQuantityInStock, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(labelPrice, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(labelCategory, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(labelDescription, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(labelName, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(labelID, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(labelImage, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(labelImageSelect, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtName)
+                            .addComponent(scrollPaneDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                            .addComponent(comboBoxCategory, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtPrice)
+                            .addComponent(txtQuantityInStock)
+                            .addComponent(txtID)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(componentImage, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -190,7 +258,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelDescription)
-                    .addComponent(scrollPaneDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                    .addComponent(scrollPaneDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBoxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -203,11 +271,18 @@ public class DialogProductEditor extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelQuantityInStock)
                     .addComponent(txtQuantityInStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelImage)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelImageSelect))
+                    .addComponent(componentImage, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonCancel)
-                    .addComponent(buttonSave))
-                .addGap(16, 16, 16))
+                    .addComponent(buttonSave)
+                    .addComponent(buttonCancel))
+                .addGap(12, 12, 12))
         );
 
         pack();
@@ -246,7 +321,7 @@ public class DialogProductEditor extends javax.swing.JDialog {
             product.setQuantityInStock(quantityInStock);
 
             if (validHelp.isObjectValid(product)) {
-                dao.saveProduct(product);
+                dao.saveProduct(product, selectedImage);
                 dispose();
             }
         } catch (DAOException ex) {
@@ -258,13 +333,67 @@ public class DialogProductEditor extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_buttonCancelActionPerformed
 
+    // Get file extension (from https://docs.oracle.com/javase/tutorial/uiswing/components/filechooser.html )
+    private String getFileExtension(File f) {
+        String ext = null;
+        String s = f.getName();
+        int i = s.lastIndexOf('.');
+
+        if (i > 0 && i < s.length() - 1) {
+            ext = s.substring(i + 1).toLowerCase();
+        }
+        return ext;
+    }
+
+    private void labelImageSelectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelImageSelectMouseClicked
+        final JFileChooser fc = new JFileChooser();
+
+        // File filter for only image files.
+        fc.setFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                if (file.isDirectory()) {
+                    return true;
+                }
+
+                String extension = getFileExtension(file);
+                return extension.equals(".tiff") || extension.equals(".tif")
+                        || extension.equals("gif") || extension.equals("jpeg")
+                        || extension.equals("jpg") || extension.equals("png");
+            }
+
+            @Override
+            public String getDescription() {
+                return "Image Files";
+            }
+        });
+
+        int returnVal = fc.showOpenDialog(labelImageSelect);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) { // A file was selected by the user.
+            File file = fc.getSelectedFile();
+            try {
+                BufferedImage image = ImageIO.read(file);
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                ImageIO.write(image, "PNG", os);
+                
+                displayProductImage(os.toByteArray());
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Invalid image file selected.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_labelImageSelectMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonSave;
     private javax.swing.JComboBox<String> comboBoxCategory;
+    private javax.swing.JLabel componentImage;
     private javax.swing.JLabel labelCategory;
     private javax.swing.JLabel labelDescription;
     private javax.swing.JLabel labelID;
+    private javax.swing.JLabel labelImage;
+    private javax.swing.JLabel labelImageSelect;
     private javax.swing.JLabel labelName;
     private javax.swing.JLabel labelPrice;
     private javax.swing.JLabel labelQuantityInStock;

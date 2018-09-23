@@ -20,21 +20,21 @@ public class Server extends Jooby {
     private ProductDAO productDAO;
     private CustomerDAO customerDAO;
     private SaleDAO saleDAO;
-    
+
     public Server() {
         productDAO = new ProductDAOJdbc();
         customerDAO = new CustomerDAOJdbc();
         saleDAO = new SaleDAOJdbc();
-        
+
         port(8080);
 
         use(new Gzon());
-        
+
+        use(new AssetModule(productDAO));
+
         use(new ProductModule(productDAO));
         use(new CustomerModule(customerDAO));
         use(new SaleModule(saleDAO));
-        
-        use(new AssetModule());
     }
 
     public static void main(String[] args) throws Exception {

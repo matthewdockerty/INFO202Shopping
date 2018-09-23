@@ -18,7 +18,7 @@ public class ProductDAOCollections implements ProductDAO {
     private static final Multimap<String, Product> productCategories = HashMultimap.create();
     
     @Override
-    public void saveProduct(Product product) {
+    public void saveProduct(Product product, byte[] productImage) {
         products.put(product.getProductID(), product);
         addProductToCategory(product.getCategory(), product);
     }
@@ -67,5 +67,10 @@ public class ProductDAOCollections implements ProductDAO {
     @Override
     public Collection<Product> getProductsByCategory(String category) {
         return productCategories.get(category);
+    }
+
+    @Override
+    public byte[] getProductImage(String productID) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

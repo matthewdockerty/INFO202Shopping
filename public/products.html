@@ -38,12 +38,13 @@
                 <tr ng-repeat="product in prodCtrl.products">
                     <td>{{product.name}}</td>
                     <td>{{product.description}}</td>
-                    <td>{{product.listPrice.toFixed(2)}}</td>
+                    <td>${{product.listPrice.toFixed(2)}}</td>
                     <td>{{product.quantityInStock}} <span>{{cartCtrl.getQuantityInCartString(product)}}</span><a href="#" ng-click="cartCtrl.buyProduct(product)">Buy</a></td>
+                    <td><img width="200" src="/images/product/{{product.productID}}"></td>
                 </tr>
             </table>
         </div>
-        
+
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>

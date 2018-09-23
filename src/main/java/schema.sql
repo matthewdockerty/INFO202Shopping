@@ -15,6 +15,14 @@ CREATE TABLE Product (
     CONSTRAINT Product_ID CHECK (REGEXP_LIKE(Product_ID, '[A-Z]{2}[0-9]{4}'))
 );
 
+CREATE TABLE Product_Image (
+    Product_ID VARCHAR(6) NOT NULL UNIQUE,
+    Image BLOB NOT NULL,
+
+    CONSTRAINT Image_PK PRIMARY KEY (Product_ID),
+    CONSTRAINT Image_Product_ID FOREIGN KEY (Product_ID) REFERENCES Product
+);
+
 
 CREATE TABLE Customer (
     Person_ID INT NOT NULL AUTO_INCREMENT,
