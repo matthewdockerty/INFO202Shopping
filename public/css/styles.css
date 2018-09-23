@@ -7,3 +7,16 @@
 #banner {
     background-color: #0F314D;
 }
+
+.product {
+    background-color: #F1F1F1;
+    border-radius: 1px;
+}
+
+.productName {
+    font-size: 2em;
+}
+
+.productBuy {
+    font-size: 1.5em;
+}

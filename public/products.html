@@ -19,30 +19,41 @@
     <body ng-controller="ProductController as prodCtrl"> 
         <div ng-include="'menu.html'"></div>
 
+        <div class="container-fluid" id="banner">
+            <div class="row">
+                <div class="col pt-5 pb-5 text-center">
+                    <h1 class="text-light">Browse Products</h1>
+                </div>
+            </div>
+        </div>
+
         <div class="container" id="content">
+            <div class="row col-md-12 mt-5">
+                <h2>Categories</h2>
+                <button ng-click="prodCtrl.selectAll()">All</button>
+                <button ng-repeat="cat in prodCtrl.categories" 
+                        ng-click="prodCtrl.selectCategory(cat)">{{cat}}</button>
+            </div>
+            <div class="row mb-5 col-md-12 mt-5" ng-repeat="product in prodCtrl.products" ng-controller="CartController as cartCtrl">
+                <div class="col-md-3">
+                    <img class="w-100" src="/images/product/{{product.productID}}">
+                </div>
 
-            <h1>Products</h1>
+                <div class="col-md-9 product pt-2">
+                    <div class="row">
+                        <span class="col-sm-10 productName">{{product.name}}</span>
+                        <div class="col-sm-2 text-right"><a href="#" ng-click="cartCtrl.buyProduct(product)"><span class="productBuy">Buy</span></a></div>
+                    </div>
+                    <div class="row">
+                        <span class="col-md-6">${{product.listPrice.toFixed(2)}}</span>
+                        <span class="col-md-6 text-right">{{product.quantityInStock}} in stock {{cartCtrl.getQuantityInCartString(product)}}</span>
 
-            <button ng-click="prodCtrl.selectAll()">All</button>
-            <button ng-repeat="cat in prodCtrl.categories" 
-                    ng-click="prodCtrl.selectCategory(cat)">{{cat}}</button>
-            <br><br><br>
-
-            <table ng-controller="CartController as cartCtrl">
-                <tr>
-                    <td><b>Name</b></td>
-                    <td><b>Description</b></td>
-                    <td><b>Price</b></td>
-                    <td><b>Available</b></td>
-                </tr>
-                <tr ng-repeat="product in prodCtrl.products">
-                    <td>{{product.name}}</td>
-                    <td>{{product.description}}</td>
-                    <td>${{product.listPrice.toFixed(2)}}</td>
-                    <td>{{product.quantityInStock}} <span>{{cartCtrl.getQuantityInCartString(product)}}</span><a href="#" ng-click="cartCtrl.buyProduct(product)">Buy</a></td>
-                    <td><img width="200" src="/images/product/{{product.productID}}"></td>
-                </tr>
-            </table>
+                    </div>
+                    <div class="row">
+                        <span class="col-md-12 mt-3">{{product.description}}</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

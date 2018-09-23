@@ -266,7 +266,7 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
     this.getQuantityInCartString = function (product) {
         for (let item of this.items) {
             if (item.product.productID === product.productID) {
-                return "(" + item.quantityPurchased + " already in cart)";
+                return "(" + item.quantityPurchased + " in cart)";
             }
         }
         return "";
