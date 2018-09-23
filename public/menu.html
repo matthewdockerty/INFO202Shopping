@@ -1,44 +1,46 @@
-<nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-center" ng-controller="CustomerController as custCtrl" ng-init="custCtrl.checkSignIn()">
-    <a class="navbar-brand d-flex w-50 mr-auto" href="index.html">
-        <img src="TODO:" alt="Logo" width="30" height="30">
-    </a>
+<nav class="navbar navbar-expand-md bg-light navbar-light" ng-controller="CustomerController as custCtrl" ng-init="custCtrl.checkSignIn()">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <img src="TODO:" alt="Logo" height="30">
+        </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <!-- Links -->
-    <div class="collapse navbar-collapse w-100" id="navbarNav">
-        <ul class="navbar-nav w-100 justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link padding-y-lg" href=".">Home</a>
-            </li>
-            <li class="nav-item" ng-if="custCtrl.signedIn">
-                <a class="nav-link" href="products.html">Browse Products</a>
-            </li>
-        </ul>
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link padding-y-lg" href=".">Home</a>
+                </li>
+                <li class="nav-item" ng-if="custCtrl.signedIn">
+                    <a class="nav-link" href="products.html">Browse Products</a>
+                </li>
+            </ul>
 
-        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+            <ul class="navbar-nav ml-auto">
 
-            <li class="nav-item" ng-if="!custCtrl.signedIn">
-                <a class="nav-link" href="sign_in.html">Sign In</a>
-            </li>
+                <li class="nav-item" ng-if="!custCtrl.signedIn">
+                    <a class="nav-link" href="sign_in.html">Sign In</a>
+                </li>
 
-            <li class="nav-item" ng-controller="CartController as cartCtrl" ng-if="custCtrl.signedIn">
-                <a class="nav-link" href="cart.html"><i class="fa fa-shopping-cart fa-lg"></i>&nbsp;({{cartCtrl.items.length}})</a>
-            </li>
-            
-            <!-- Dropdown -->
-            <li class="nav-item dropdown" ng-if="custCtrl.signedIn">
-                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    {{custCtrl.welcome}}
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/account.html">My Account</a>
-                    <a class="dropdown-item" href="/orders.html">Order History</a>
-                    <a class="dropdown-item" href="#" ng-click="custCtrl.signOut()">Sign Out</a>           
-                </div>
-            </li>
-        </ul>
+                <li class="nav-item" ng-controller="CartController as cartCtrl" ng-if="custCtrl.signedIn">
+                    <a class="nav-link" href="cart.html"><i class="fa fa-shopping-cart fa-lg"></i>&nbsp;({{cartCtrl.items.length}})</a>
+                </li>
+
+                <!-- Dropdown -->
+                <li class="nav-item dropdown" ng-if="custCtrl.signedIn">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        {{custCtrl.welcome}}
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/account.html">My Account</a>
+                        <a class="dropdown-item" href="/orders.html">Order History</a>
+                        <a class="dropdown-item" href="#" ng-click="custCtrl.signOut()">Sign Out</a>           
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
