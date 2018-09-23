@@ -142,7 +142,7 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
             this.checkSignIn = function () {
                 if ($sessionStorage.customer) {
                     ctrl.signedIn = true;
-                    ctrl.welcome = "Welcome " + $sessionStorage.customer.firstName + " " + $sessionStorage.customer.surname;
+                    ctrl.welcome = $sessionStorage.customer.firstName + " " + $sessionStorage.customer.surname;
                 }
             };
 
@@ -174,7 +174,7 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
         }
 
         if (quantity > this.selectedProduct.quantityInStock) {
-            this.addMessage = "Only " + this.selectedProduct.quantityInStock + " products in stock.";
+            this.addMessage = (this.selectedProduct.quantityInStock == 0 ? "" : "Only " ) + this.selectedProduct.quantityInStock + " products in stock.";
             return;
         }
 
