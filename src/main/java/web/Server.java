@@ -35,7 +35,7 @@ public class Server extends Jooby {
 
         use(new AssetModule(productDAO));
 
-        List<String> noAuth = Arrays.asList("/api/register");
+        List<String> noAuth = Arrays.asList("/api/register", "/api/popular");
         use(new BasicHttpAuthenticator(customerDAO, noAuth));
 
         use(new ProductModule(productDAO));

@@ -53,14 +53,14 @@ class ShoppingCart {
 var module = angular.module('ShoppingApp', ['ngResource', 'ngStorage']);
 
 module.config(function ($sessionStorageProvider, $httpProvider) {
-   // get the auth token from the session storage
-   let authToken = $sessionStorageProvider.get('authToken');
+    // get the auth token from the session storage
+    let authToken = $sessionStorageProvider.get('authToken');
 
-   // does the auth token actually exist?
-   if (authToken) {
-      // add the token to all HTTP requests
-      $httpProvider.defaults.headers.common.Authorization = 'Basic ' + authToken;
-   }
+    // does the auth token actually exist?
+    if (authToken) {
+        // add the token to all HTTP requests
+        $httpProvider.defaults.headers.common.Authorization = 'Basic ' + authToken;
+    }
 });
 
 module.factory('productDAO', function ($resource) {
@@ -175,6 +175,15 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
                 if ($sessionStorage.customer) {
                     ctrl.signedIn = true;
                     ctrl.welcome = $sessionStorage.customer.firstName + " " + $sessionStorage.customer.surname;
+                }
+
+                let authToken = $sessionStorage.authToken;
+                console.log(document.location);
+                if (!authToken && !(document.location.pathname === "/" ||
+                        document.location.pathname === "/index.html" ||
+                        document.location.pathname === "/sign_in.html" ||
+                        document.location.pathname === "/create_account.html")) {
+                    document.location = "/sign_in.html";
                 }
             };
 
@@ -301,4 +310,3 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
 module.controller('PopularProductsController', function ($sessionStorage, $window, popularProductsDAO) {
     this.products = popularProductsDAO.query();
 });
-
