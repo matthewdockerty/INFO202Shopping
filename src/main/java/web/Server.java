@@ -7,9 +7,12 @@ import dao.ProductDAO;
 import dao.ProductDAOJdbc;
 import dao.SaleDAO;
 import dao.SaleDAOJdbc;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.jooby.Jooby;
 import org.jooby.json.Gzon;
+import web.auth.BasicHttpAuthenticator;
 
 /**
  *
@@ -31,6 +34,9 @@ public class Server extends Jooby {
         use(new Gzon());
 
         use(new AssetModule(productDAO));
+
+        List<String> noAuth = Arrays.asList("/api/register");
+        use(new BasicHttpAuthenticator(customerDAO, noAuth));
 
         use(new ProductModule(productDAO));
         use(new CustomerModule(customerDAO));

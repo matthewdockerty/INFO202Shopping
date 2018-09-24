@@ -52,6 +52,17 @@ class ShoppingCart {
 
 var module = angular.module('ShoppingApp', ['ngResource', 'ngStorage']);
 
+module.config(function ($sessionStorageProvider, $httpProvider) {
+   // get the auth token from the session storage
+   let authToken = $sessionStorageProvider.get('authToken');
+
+   // does the auth token actually exist?
+   if (authToken) {
+      // add the token to all HTTP requests
+      $httpProvider.defaults.headers.common.Authorization = 'Basic ' + authToken;
+   }
+});
+
 module.factory('productDAO', function ($resource) {
     return $resource('/api/products/:id');
 });
@@ -91,7 +102,7 @@ module.factory('imageDAO', function ($resource) {
 });
 
 module.factory('popularProductsDAO', function ($resource) {
-   return $resource('/api/popular'); 
+    return $resource('/api/popular');
 });
 
 module.controller('ProductController', function (productDAO, categoryDAO, imageDAO) {
@@ -114,7 +125,7 @@ module.controller('ProductController', function (productDAO, categoryDAO, imageD
     };
 });
 
-module.controller('CustomerController', function (registerDAO, signInDAO, $sessionStorage, $window) {
+module.controller('CustomerController', function (registerDAO, signInDAO, $sessionStorage, $window, $http) {
     this.signInMessage = $sessionStorage.newCust ? "Account successfully created! Please sign in to continue." : "Please sign in to continue.";
     delete $sessionStorage.newCust;
     this.signedIn = false;
@@ -129,27 +140,36 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
             $sessionStorage.newCust = true;
             $window.location = "/sign_in.html";
         },
-        function (error) {
-            ctrl.registerMessage = error.data;
-        });
+                function (error) {
+                    ctrl.registerMessage = error.data;
+                });
     };
 
     this.signIn = function (username, password) {
+        // generate authentication token
+        let authToken = $window.btoa(username + ":" + password);
+
+        // store token
+        $sessionStorage.authToken = authToken;
+
+        // add token to the sign in HTTP request
+        $http.defaults.headers.common.Authorization = 'Basic ' + authToken;
+
         // get customer from web service
         signInDAO.get({'username': username},
                 // success
-                function (customer) {
-                    // also store the retrieved customer
-                    $sessionStorage.customer = customer;
-                    // redirect to home
-                    $window.location.href = '.';
-                },
-                // fail
-                        function () {
-                            ctrl.signInMessage = 'Sign in failed. Please try again.';
-                        }
-                );
-            };
+                        function (customer) {
+                            // also store the retrieved customer
+                            $sessionStorage.customer = customer;
+                            // redirect to home
+                            $window.location.href = '.';
+                        },
+                        // fail
+                                function () {
+                                    ctrl.signInMessage = 'Sign in failed. Please try again.';
+                                }
+                        );
+                    };
 
             this.checkSignIn = function () {
                 if ($sessionStorage.customer) {

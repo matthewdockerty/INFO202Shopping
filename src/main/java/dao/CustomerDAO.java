@@ -1,15 +1,15 @@
 package dao;
 
 import domain.Customer;
+import web.auth.CredentialsValidator;
 
 /**
  *
  * @author docma436
  */
-public interface CustomerDAO {
+public interface CustomerDAO extends CredentialsValidator {
     
     public void save(Customer customer);
     public Customer getCustomer(String username);
-    public Boolean validateCredentials(String username, String password);
     
 }

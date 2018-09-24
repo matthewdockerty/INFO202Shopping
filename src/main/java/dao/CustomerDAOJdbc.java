@@ -1,7 +1,6 @@
 package dao;
 
 import domain.Customer;
-import domain.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
