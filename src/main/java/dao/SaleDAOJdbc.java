@@ -32,9 +32,9 @@ public class SaleDAOJdbc implements SaleDAO {
                     PreparedStatement insertSaleItemStmt = con.prepareStatement(
                             "INSERT INTO Sale_Item (Quantity_Purchased, Sale_Price, Product_ID, Sale_ID) VALUES (?, ?, ?, ?)");
                     PreparedStatement updateProductStmt = con.prepareStatement(
-                            "UPDATE Product SET Quantity_In_Stock = ? WHERE Product_ID = ?");) {
+                            "UPDATE Product SET Quantity_In_Stock = ?, Total_Sold = ? WHERE Product_ID = ?");) {
                 PreparedStatement selectProductStmt = con.prepareStatement(
-                        "SELECT Quantity_In_Stock FROM Product WHERE Product_ID = ?");
+                        "SELECT Quantity_In_Stock, Total_Sold FROM Product WHERE Product_ID = ?");
 
                 // Since saving and sale involves multiple statements across
                 // multiple tables we need to control the transaction ourselves
@@ -87,9 +87,10 @@ public class SaleDAOJdbc implements SaleDAO {
                     rs = selectProductStmt.executeQuery();
 
                     int quantityInStock = 0;
+                    int totalSold = 0;
                     if (rs.next()) {
-                        quantityInStock = rs.getInt(1);
-                        System.out.println(quantityInStock + " !");
+                        quantityInStock = rs.getInt("Quantity_In_Stock");
+                        totalSold = rs.getInt("Total_Sold");
                     } else {
                         throw new DAOException("Problem checking quantity in stock.");
                     }
@@ -106,7 +107,8 @@ public class SaleDAOJdbc implements SaleDAO {
                     insertSaleItemStmt.executeUpdate();
 
                     updateProductStmt.setInt(1, quantityInStock - item.getQuantityPurchased());
-                    updateProductStmt.setString(2, product.getProductID());
+                    updateProductStmt.setInt(2, totalSold + item.getQuantityPurchased());
+                    updateProductStmt.setString(3, product.getProductID());
 
                     updateProductStmt.executeUpdate();
                 }

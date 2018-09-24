@@ -10,6 +10,7 @@ CREATE TABLE Product (
     Category VARCHAR(32) NOT NULL CHECK (LENGTH(Category) > 0),
     List_Price Decimal(19, 2) NOT NULL CHECK (List_Price >= 0),
     Quantity_In_Stock Integer NOT NULL CHECK (Quantity_In_Stock >= 0),
+    Total_Sold INTEGER DEFAULT 0,
     
     CONSTRAINT Product_PK PRIMARY KEY (Product_ID),
     CONSTRAINT Product_ID CHECK (REGEXP_LIKE(Product_ID, '[A-Z]{2}[0-9]{4}'))
