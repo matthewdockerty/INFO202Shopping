@@ -27,7 +27,7 @@ public class Product {
 
     @NotNull(message = "Description must be provided.")
     @NotBlank(message = "Description must be provided.")
-    @Length(min = 4, max = 255, message = "Description must contain between 4 and 255 characters.")
+    @Length(min = 16, max = 1024, message = "Description must contain between 16 and 1024 characters.")
     private String description;
 
     @NotNull(message = "Category must be provided.")

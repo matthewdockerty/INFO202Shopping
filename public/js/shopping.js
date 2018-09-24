@@ -125,27 +125,27 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
             $sessionStorage.newCust = true;
             $window.location = "/sign_in.html";
         },
-                function (error) {
-                    ctrl.registerMessage = error.data;
-                });
+        function (error) {
+            ctrl.registerMessage = error.data;
+        });
     };
 
     this.signIn = function (username, password) {
         // get customer from web service
         signInDAO.get({'username': username},
                 // success
-                        function (customer) {
-                            // also store the retrieved customer
-                            $sessionStorage.customer = customer;
-                            // redirect to home
-                            $window.location.href = '.';
-                        },
-                        // fail
-                                function () {
-                                    ctrl.signInMessage = 'Sign in failed. Please try again.';
-                                }
-                        );
-                    };
+                function (customer) {
+                    // also store the retrieved customer
+                    $sessionStorage.customer = customer;
+                    // redirect to home
+                    $window.location.href = '.';
+                },
+                // fail
+                        function () {
+                            ctrl.signInMessage = 'Sign in failed. Please try again.';
+                        }
+                );
+            };
 
             this.checkSignIn = function () {
                 if ($sessionStorage.customer) {

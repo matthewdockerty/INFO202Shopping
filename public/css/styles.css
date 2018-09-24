@@ -6,6 +6,9 @@
 
 #banner {
     background-color: #0F314D;
+    -webkit-box-shadow: 0 2px 1px -1px #999;
+    -moz-box-shadow: 0 2px 1px -1px #999;
+    box-shadow: 0 2px 1px -1px #999;
 }
 
 .product {
@@ -18,5 +21,22 @@
 }
 
 .productBuy {
+    font-size: 1.5em;
+}
+
+.category {
+    font-size: 1.2em;
+}
+
+#footer {
+    background-color: #0F314D;
+    margin-top: 8em;
+}
+
+.description {
+    font-size: 1.2em;
+}
+
+.badge {
     font-size: 1.5em;
 }

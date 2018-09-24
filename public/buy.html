@@ -19,27 +19,48 @@
     <body ng-controller="CartController as cartCtrl"> 
         <div ng-include="'menu.html'"></div>
 
-        <h1>How many do you want to buy?</h1>
+        <div class="container-fluid" id="banner">
+            <div class="row">
+                <div class="col pt-5 pb-5 text-center">
+                    <h1 class="text-light">{{cartCtrl.selectedProduct.name}}</h1>
+                </div>
+            </div>
+        </div>
 
-        <p><b>ID: </b><span>{{cartCtrl.selectedProduct.productID}}</span></p>
-        <p><b>Name </b><span>{{cartCtrl.selectedProduct.name}}</span></p>
-        <p><b>Description: </b><span>{{cartCtrl.selectedProduct.description}}</span></p>
-        <p><b>Price: </b><span>${{cartCtrl.selectedProduct.listPrice.toFixed(2)}}</span></p>
-        <p><b>Quantity Available: </b><span>{{cartCtrl.selectedProduct.quantityInStock}} <span>{{cartCtrl.getQuantityInCartString(cartCtrl.selectedProduct)}}</span></span></p>
-        <img src="/images/product/{{cartCtrl.selectedProduct.productID}}">
-        <p>{{cartCtrl.addMessage}}</p>
+        <div class="container mt-5">
+            <div class="row col-md-12 mt-5">
+                <div class="col-lg-5">
+                    <img class="w-100 mb-5" ng-src="/images/product/{{cartCtrl.selectedProduct.productID}}">
+                </div>
+                <div class="col-lg-7">
+                    <p class="description">{{cartCtrl.selectedProduct.description}}</p>
 
-        <form ng-submit="cartCtrl.addToCart(quantity)">
-            <fieldset>
-                <legend>Quantity to Buy</legend>
+                    <div class="row">
+                        <div class="col-sm-6">                    
+                            <span class="badge badge-success">${{cartCtrl.selectedProduct.listPrice.toFixed(2)}}</span>
+                            <span class="ml-3">({{cartCtrl.selectedProduct.quantityInStock}} in stock)</span>
+                        </div>
+                    </div>
 
-                <label for="quantity"><b>How many?</b></label>
-                <input name="quantity" type="number" ng-model="quantity" required>
+                            <span class="text-muted"># {{cartCtrl.selectedProduct.productID}}</span>
+                    <p>{{cartCtrl.addMessage}}</p>
 
-                <button type="submit">Add to Cart</button>
-            </fieldset>
+                    <form ng-submit="cartCtrl.addToCart(quantity)">
+                        <fieldset>
+                            <legend>Quantity to Buy</legend>
 
-        </form>
+                            <label for="quantity"><b>How many?</b></label>
+                            <input name="quantity" type="number" ng-model="quantity" required>
+
+                            <button type="submit">Add to Cart</button>
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div ng-include="'footer.html'"></div>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>

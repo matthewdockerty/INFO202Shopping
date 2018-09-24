@@ -29,14 +29,18 @@
 
         <div class="container" id="content">
             <div class="row col-md-12 mt-5">
-                <h2>Categories</h2>
-                <button ng-click="prodCtrl.selectAll()">All</button>
-                <button ng-repeat="cat in prodCtrl.categories" 
-                        ng-click="prodCtrl.selectCategory(cat)">{{cat}}</button>
+                <div class="offset-md-3">
+                    <h2>Categories</h2>
+
+                    <a class="category" href="#" ng-click="prodCtrl.selectAll()">All</a>
+                    <span class="ml-2" ng-repeat="cat in prodCtrl.categories">
+                        |<a class="ml-2 category" href="#" ng-click="prodCtrl.selectCategory(cat)">{{cat}}</a>
+                    </span>
+                </div>
             </div>
             <div class="row mb-5 col-md-12 mt-5" ng-repeat="product in prodCtrl.products" ng-controller="CartController as cartCtrl">
                 <div class="col-md-3">
-                    <img class="w-100" src="/images/product/{{product.productID}}">
+                    <img class="w-100" ng-src="/images/product/{{product.productID}}">
                 </div>
 
                 <div class="col-md-9 product pt-2">
@@ -56,6 +60,8 @@
             </div>
         </div>
 
+        <div ng-include="'footer.html'"></div>
+        
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>

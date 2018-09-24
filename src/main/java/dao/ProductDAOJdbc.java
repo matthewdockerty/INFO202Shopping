@@ -29,7 +29,7 @@ public class ProductDAOJdbc implements ProductDAO {
     @Override
     public void saveProduct(Product product, byte[] productImage) {
         String sqlProduct = "MERGE INTO Product (Product_ID, Name, Description, Category, List_Price, Quantity_In_Stock) VALUES (?, ?, ?, ?, ?, ?)";
-        String sqlImage = "INSERT INTO Product_Image (Product_ID, Image) VALUES (?, ?)";
+        String sqlImage = "MERGE INTO Product_Image (Product_ID, Image) VALUES (?, ?)";
 
         Connection connection = JdbcConnection.getConnection(dbUrl);
 

@@ -6,7 +6,7 @@
 CREATE TABLE Product (
     Product_ID VARCHAR(6) NOT NULL,
     Name VARCHAR(32) NOT NULL CHECK (LENGTH(Name) >= 2),
-    Description VARCHAR(255) NOT NULL CHECK (LENGTH(Description) >= 4),
+    Description VARCHAR(1024) NOT NULL CHECK (LENGTH(Description) >= 4),
     Category VARCHAR(32) NOT NULL CHECK (LENGTH(Category) > 0),
     List_Price Decimal(19, 2) NOT NULL CHECK (List_Price >= 0),
     Quantity_In_Stock Integer NOT NULL CHECK (Quantity_In_Stock >= 0),
