@@ -90,6 +90,10 @@ module.factory('imageDAO', function ($resource) {
     return $resource('/api/images/:id');
 });
 
+module.factory('popularProductsDAO', function ($resource) {
+   return $resource('/api/popular'); 
+});
+
 module.controller('ProductController', function (productDAO, categoryDAO, imageDAO) {
     // load the products
     this.products = productDAO.query();
@@ -272,5 +276,9 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
         return "";
     };
 
+});
+
+module.controller('PopularProductsController', function ($sessionStorage, $window, popularProductsDAO) {
+    this.products = popularProductsDAO.query();
 });
 

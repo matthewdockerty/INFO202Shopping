@@ -13,7 +13,7 @@
 
 .product {
     background-color: #F1F1F1;
-    border-radius: 1px;
+    border-radius: 2px;
 }
 
 .productName {
@@ -37,8 +37,8 @@
     font-size: 1.2em;
 }
 
-.badge {
-    font-size: 1.5em;
+#badgeBuyPrice {
+    font-size: 1.4em;
 }
 
 #addToCart {
@@ -52,4 +52,12 @@
 
 #addToCart form button {
     margin-left: -1em;
+}
+
+.badgePopular {
+    font-size: 1.2em;
+}
+
+.namePopular {
+    font-size: 1.3em;
 }

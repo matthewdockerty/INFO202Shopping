@@ -29,7 +29,6 @@ public class AssetModule extends Jooby {
                 String id = req.param("id").value();
                 if (id.matches("((^[A-Za-z]{0,2})|(^[A-Za-z]{2}[0-9]{0,4}))")) {
                     rsp.header("Content-Type", "image/png");
-                    System.out.println("Fetching image for product: " + id);
 
                     byte[] data = productDAO.getProductImage(id);
                     if (data == null) {

@@ -73,4 +73,9 @@ public class ProductDAOCollections implements ProductDAO {
     public byte[] getProductImage(String productID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Collection<Product> getPopularProducts() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -97,10 +97,10 @@ public class ProductDAOJdbc implements ProductDAO {
 
                 statementImage.setString(1, product.getProductID());
                 statementImage.executeUpdate();
-                
+
                 statementProduct.setString(1, product.getProductID());
                 statementProduct.executeUpdate();
-                
+
                 connection.setAutoCommit(true);
             }
         } catch (SQLException ex) {
@@ -166,7 +166,7 @@ public class ProductDAOJdbc implements ProductDAO {
 
     @Override
     public Collection<Product> getProducts() {
-        String sql = "SELECT * FROM Product ORDER BY Product_ID";
+        String sql = "SELECT * FROM Product ORDER BY Name";
 
         try (
                 Connection connection = JdbcConnection.getConnection(dbUrl);
@@ -195,7 +195,7 @@ public class ProductDAOJdbc implements ProductDAO {
 
     @Override
     public Collection<Product> getProductsByCategory(String category) {
-        String sql = "SELECT * FROM Product WHERE Category = ? ORDER BY Product_ID";
+        String sql = "SELECT * FROM Product WHERE Category = ? ORDER BY Name";
 
         try (
                 Connection connection = JdbcConnection.getConnection(dbUrl);
@@ -248,6 +248,35 @@ public class ProductDAOJdbc implements ProductDAO {
                 return rs.getBytes("Image");
             }
             return null;
+        } catch (SQLException ex) {
+            throw new DAOException(ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public Collection<Product> getPopularProducts() { // Returns the 3 most popular products
+        String sql = "SELECT TOP 3 * FROM Product ORDER BY Total_Sold DESC;";
+
+        try (
+                Connection connection = JdbcConnection.getConnection(dbUrl);
+                PreparedStatement statement = connection.prepareStatement(sql);) {
+            ResultSet rs = statement.executeQuery();
+            List<Product> products = new ArrayList<>();
+
+            while (rs.next()) {
+                Product product = new Product();
+
+                product.setProductID(rs.getString("Product_ID"));
+                product.setName(rs.getString("Name"));
+                product.setDescription(rs.getString("Description"));
+                product.setCategory(rs.getString("Category"));
+                product.setListPrice(rs.getBigDecimal("List_Price"));
+                product.setQuantityInStock(rs.getInt("Quantity_In_Stock"));
+
+                products.add(product);
+            }
+
+            return products;
         } catch (SQLException ex) {
             throw new DAOException(ex.getMessage(), ex);
         }

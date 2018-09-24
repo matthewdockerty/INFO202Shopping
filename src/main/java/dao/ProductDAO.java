@@ -28,4 +28,6 @@ public interface ProductDAO {
 
     public byte[] getProductImage(String productID);
     
+    Collection<Product> getPopularProducts();
+    
 }

@@ -1,5 +1,6 @@
 package web;
 
+import dao.DAOException;
 import dao.ProductDAO;
 import org.jooby.Jooby;
 
@@ -22,6 +23,15 @@ public class ProductModule extends Jooby {
         get("/api/categories/:category", (req) -> {
             String category = req.param("category").value();
             return productDAO.getProductsByCategory(category);
+        });
+
+        get("/api/popular", () -> {
+            try {
+                return productDAO.getPopularProducts();
+            } catch (DAOException e) {
+                e.printStackTrace();
+                return e.getMessage();
+            }
         });
     }
 
