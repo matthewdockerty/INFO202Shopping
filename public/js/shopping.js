@@ -177,7 +177,7 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
 
     this.addToCart = function (quantity) {
         if (quantity <= 0 || !Number.isInteger(quantity)) {
-            this.addMessage = "Quantity to buy must be a postitive integer.";
+            this.addMessage = "Quantity must be a postitive integer.";
             return;
         }
 

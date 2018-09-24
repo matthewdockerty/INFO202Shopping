@@ -36,26 +36,30 @@
                     <p class="description">{{cartCtrl.selectedProduct.description}}</p>
 
                     <div class="row">
-                        <div class="col-sm-6">                    
+                        <div class="col-md-6 mb-4">                    
                             <span class="badge badge-success">${{cartCtrl.selectedProduct.listPrice.toFixed(2)}}</span>
                             <span class="ml-3">({{cartCtrl.selectedProduct.quantityInStock}} in stock)</span>
+
+                            <p class="text-muted mt-2"># {{cartCtrl.selectedProduct.productID}}</p>
+
+                        </div>
+                        <div id="addToCart" class="col-md-6">
+                            <span>Buy</span>
+                            <form class="col-md-12 row m-0 p-0 mt-2" ng-submit="cartCtrl.addToCart(quantity)">
+
+                                <div class="col-xl-5 pl-0 mb-2">
+                                    <input class="form-control w-100" name="quantity" placeholder="Quantity" type="number" ng-model="quantity" required>
+
+                                </div>
+                                <div class="col-xl-5 p-0 ml-3">
+                                    <button class="btn btn-warning w-100" type="submit">Add to Cart</button>
+                                </div>
+                            </form>
+
+                            <p class="mt-2">{{cartCtrl.getQuantityInCartString(cartCtrl.selectedProduct)}}</p>
+                            <p class="mt-3 text-danger">{{cartCtrl.addMessage}}</p>
                         </div>
                     </div>
-
-                            <span class="text-muted"># {{cartCtrl.selectedProduct.productID}}</span>
-                    <p>{{cartCtrl.addMessage}}</p>
-
-                    <form ng-submit="cartCtrl.addToCart(quantity)">
-                        <fieldset>
-                            <legend>Quantity to Buy</legend>
-
-                            <label for="quantity"><b>How many?</b></label>
-                            <input name="quantity" type="number" ng-model="quantity" required>
-
-                            <button type="submit">Add to Cart</button>
-                        </fieldset>
-
-                    </form>
                 </div>
             </div>
         </div>
