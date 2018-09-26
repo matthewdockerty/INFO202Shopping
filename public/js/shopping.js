@@ -130,7 +130,7 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
     delete $sessionStorage.newCust;
     this.signedIn = false;
 
-    this.registerMessage = "";
+    this.registerMessage = "Please enter your account details.";
 
     // alias 'this' so that we can access it inside callback functions
     let ctrl = this;
@@ -142,6 +142,7 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
         },
                 function (error) {
                     ctrl.registerMessage = error.data;
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
                 });
     };
 
@@ -178,7 +179,6 @@ module.controller('CustomerController', function (registerDAO, signInDAO, $sessi
                 }
 
                 let authToken = $sessionStorage.authToken;
-                console.log(document.location);
                 if (!authToken && !(document.location.pathname === "/" ||
                         document.location.pathname === "/index.html" ||
                         document.location.pathname === "/sign_in.html" ||
@@ -204,8 +204,13 @@ module.controller('CartController', function (cart, $sessionStorage, $window, sa
     let ctrl = this;
 
     this.buyProduct = function (product) {
-        $sessionStorage.selectedProduct = product;
-        $window.location.href = '/buy.html';
+        let authToken = $sessionStorage.authToken;
+        if (!authToken) {
+            document.location = "/sign_in.html";
+        } else {
+            $sessionStorage.selectedProduct = product;
+            $window.location.href = '/buy.html';
+        }
     };
 
     this.addToCart = function (quantity) {

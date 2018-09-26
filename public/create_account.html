@@ -19,43 +19,69 @@
     <body ng-controller="CustomerController as custCtrl">
         <div ng-include="'menu.html'"></div>
 
-        <h1>Create an Account</h1>
+        <div class="container-fluid" id="banner">
+            <div class="row">
+                <div class="col pt-5 pb-5 text-center">
+                    <h1 class="text-light">Create an Account</h1>
+                </div>
+            </div>
+        </div>
 
-        <form ng-submit="custCtrl.registerCustomer(customer)">
-            <fieldset>
-                <legend>Account Details</legend>
+        <div class="container mt-5">
+            <div class="col-8 offset-2">
+                <p class="text-danger formerror">{{custCtrl.registerMessage}}</p>
 
-                <label for="username"><b>User Name</b></label>
-                <input name="username" type="text" ng-model="customer.username" required pattern=".{3,32}" title="User name must be between 2 and 32 characters.">
-                <br>
+                <form ng-submit="custCtrl.registerCustomer(customer)">
+                    <div class="form-row">
+                        <div class="form-group col-lg-6">
+                            <label for="username"><b>User Name</b></label>
+                            <input class="form-control" name="username" type="text" ng-model="customer.username" required pattern=".{3,32}" title="User name must be between 2 and 32 characters.">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="firstname"><b>First Name</b></label>
+                            <input class="form-control" name="firstname" type="text" ng-model="customer.firstName" required pattern=".{1,64}" title="First name must be between 1 and 64 characters.">
+                        </div>
+                    </div>
 
-                <label for="firstname"><b>First Name</b></label>
-                <input name="firstname" type="text" ng-model="customer.firstName" required pattern=".{1,64}" title="First name must be between 1 and 64 characters.">
-                <br>
+                    <div class="form-row">
+                        <div class="form-group col-lg-6">
+                            <label for="email"><b>Email</b></label>
+                            <input class="form-control" name="email" type="email" ng-model="customer.emailAddress" required pattern=".{1,254}" title="Email may contain a maximum of 254 characters.">
+                        </div>
 
-                <label for="lastname"><b>Last Name</b></label>
-                <input name="lastname" type="text" ng-model="customer.surname" required pattern=".{1,64}" title="Last name must be between 1 and 64 characters.">
-                <br>
+                        <div class="form-group col-lg-6">
+                            <label for="lastname"><b>Last Name</b></label>
+                            <input class="form-control" name="lastname" type="text" ng-model="customer.surname" required pattern=".{1,64}" title="Last name must be between 1 and 64 characters.">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-lg-6">
+                            <label for="address"><b>Address</b></label>
+                            <textarea class="form-control" rows="5" name="address" ng-model="customer.shippingAddress" required minlength="16" maxlength="256"></textarea>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="creditcard"><b>Credit Card</b></label>
+                                <input class="form-control" name="creditcard" type="text" ng-model="customer.creditCardDetails" required pattern=".{16,128}" title="Credit card details must be between 16 and 128 characters.">
+                            </div>
+                            <div class="form-group mt-4">
+                                <label for="password"><b>Password</b></label>
+                                <input class="form-control" name="password" type="password" ng-model="customer.password" required pattern=".{6,64}" title="Password length must be between 6 and 64 characters.">
+                            </div>
+                        </div>
+                    </div>
 
-                <label for="email"><b>Email</b></label>
-                <input name="email" type="email" ng-model="customer.emailAddress" required pattern=".{1,254}" title="Email may contain a maximum of 254 characters.">
-                <br>
+                    <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                    </div>
 
-                <label for="address"><b>Address</b></label>
-                <textarea name="address" ng-model="customer.shippingAddress" required minlength="16" maxlength="256"></textarea>
-                <br>
-
-                <label for="creditcard"><b>Credit Card</b></label>
-                <input name="creditcard" type="text" ng-model="customer.creditCardDetails" required pattern=".{16,128}" title="Credit card details must be between 16 and 128 characters.">
-                <br>
-
-                <label for="password"><b>Password</b></label>
-                <input name="password" type="password" ng-model="customer.password" required pattern=".{6,64}" title="Password length must be between 6 and 64 characters.">
-                <br>
-                <button type="submit">Create Account</button>
-            </fieldset>
-        </form>
-        <p>{{custCtrl.registerMessage}}</p>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary mt-3">Create Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <div ng-include="'footer.html'"></div>
 

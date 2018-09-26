@@ -61,3 +61,49 @@
 .namePopular {
     font-size: 1.3em;
 }
+
+table.cart {
+    font-size: 1.1em;
+}
+
+table.cart img {
+    width: 128px;
+}
+
+@media (max-width: 767.98px) {
+    table.cart {
+        font-size: 0.9em;
+    }
+
+    table.cart img {
+        width: 100px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    table.cart {
+        font-size: 0.9em;
+    }
+
+    table.cart img {
+        width: 60px;
+    }
+}
+
+.remove {
+    font-size: 0.9em;
+}
+
+.plusminus {
+    font-size: 0.4em;
+    padding: 1em 1.25em 0.75em 1.25em;
+    border-radius: 100%;
+}
+
+.formerror {
+    font-size: 1.1em;
+}
+
+#orderComplete {
+    margin-top: 8em;
+}

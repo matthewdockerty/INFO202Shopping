@@ -19,31 +19,71 @@
     <body ng-controller="CartController as cartCtrl"> 
         <div ng-include="'menu.html'"></div>
 
-        <h1>Shopping Cart</h1>
+        <div class="container-fluid" id="banner">
+            <div class="row">
+                <div class="col pt-5 pb-5 text-center">
+                    <h1 class="text-light">Shopping Cart</h1>
+                </div>
+            </div>
+        </div>
 
-        <table>
-            <tr>
-                <td><b>Product</b></td>
-                <td><b>Price</b></td>
-                <td><b>Quantity</b></td>
-                <td><b>Total</b></td>
-            </tr>
-            <tr ng-repeat="saleItem in cartCtrl.items">
-                <td>{{saleItem.product.name}}</td>
-                <td>${{saleItem.salePrice.toFixed(2)}}</td>
-                <td>{{saleItem.quantityPurchased}}&nbsp;&nbsp;<a href="#" ng-click="cartCtrl.addOne(saleItem)">+</a>&nbsp;&nbsp;<a href="#" ng-click="cartCtrl.removeOne(saleItem)">-</a></td>
-                <td>${{saleItem.getItemTotal().toFixed(2)}}</td>
-                <td><a href="#" ng-click="cartCtrl.removeAllFromCart(saleItem)">remove all</a></td>
-            </tr>
-            <tr>
-                <td><b>Total</b></td>
-                <td></td>
-                <td></td>
-                <td>${{cartCtrl.total.toFixed(2)}}  </td>
-            </tr>
-        </table>
-        <p>{{cartCtrl.checkOutMessage}}</p>
-        <a href="#" ng-click="cartCtrl.checkOut()">Check Out Cart</a>&nbsp;&nbsp;&nbsp;<a href="#" ng-click="cartCtrl.clearCart()">Clear Cart</a>
+        <div class="container mt-5">
+            <table class="table cart">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col"></th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="saleItem in cartCtrl.items">
+                        <th scope="row"><a href="#" ng-click="cartCtrl.buyProduct(saleItem.product)"><img ng-src="/images/product/{{saleItem.product.productID}}"></a></th>
+                        <td>{{saleItem.product.name}}</td>
+                        <td>${{saleItem.salePrice.toFixed(2)}}</td>
+                        <td>
+                            <div class="row w-100 m-0">
+                                <span class="col-xs-2 pr-4">{{saleItem.quantityPurchased}}</span>
+                                <div class="col-xs-8">
+
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                            <button class="btn btn-success plusminus" ng-click="cartCtrl.addOne(saleItem)">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            <button class="btn btn-warning plusminus ml-1" ng-click="cartCtrl.removeOne(saleItem)">
+                                <i class="fa fa-minus text-light"></i>
+                            </button>
+                            </div>
+                            <a class="remove row" href="#" ng-click="cartCtrl.removeAllFromCart(saleItem)">remove</a>
+                        </td>
+                        <td>${{saleItem.getItemTotal().toFixed(2)}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th scope="row">Total</th>
+                        <td>${{cartCtrl.total.toFixed(2)}}  </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="w-100 mt-5">
+                <button ng-click="cartCtrl.checkOut()" class="btn btn-success float-right mr">Check Out</button>
+                <button class="btn btn-danger pb-1 mr-3 float-right" ng-click="cartCtrl.clearCart()">Clear Cart</button>
+            </div>
+            <br>
+            <p class="text-danger text-right mt-4">{{cartCtrl.checkOutMessage}}</p>
+        </div>
+
 
         <div ng-include="'footer.html'"></div>
 
