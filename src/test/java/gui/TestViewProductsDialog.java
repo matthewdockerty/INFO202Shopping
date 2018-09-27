@@ -2,7 +2,10 @@ package gui;
 
 import dao.ProductDAO;
 import domain.Product;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,7 +42,7 @@ public class TestViewProductsDialog {
             new BigDecimal("33.00"), new Integer("44"));
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         robot = BasicRobot.robotWithNewAwtHierarchy();
 
         robot.settings().delayBetweenEvents(75);
@@ -66,6 +69,10 @@ public class TestViewProductsDialog {
         when(dao.getProductsByCategory("cat1")).thenReturn(Arrays.asList(new Product[]{product1}));
         when(dao.getProductsByCategory("cat2")).thenReturn(Arrays.asList(new Product[]{product2, product3}));
 
+        File file = new File("default.png");
+        byte[] array = Files.readAllBytes(file.toPath());
+        
+        when(dao.getProductImage(product2.getProductID())).thenReturn(array);
     }
 
     @Test

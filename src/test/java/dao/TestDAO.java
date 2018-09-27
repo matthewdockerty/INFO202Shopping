@@ -20,6 +20,14 @@ public class TestDAO {
     private ProductDAO dao;
     private Product productOne, productTwo, productThree, productFour;
 
+    private static final byte[] imageData = {
+        (byte) 0x47, (byte) 0x49, (byte) 0x46, (byte) 0x38, (byte) 0x39, (byte) 0x61, (byte) 0x01,
+        (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x21,
+        (byte) 0xF9, (byte) 0x04, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+        (byte) 0x2C, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00,
+        (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x02
+    };
+
     public TestDAO() {
         dao = new ProductDAOJdbc(dbUrl);
 //        dao = new ProductDAOCollections();
@@ -37,13 +45,13 @@ public class TestDAO {
         this.productFour = new Product("AA4444", "name4", "desc4", "cat1",
                 new BigDecimal("55.00"), new Integer("66"));
 
-        dao.saveProduct(productOne);
-        dao.saveProduct(productTwo);
+        dao.saveProduct(productOne, imageData);
+        dao.saveProduct(productTwo, imageData);
     }
 
     @Test
     public void testDAOSave() {
-        dao.saveProduct(productThree);
+        dao.saveProduct(productThree, imageData);
         Product retrieved = dao.getProductByID("AA3333");
 
         assertEquals("Retrieved product should be the same", productThree, retrieved);
@@ -51,7 +59,7 @@ public class TestDAO {
 
     @Test
     public void testDAOEdit() {
-        dao.saveProduct(productThree);
+        dao.saveProduct(productThree, imageData);
 
         Product retrieved = dao.getProductByID("AA3333");
 
@@ -61,10 +69,10 @@ public class TestDAO {
         retrieved.setListPrice(new BigDecimal("10.01"));
         retrieved.setQuantityInStock(new Integer(100));
 
-        dao.saveProduct(retrieved);
+        dao.saveProduct(retrieved, imageData);
 
         Product edited = dao.getProductByID("AA3333");
-        
+
         assertEquals(edited.getProductID(), "AA3333");
         assertEquals(edited.getName(), "New Name!");
         assertEquals(edited.getDescription(), "New Description!");
@@ -130,7 +138,7 @@ public class TestDAO {
 
     @Test
     public void testDAOGetByCategory() {
-        dao.saveProduct(productFour);
+        dao.saveProduct(productFour, imageData);
 
         List<Product> products = (List<Product>) dao.getProductsByCategory("cat1");
         assertTrue("Retrieved products collection should only contain products with category",

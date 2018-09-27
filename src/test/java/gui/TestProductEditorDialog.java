@@ -3,7 +3,10 @@ package gui;
 
 import dao.ProductDAO;
 import domain.Product;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.TreeSet;
 import org.assertj.swing.core.BasicRobot;
@@ -27,9 +30,11 @@ public class TestProductEditorDialog {
     private ProductDAO dao;
     private DialogFixture fixture;
     private Robot robot;
+    
+    private byte[] imageData;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         robot = BasicRobot.robotWithNewAwtHierarchy();
 
         robot.settings().delayBetweenEvents(75);
@@ -42,6 +47,10 @@ public class TestProductEditorDialog {
 
         // stub the getCategories method to return the test categories
         when(dao.getCategories()).thenReturn(categories);
+        
+        File file = new File("default.png");
+        imageData = Files.readAllBytes(file.toPath());
+        when(dao.getProductImage("AA1111")).thenReturn(imageData);
     }
 
     @Test
@@ -72,9 +81,9 @@ public class TestProductEditorDialog {
 
         // create a Mockito argument captor to use to retrieve the passed product from the mocked DAO
         ArgumentCaptor<Product> argument = ArgumentCaptor.forClass(Product.class);
-
+        
         // verify that the DAO.save method was called, and capture the passed product
-        verify(dao).saveProduct(argument.capture());
+        verify(dao).saveProduct(argument.capture(), imageData);
 
         // retrieve the passed product from the captor
         Product editedProduct = argument.getValue();
@@ -108,7 +117,7 @@ public class TestProductEditorDialog {
         ArgumentCaptor<Product> argument = ArgumentCaptor.forClass(Product.class);
 
         // verify that the DAO.save method was called, and capture the passed product
-        verify(dao).saveProduct(argument.capture());
+        verify(dao).saveProduct(argument.capture(), imageData);
 
         // retrieve the passed product from the captor
         Product savedProduct = argument.getValue();
