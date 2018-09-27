@@ -11,5 +11,6 @@ public interface CustomerDAO extends CredentialsValidator {
     
     public void save(Customer customer);
     public Customer getCustomer(String username);
-    
+    public String hashPassword(String password);
+
 }

@@ -55,4 +55,9 @@ public final class CustomerDAOCollections implements CustomerDAO {
         }
     }
 
+    @Override
+    public String hashPassword(String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

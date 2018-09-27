@@ -3,7 +3,6 @@ package gui;
 
 import dao.ProductDAO;
 import domain.Product;
-import gui.DialogProductEditor;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.TreeSet;

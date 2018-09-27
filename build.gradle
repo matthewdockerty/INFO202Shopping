@@ -26,6 +26,8 @@ dependencies {
     compile group: 'org.jooby', name: 'jooby-netty', version: '1.5.1'
     compile group: 'org.jooby', name: 'jooby-gson', version: '1.5.1'
     
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
+    
 }
 
 run {

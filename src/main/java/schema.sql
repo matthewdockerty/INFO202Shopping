@@ -30,8 +30,7 @@ CREATE TABLE Customer (
     Username VARCHAR(32) NOT NULL UNIQUE CHECK (LENGTH(Username) >= 2),
     First_Name VARCHAR(64) NOT NULL,
     Surname VARCHAR(64) NOT NULL,
-    Password VARCHAR(64) NOT NULL CHECK (LENGTH(Password) >= 6),
-    -- TODO: Store password hash & salt!
+    Password CHAR(60) NOT NULL,
     Email_Address VARCHAR(254) NOT NULL UNIQUE,
     Shipping_Address VARCHAR(256) NOT NULL CHECK (LENGTH(Shipping_Address) > 16),
     Credit_Card_Details VARCHAR(128) NOT NULL CHECK (LENGTH(Credit_Card_Details) >= 16),
