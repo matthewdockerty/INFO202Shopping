@@ -20,9 +20,9 @@ public class Sale {
     public BigDecimal getTotal() {
         BigDecimal total = BigDecimal.ZERO;
         for (SaleItem item : items) {
-            total.add(item.getItemTotal());
+            total = total.add(item.getItemTotal());
         }
-
+        
         return total;
     }
 
@@ -70,5 +70,5 @@ public class Sale {
     public String toString() {
         return "Sale{" + "saleID=" + saleID + ", date=" + date + ", status=" + status + ", items=" + items + ", customer=" + customer + '}';
     }
-    
+
 }

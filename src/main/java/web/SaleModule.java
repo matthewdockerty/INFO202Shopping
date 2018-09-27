@@ -3,13 +3,15 @@ package web;
 import dao.DAOException;
 import dao.SaleDAO;
 import domain.Sale;
+import domain.SaleItem;
+import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.Logger;
-import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
+import org.apache.commons.mail.ImageHtmlEmail;
+import org.apache.commons.mail.resolver.DataSourceUrlResolver;
 import org.jooby.Jooby;
 import org.jooby.Status;
 
@@ -30,15 +32,8 @@ public class SaleModule extends Jooby {
 
                 CompletableFuture.runAsync(() -> {
                     try {
-                        Email email = new SimpleEmail();
-                        email.setHostName("localhost");
-                        email.setSmtpPort(2525);
-                        email.setFrom("orders@doohickiesandwidgets.com");
-                        email.setSubject("Your Order");
-                        email.setMsg("Thank you for your order.");
-                        email.addTo(sale.getCustomer().getEmailAddress());
-                        email.send();
-                    } catch (EmailException e) {
+                        new Emails().sendOrderEmail(sale);
+                    } catch (MalformedURLException | EmailException e) {
                         System.err.println("Unable to send email: " + e.getMessage());
                     }
                 });
