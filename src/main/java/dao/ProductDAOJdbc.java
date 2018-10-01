@@ -255,11 +255,12 @@ public class ProductDAOJdbc implements ProductDAO {
 
     @Override
     public Collection<Product> getPopularProducts() { // Returns the 3 most popular products
-        String sql = "SELECT TOP 3 * FROM Product ORDER BY Total_Sold DESC;";
+        String sql = "SELECT TOP ? * FROM Product ORDER BY Total_Sold DESC;";
 
         try (
                 Connection connection = JdbcConnection.getConnection(dbUrl);
                 PreparedStatement statement = connection.prepareStatement(sql);) {
+                statement.setInt(1, 3);
             ResultSet rs = statement.executeQuery();
             List<Product> products = new ArrayList<>();
 

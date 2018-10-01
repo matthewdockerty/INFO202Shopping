@@ -13,11 +13,25 @@ import org.jooby.handlers.AssetHandler;
 public class AssetModule extends Jooby {
 
     public AssetModule(ProductDAO productDAO) {
-        assets("/*.html");
-        assets("/css/*.css");
-        assets("/js/*.js");
-        assets("/images/*.png");
-        assets("/images/*.jpg");
+        assets("/account.html");
+        assets("/buy.html");
+        assets("/cart.html");
+        assets("/create_account.html");
+        assets("/footer.html");
+        assets("/index.html");
+        assets("/menu.html");
+        assets("/order.html");
+        assets("/orders.html");
+        assets("/products.html");
+        assets("/sign_in.html");
+        
+        assets("/css/styles.css");
+        
+        assets("/js/angular-resource.min.js");
+        assets("/js/angular.min.js");
+        assets("/js/ngStorage.min.js");
+        assets("/js/shopping.js");
+            
         // make index.html the default page
         assets("/", "index.html");
         // prevent 404 errors due to browsers requesting favicons
